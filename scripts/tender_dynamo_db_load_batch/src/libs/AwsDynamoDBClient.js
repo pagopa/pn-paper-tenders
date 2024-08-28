@@ -24,9 +24,7 @@ class AwsDynamoDBClient {
      * @param items     dynamo notation items to be written into the table
      * @param batchSize size of each batch; default is 25
      * */
-    async groupAndBatchWriteItems(tableName, items, batchSize) {
-        if (!batchSize) batchSize = 25;
-
+    async groupAndBatchWriteItems(tableName, items, batchSize = 25) {
         for (let i = 0; i < items.length; i = i + batchSize){
             const batch = items.slice(i, i + batchSize);
             await this.batchWriteItems(tableName, batch);
@@ -40,6 +38,8 @@ class AwsDynamoDBClient {
      * @param batch     batch to be written into the table
      * */
     async batchWriteItems(tableName, batch) {
+        console.info(`Writing a batch of size ${batch.length}`)
+
         const putRequests = [];
 
         batch.forEach(element => {
