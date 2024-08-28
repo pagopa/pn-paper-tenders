@@ -1,9 +1,9 @@
 #! /bin/bash -e
 
 AWS_URL_ENDPOINT=http://localhost:4566
-AWS_S3_BUCKET=test-bucket
+AWS_S3_BUCKET=tender-bucket
 
-ZIP_FILE=./resources/test.zip
+ZIP_FILE=./resources/tender.zip
 
 ### Make S3 Bucket ###
 echo "Creating S3 bucket: < ${AWS_S3_BUCKET} >"
