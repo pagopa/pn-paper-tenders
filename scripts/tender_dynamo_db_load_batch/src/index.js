@@ -42,11 +42,19 @@ async function main() {
         ARTIFACT_NAME
     );
 
-    const filePaths = await unzipArtifact(
+    let filePaths = await unzipArtifact(
         parsedArgs.values.env,
         sourceLocation + "/" + ARTIFACT_NAME,
         sourceLocation
     );
+
+    filePaths.push("tender/dev/Tender10/pn-PaperCost.json");
+
+    // Find max tender folder files when fullImport is disabled
+    if (!parsedArgs.values.fullImport) {
+        const maxTenderDir = parse(filePaths.sort().reverse()[0]).dir;
+        filePaths = filePaths.filter(p => p.match(maxTenderDir));
+    }
 
     // Write json entities to DynamoDB
     for (const p of filePaths) {
