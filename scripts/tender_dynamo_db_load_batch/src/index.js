@@ -10,6 +10,8 @@ const { templateArgs, templateOptions} = require("./config/arguments")
 const { validate } = require('./utils/argumentsValidator')
 const { unzip, readSync } = require('./utils/IOUtils');
 
+const crypto = require('crypto');
+
 const TMP_FOLDER = "./tmp"
 const ARTIFACT_NAME = "tender.zip"
 
