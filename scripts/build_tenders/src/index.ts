@@ -2,7 +2,7 @@ import { processArgs, getPath, getOutFilePath } from './utils/cli';
 import { validateRootDir } from './lib/validators/tender-structure';
 import { DynamoDbTender, buildDynamoDbTender } from './lib/builder';
 import { TenderFiles } from './types/tenders-files-types';
-import { deleteDir, saveTender, zipDir } from './utils/file';
+import { createDir, deleteDir, saveTender, zipDir } from './utils/file';
 import { TMP_DIR } from './config';
 
 // Process command-line arguments
@@ -13,8 +13,9 @@ console.log('\nValidating project structure');
 // Validate the directory structure and get the tender tree
 const tenderTree = validateRootDir(getPath());
 
-// Deletes the temporary directory
+// Recreate the temporary directory
 deleteDir(TMP_DIR);
+createDir(TMP_DIR);
 
 Object.entries(tenderTree).forEach(([env, tenderFiles]) => {
   console.log(`Processing ${env}`);

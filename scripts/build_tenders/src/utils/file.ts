@@ -30,6 +30,17 @@ export const isDir = (dirPath: string): boolean =>
 export const existPath = (path: string): boolean => fs.existsSync(path);
 
 /**
+ * Creates a directory.
+ *
+ * @param dirPath - The path of the directory to create.
+ */
+export const createDir = (dirPath: string): void => {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+};
+
+/**
  * Deletes a directory and all of its contents.
  *
  * @param dirPath - The path of the directory to delete.
@@ -51,10 +62,8 @@ const saveJsonlToFile = (filePath: string, data: object[]): void => {
   // Estrai il percorso della directory dal filePath
   const dir = path.dirname(filePath);
 
-  // Crea le directory se non esistono
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+  // Create directory if not exits
+  createDir(dir);
 
   // Converti i dati in formato JSONL
   const jsonlData = data.map((item) => JSON.stringify(item)).join('\n');

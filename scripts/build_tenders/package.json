@@ -8,7 +8,7 @@
     "prebuild": "rm -rf dist",
     "dev": "esbuild src/index.ts --bundle --sourcemap --platform=node --outfile=dist/index.js && node dist/index.js --path ../../",
     "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --outfile=dist/index.js",
-    "start": "node dist/index.js",
+    "start": "npm run build && node dist/index.js --path ../../",
     "lint": "eslint",
     "test": "jest"
   },
