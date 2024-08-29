@@ -50,8 +50,6 @@ async function main() {
         sourceLocation
     );
 
-    filePaths.push("tender/dev/Tender10/pn-PaperCost.json");
-
     // Find max tender folder files when fullImport is disabled
     if (!parsedArgs.values.fullImport) {
         const maxTenderDir = parse(filePaths.sort().reverse()[0]).dir;
