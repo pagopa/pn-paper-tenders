@@ -2,7 +2,6 @@ import * as path from 'path';
 import {
   tenderPattern,
   tenderCostsPattern,
-  geokeyFilePattern,
   geokeyFileVersionPattern,
   deliveryDriverPattern,
   tenderNamePattern,
@@ -54,7 +53,7 @@ const buildTenderFiles = (dir: string, files: string[]): TenderFiles =>
           case deliveryDriverPattern.test(csv):
             tenderFiles.deliveryDriverCsvPath = csvPath;
             break;
-          case geokeyFilePattern.test(csv):
+          case geokeyFileVersionPattern.test(csv):
             tenderFiles.geokeysCsvPaths!.push(csvPath);
             break;
         }
@@ -68,6 +67,30 @@ const buildTenderFiles = (dir: string, files: string[]): TenderFiles =>
     ) as TenderFiles;
 
 /**
+ * Compares two Geokey versioned file names.
+ * Extracts the version number from each file name using a regex pattern and
+ * compares them as integers.
+ *
+ * @param {string} a - The first file name to compare.
+ * @param {string} b - The second file name to compare.
+ * @returns {number} - A negative number if `a` should come before `b`,
+ *                     zero if they are equal,
+ *                     or a positive number if `a` should come after `b`.
+ */
+const compareGeokeyVersions = (a: string, b: string) => {
+  const matchA = a.match(geokeyFileVersionPattern);
+  const matchB = b.match(geokeyFileVersionPattern);
+
+  if (matchA && matchB) {
+    const versionA = parseInt(matchA[1]!, 10);
+    const versionB = parseInt(matchB[1]!, 10);
+    return versionA - versionB;
+  } else {
+    return 0;
+  }
+};
+
+/**
  * Validates the sequence of Geokey version files in the provided list of files.
  * Ensures that the versions start from v2 and increment consecutively.
  *
@@ -76,9 +99,9 @@ const buildTenderFiles = (dir: string, files: string[]): TenderFiles =>
 export const checkGeokeyVersions = (files: string[]): void => {
   files
     .filter((file) => geokeyFileVersionPattern.test(file))
-    .sort()
+    .sort(compareGeokeyVersions)
     .forEach((value, index) => {
-      const versionIndex = index + 2;
+      const versionIndex = index + 1;
       const buildedGeokey = buildGeokeyVersion(versionIndex);
       if (value !== buildedGeokey) {
         throw new Error(
@@ -128,7 +151,7 @@ export const checkTenderFiles = (dir: string): TenderFiles => {
  * the Geokey version files are present in the correct sequence.
  *
  * @param {string} dirPath - The env directory path to validate.
- * @returns {TenderFiles[]} An array of `TenderFiles` objects for each validated 
+ * @returns {TenderFiles[]} An array of `TenderFiles` objects for each validated
  * tender directory.
  * @throws {Error} If the directory does not exist or is improperly structured.
  */
