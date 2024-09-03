@@ -1,5 +1,5 @@
 import commandLineArgs from 'command-line-args';
-import { processArgs, getPath, getOutFile } from '../../src/utils/cli';
+import { processArgs, getPath, getOutFilePath } from '../../../src/utils/cli';
 
 jest.mock('command-line-args');
 
@@ -54,7 +54,7 @@ describe('Command-line argument processing', () => {
 
       // Act
       processArgs();
-      const out = getOutFile();
+      const out = getOutFilePath();
 
       // Assert
       expect(out).toBeDefined();
@@ -71,7 +71,7 @@ describe('Command-line argument processing', () => {
       });
 
       processArgs();
-      const out = getOutFile();
+      const out = getOutFilePath();
 
       expect(out).toBeDefined();
       expect(out).toBe(testOutFile);
@@ -108,7 +108,7 @@ describe('Command-line argument processing', () => {
 
       // Act
       processArgs();
-      const result = getOutFile();
+      const result = getOutFilePath();
 
       // Assert
       expect(result).toBe(testOutFile);
