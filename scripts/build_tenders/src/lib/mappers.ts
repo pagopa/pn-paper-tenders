@@ -49,13 +49,14 @@ const buildTenderProductGeokey = (
  * @returns An array of `PaperChannelTenderCostsRange` objects.
  * @throws If a range column does not match the expected pattern.
  */
-const rangedCostsFromCSV = (
+export const rangedCostsFromCSV = (
   record: TenderCostsCSV
 ): PaperChannelTenderCostsRange[] =>
   Object.keys(record)
     .filter((key) => rangeColumnPattern.test(key))
     .map((key) => {
       const match = key.match(rangeColumnPattern);
+      /* istanbul ignore next */
       if (!match || match.length < 3) {
         throw new Error(`Invalid range column ${key}`);
       }
@@ -111,11 +112,7 @@ export const tenderCostsCsvToPaperChannelTenderCosts = (
   tenderId: string
 ): PaperChannelTenderCosts => ({
   tenderId,
-  productLotZone: buildProductLotZone(
-    record.product,
-    record.lot,
-    record.zone
-  ),
+  productLotZone: buildProductLotZone(record.product, record.lot, record.zone),
   product: record.product,
   lot: record.lot,
   zone: record.zone,
@@ -144,7 +141,10 @@ export const geokeyCSVToPaperChannelGeokey = (
     record.product,
     record.geokey
   ),
-  activationDate: record.activationDate ?? tenderActivationDate,
+  activationDate:
+    record.activationDate == null || record.activationDate === ''
+      ? tenderActivationDate
+      : record.activationDate,
   tenderId,
   product: record.product,
   geokey: record.geokey,
@@ -156,7 +156,7 @@ export const geokeyCSVToPaperChannelGeokey = (
 });
 
 /**
- * Converts a `DeliveryDriverCSV` record into a `PaperChannelDeliveryDriver` 
+ * Converts a `DeliveryDriverCSV` record into a `PaperChannelDeliveryDriver`
  * object.
  *
  * @param record - The CSV record containing delivery driver data.
