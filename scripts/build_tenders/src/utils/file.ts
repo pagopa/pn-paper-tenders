@@ -58,7 +58,7 @@ export const deleteDir = (dirPath: string): void => {
  * @param filePath - The path of the file to save.
  * @param data - An array of objects to save in the file.
  */
-const saveJsonlToFile = (filePath: string, data: object[]): void => {
+export const saveJsonlToFile = (filePath: string, data: object[]): void => {
   // Estrai il percorso della directory dal filePath
   const dir = path.dirname(filePath);
 
@@ -77,7 +77,7 @@ const saveJsonlToFile = (filePath: string, data: object[]): void => {
  * @param tenderId - The identifier for the tender.
  * @param dir - The base directory where the files will be saved.
  */
-export const saveTender = (
+export const writeDynamoDbTenderFile = (
   tender: DynamoDbTender,
   tenderId: string,
   dir: string
