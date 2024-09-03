@@ -33,6 +33,6 @@ export enum Envs {
 export enum RequiredTenderFiles {
   TENDER = 'Tender.csv',
   TENDER_COSTS = 'TenderCosts.csv',
-  GEOKEY = 'Geokey.csv',
+  GEOKEY = 'Geokey_v1.csv',
   DELIVERY_DRIVER = 'DeliveryDriver.csv',
 }
