@@ -18,7 +18,7 @@ export type parseColCsvFun = (
   value: string,
   column: string,
   filePath: string
-) => unknown;
+) => string | number | boolean;
 
 /**
  * Reads a CSV file and parses its content using a provided parsing function.
@@ -32,7 +32,7 @@ export type parseColCsvFun = (
 export const readCsv = (
   filePath: string,
   parseColFun: parseColCsvFun
-): unknown => {
+): [] => {
   const fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' });
   const config = {
     columns: true,
