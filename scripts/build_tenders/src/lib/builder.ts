@@ -30,7 +30,7 @@ export type DynamoDbTender = {
  * @returns {Record<string, AttributeValue>[]} An array of marshalled
  * tender cost records.
  */
-const buildDynamoDbCosts = (
+export const buildDynamoDbCosts = (
   tenderFiles: TenderFiles
 ): Record<string, AttributeValue>[] =>
   readTenderCostsCsv(tenderFiles.tenderCostsCsvPath)
@@ -52,7 +52,7 @@ const buildDynamoDbCosts = (
  * @returns {Record<string, AttributeValue>[]} An array of marshalled
  * geokey records.
  */
-const buildDynamoDbGeokey = (
+export const buildDynamoDbGeokey = (
   tenderFiles: TenderFiles,
   activationDate: string
 ): Record<string, AttributeValue>[] =>
@@ -75,7 +75,7 @@ const buildDynamoDbGeokey = (
  * @returns {Record<string, AttributeValue>[]} An array of marshalled
  * delivery driver records.
  */
-const buildDynamoDbDeliveryDriver = (
+export const buildDynamoDbDeliveryDriver = (
   tenderFiles: TenderFiles
 ): Record<string, AttributeValue>[] =>
   readDeliveryDriverCsv(tenderFiles.deliveryDriverCsvPath)
@@ -98,6 +98,7 @@ export const buildDynamoDbTender = (
 ): DynamoDbTender => {
   let tender: PaperChannelTender | undefined;
 
+  console.table(`- tender ${tenderFiles.tenderDirPath}`);
   // Build DynamoDb tender
   const tenderDynamoDb = readTenderCsv(tenderFiles.tenderCsvPath)
     .map((tenderCsv) => {
