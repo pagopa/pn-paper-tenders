@@ -23,19 +23,13 @@ export const tenderCostsPattern = /.*TenderCosts\.csv$/;
  */
 export const deliveryDriverPattern = /.*DeliveryDriver\.csv$/;
 
-/**
- * Regular expression pattern to match Geokey files, including versioned Geokey files.
- * Matches files named "Geokey.csv" or "Geokey_v2.csv", "Geokey_v3.csv", etc.
- * Example: Geokey.csv, Geokey_v2.csv, Geokey_v3.csv
- */
-export const geokeyFilePattern = /.*Geokey(_v([2-9]\d*))?\.csv$/;
 
 /**
  * Regular expression pattern to match valid Geokey version files.
  * Matches files named "Geokey_v2.csv", "Geokey_v3.csv", etc.
  * Example: Geokey_v2.csv, Geokey_v3.csv
  */
-export const geokeyFileVersionPattern = /^Geokey_v([2-9]\d*)\.csv$/;
+export const geokeyFileVersionPattern = /.*Geokey_v(\d*)\.csv$/;
 
 /**
  * Regular expression pattern to match range columns in the format "range_x_y".
