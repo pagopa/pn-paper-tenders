@@ -119,28 +119,6 @@ export const floatValidator: NumberValidator = (value: string): number => {
 };
 
 /**
- * Validates if the given string represents a float number with up to 5
- *  decimal places.
- *
- * @param {string} value - The string to validate.
- * @returns {number} The float value with up to 5 decimal places.
- * @throws {Error} If the value is not a valid float or has more than 5
- *  decimal places.
- */
-export const float5DecimalsValidator: NumberValidator = (
-  value: string
-): number => {
-  const res = floatValidator(value);
-  // Check if it has more than 5 decimal places
-  const cleanedValue = cleanString(value);
-  const decimalPart = cleanedValue.split('.')[1];
-  if (decimalPart && decimalPart.length > 5) {
-    throw new Error(`Value ${value} has more than 5 decimal places.`);
-  }
-  return res;
-};
-
-/**
  * Validates if the given string is a valid product as defined in the 
  * `Products` enum.
  *

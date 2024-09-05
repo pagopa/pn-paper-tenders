@@ -5,7 +5,6 @@ import {
   dateTimeUtcStringValidator,
   integerValidator,
   floatValidator,
-  float5DecimalsValidator,
   productValidator,
   zoneValidator,
 } from '../../../../src/lib/validators/validators';
@@ -94,24 +93,6 @@ describe('Validators', () => {
     it('should throw an error for non-float strings', () => {
       expect(() => floatValidator('abc')).toThrow(
         'Value abc is not a valid float. (Ex. 23,45)'
-      );
-    });
-  });
-
-  describe('float5DecimalsValidator', () => {
-    it('should return the float if it has up to 5 decimal places', () => {
-      expect(float5DecimalsValidator('42,12345')).toBe(42.12345);
-    });
-
-    it('should throw an error if it has more than 5 decimal places', () => {
-      expect(() => float5DecimalsValidator('42,123456')).toThrow(
-        'Value 42,123456 has more than 5 decimal places.'
-      );
-    });
-
-    it('should throw an error for float strings with dot', () => {
-      expect(() => floatValidator('42.33432')).toThrow(
-        'Value 42.33432 is not a valid float. (Ex. 23,45)'
       );
     });
   });
