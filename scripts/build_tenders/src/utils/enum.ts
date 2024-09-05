@@ -10,9 +10,9 @@ export enum Zone {
   ZONE_EU = 'EU',
   ZONE_AM = 'AM',
   ZONE_CP = 'CP',
-  ZONE_1 = 'Zona1',
-  ZONE_2 = 'Zona2',
-  ZONE_3 = 'Zona3',
+  ZONE_1 = 'ZONE_1',
+  ZONE_2 = 'ZONE_2',
+  ZONE_3 = 'ZONE_3',
 }
 
 export enum DynamoTables {
