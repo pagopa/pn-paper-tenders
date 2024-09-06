@@ -1,0 +1,2 @@
+{"deliveryDriverId":{"S":"POSTE##19700101"},"taxId":{"S":"01114601006"},"businessName":{"S":"Poste"},"fiscalCode":{"S":"97103880585"},"pec":{"S":"poste@pec.it"},"phoneNumber":{"S":"+39012123456"},"registeredOffice":{"S":""},"createdAt":{"S":"2024-09-03T12:15:59.444Z"}}
+{"deliveryDriverId":{"S":"FSU"},"taxId":{"S":"01114601006"},"businessName":{"S":"FSU"},"fiscalCode":{"S":"97103880585"},"pec":{"S":"poste@pec.it"},"phoneNumber":{"S":"+39012123456"},"registeredOffice":{"S":""},"createdAt":{"S":"2024-09-03T12:15:59.444Z"}}
