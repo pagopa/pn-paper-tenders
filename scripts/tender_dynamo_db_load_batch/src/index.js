@@ -1,70 +1,81 @@
 const { parseArgs } = require('util');
-const { extname, parse } = require("node:path");
+const { extname, parse } = require('node:path');
 
-const { AwsAuthClient} = require("./libs/AwsAuthClient");
-const { AwsS3Client } = require("./libs/AwsS3Client");
-const { AwsDynamoDBClient } = require("./libs/AwsDynamoDBClient");
+const { AwsAuthClient } = require('./libs/AwsAuthClient');
+const { AwsS3Client } = require('./libs/AwsS3Client');
+const { AwsDynamoDBClient } = require('./libs/AwsDynamoDBClient');
 
-const { templateArgs, templateOptions} = require("./config/arguments")
+const { templateArgs, templateOptions } = require('./config/arguments');
 
-const { validate } = require('./utils/argumentsValidator')
+const { validate } = require('./utils/argumentsValidator');
 const { unzip, readSync } = require('./utils/IOUtils');
 
 const crypto = require('crypto');
 
-const TMP_FOLDER = "./tmp"
-const ARTIFACT_NAME = "tender.zip"
+const TMP_FOLDER = './tmp';
+const ARTIFACT_NAME = 'tender.zip';
 
 async function main() {
+  console.time('tender-dynamo-db-load-batch');
 
-    console.time("tender-dynamo-db-load-batch");
+  const processingUUID = crypto.randomUUID();
+  const sourceLocation = `${TMP_FOLDER}/${processingUUID}`;
 
-    const processingUUID = crypto.randomUUID();
-    const sourceLocation = `${TMP_FOLDER}/${processingUUID}`;
+  console.info('Processing marker: ', processingUUID);
 
-    console.info("Processing marker: ", processingUUID);
+  const parsedArgs = parseArgs(templateOptions);
 
-    const parsedArgs = parseArgs(templateOptions);
+  if (!validate(templateArgs, parsedArgs)) process.exit(1);
 
-    if (!validate(templateArgs, parsedArgs)) process.exit(1);
+  // Authenticate and configure AWS clients
+  const awsAuthClient = new AwsAuthClient();
+  const cicdTemporaryCredentials = await awsAuthClient.ssoCredentials(
+    parsedArgs.values.cicdProfile,
+    parsedArgs.values.local
+  );
+  const coreTemporaryCredentials = await awsAuthClient.ssoCredentials(
+    parsedArgs.values.coreProfile,
+    parsedArgs.values.local
+  );
 
-    // Authenticate and configure AWS clients
-    const awsAuthClient = new AwsAuthClient();
-    const cicdTemporaryCredentials = await awsAuthClient.ssoCredentials(parsedArgs.values.cicdProfile, parsedArgs.values.local);
-    const coreTemporaryCredentials = await awsAuthClient.ssoCredentials(parsedArgs.values.coreProfile, parsedArgs.values.local);
+  const awsS3Client = new AwsS3Client(
+    cicdTemporaryCredentials,
+    parsedArgs.values.local
+  );
+  const awsDynamoDBClient = new AwsDynamoDBClient(
+    coreTemporaryCredentials,
+    parsedArgs.values.local
+  );
 
-    const awsS3Client = new AwsS3Client(cicdTemporaryCredentials, parsedArgs.values.local);
-    const awsDynamoDBClient = new AwsDynamoDBClient(coreTemporaryCredentials, parsedArgs.values.local);
+  // Retrieve artifact from CI S3 and get local unzipped file paths
+  await awsS3Client.downloadObject(
+    parsedArgs.values.bucket,
+    parsedArgs.values.artifact,
+    sourceLocation,
+    ARTIFACT_NAME
+  );
 
-    // Retrieve artifact from CI S3 and get local unzipped file paths
-    await awsS3Client.downloadObject(
-        parsedArgs.values.bucket,
-        parsedArgs.values.artifact,
-        sourceLocation,
-        ARTIFACT_NAME
+  let filePaths = await unzipArtifact(
+    parsedArgs.values.env,
+    sourceLocation + '/' + ARTIFACT_NAME,
+    sourceLocation
+  );
+
+  // Find max tender folder files when fullImport is disabled
+  if (!parsedArgs.values.fullImport) {
+    const maxTenderDir = parse(filePaths.sort().reverse()[0]).dir;
+    filePaths = filePaths.filter((p) => p.match(maxTenderDir));
+  }
+
+  // Write json entities to DynamoDB
+  for (const p of filePaths) {
+    await writeEntitiesToDynamoFromLocalFile(
+      awsDynamoDBClient,
+      sourceLocation + '/' + p
     );
+  }
 
-    let filePaths = await unzipArtifact(
-        parsedArgs.values.env,
-        sourceLocation + "/" + ARTIFACT_NAME,
-        sourceLocation
-    );
-
-    // Find max tender folder files when fullImport is disabled
-    if (!parsedArgs.values.fullImport) {
-        const maxTenderDir = parse(filePaths.sort().reverse()[0]).dir;
-        filePaths = filePaths.filter(p => p.match(maxTenderDir));
-    }
-
-    // Write json entities to DynamoDB
-    for (const p of filePaths) {
-        await writeEntitiesToDynamoFromLocalFile(
-            awsDynamoDBClient,
-            sourceLocation + "/" + p
-        );
-    }
-
-    console.timeEnd("tender-dynamo-db-load-batch");
+  console.timeEnd('tender-dynamo-db-load-batch');
 }
 
 /**
@@ -78,12 +89,12 @@ async function main() {
  * @return a list of string representing the path of the extracted files
  * */
 async function unzipArtifact(env, source, target) {
-    const unzipCallback = (file) =>
-        extname(file.path) === '.json' &&
-        file.path.includes(env) &&
-        !file.path.match(/^__MACOSX\//)
+  const unzipCallback = (file) =>
+    extname(file.path) === '.json' &&
+    file.path.includes(env) &&
+    !file.path.match(/^__MACOSX\//);
 
-    return unzip(source, target, unzipCallback);
+  return unzip(source, target, unzipCallback);
 }
 
 /**
@@ -95,15 +106,15 @@ async function unzipArtifact(env, source, target) {
  * @return a list of string representing the path of the extracted files
  * */
 async function writeEntitiesToDynamoFromLocalFile(awsDynamoDBClient, source) {
-    const tableName = parse(source).name; // Get name without extension (aka Dynamo table name)
-    console.log("Processing " + tableName);
+  const tableName = parse(source).name; // Get name without extension (aka Dynamo table name)
+  console.log('Processing ' + tableName);
 
-    const jsonObjects = readSync(source)
-        .trim()
-        .split('\n')
-        .map(json => JSON.parse(json));
+  const jsonObjects = readSync(source)
+    .trim()
+    .split('\n')
+    .map((json) => JSON.parse(json));
 
-    await awsDynamoDBClient.groupAndBatchWriteItems(tableName, jsonObjects)
+  await awsDynamoDBClient.groupAndBatchWriteItems(tableName, jsonObjects);
 }
 
 main().then();
