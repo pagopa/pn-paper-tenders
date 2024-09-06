@@ -1,6 +1,2 @@
 .idea
-
-/scripts/tender_dynamo_db_load_batch/node_modules
-/scripts/tender_dynamo_db_load_batch/tmp
-
 *.DS_Store
