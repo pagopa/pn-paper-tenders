@@ -1,7 +1,7 @@
 activationDate;geokey;product;lot;zone;coverFlag;dismissed
-;00100;RS;23;EU;true;false
-;00100;AR;28;EU;true;false
-;00100;890;8;EU;true;false
-;00101;RS;23;EU;true;false
-;00101;AR;28;EU;true;false
-;00101;890;8;EU;true;false
+;00010;RS;23;EU;true;false
+;00010;AR;28;EU;true;false
+;00010;890;8;EU;true;false
+;01028;RS;23;EU;true;false
+;01028;AR;28;EU;true;false
+;01028;890;8;EU;true;false
