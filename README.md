@@ -16,7 +16,7 @@ Once the output has been generated, the `/scripts/tender_dynamo_db_load_batch` c
 
 
 ## Naming conventions
-- **Tender directory name:** YYYYMMDD (e.g., 20240823)
+- **Tender directory name:** YYYYMMDD (e.g., 20240823) start tender tasks date
 - **CSV file names:**
   - `Tender.csv`
   - `TenderCosts.csv`
@@ -28,7 +28,7 @@ Once the output has been generated, the `/scripts/tender_dynamo_db_load_batch` c
 ## Add a new tender
 To add a new tender, follow these steps:
 
-1. Create a directory inside the specific environment directory (dev, prod, etc.), named after the activation date of the tender (e.g., 20240823).
+1. Create a directory inside the specific environment directory (dev, prod, etc.), named after the start tender tasks (e.g., 20240823).
 2. Place the CSV files in this new directory, ensuring the file structure matches the following:
   ```
   <tender_dir>
