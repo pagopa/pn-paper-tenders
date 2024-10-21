@@ -28,7 +28,7 @@
     "typescript-eslint": "^8.2.0"
   },
   "author": "",
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "@aws-sdk/util-dynamodb": "^3.637.0",
     "adm-zip": "^0.5.15",
