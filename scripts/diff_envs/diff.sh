@@ -56,12 +56,12 @@ diff_tables() {
             diff "$OUTPUT_DIR/file1_cleaned.json" "$OUTPUT_DIR/file2_cleaned.json" > "$DIFF_FILE"
             
             if [ -s "$DIFF_FILE" ]; then
-                echo "Differenze trovate per la tabella $TABLE. Salvate in $DIFF_FILE."
+                echo "DIFFERENZE TROVATE per la tabella $TABLE. Salvate in $DIFF_FILE."
             else
                 echo "Nessuna differenza per la tabella $TABLE."
                 rm "$DIFF_FILE"
             fi
-            rm /tmp/file1_cleaned.json /tmp/file2_cleaned.json
+            rm "$OUTPUT_DIR/file1_cleaned.json" "$OUTPUT_DIR/file2_cleaned.json"
         else
             echo "Uno o entrambi i file per la tabella $TABLE non esistono."
         fi
