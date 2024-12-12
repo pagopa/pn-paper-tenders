@@ -24,6 +24,11 @@ if (process.argv.length < 3) {
 
 const profileName = process.argv[2];
 
+if (profileName.toLowerCase().includes("prod")) {
+  console.error('\nProduction DB! 😱');
+  process.exit(1);
+}
+
 // Create the DynamoDB client using SSO credentials
 const dynamoClient = new DynamoDBClient({
   credentials: fromSSO({ profile: profileName }),
