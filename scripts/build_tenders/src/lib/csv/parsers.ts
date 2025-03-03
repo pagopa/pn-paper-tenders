@@ -3,14 +3,17 @@ import {
   GeokeyValidators,
   TenderCostsValidators,
   TenderValidators,
+  CapacityValidators,
 } from '../../types/validators-types';
 import {
   geokeyFileVersionPattern,
+  capacityFileVersionPattern,
   rangeColumnPattern,
 } from '../../utils/regex';
 import {
   booleanValidator,
   dateTimeUtcStringValidator,
+  dateTimeUtcStringValidatorIfPresent,
   floatValidator,
   integerValidator,
   nonEmptyStringValidator,
@@ -62,6 +65,19 @@ const geokeyValidatorsMap: GeokeyValidators = {
   zone: zoneValidator,
   coverFlag: booleanValidator,
   dismissed: booleanValidator,
+};
+
+/**
+ * A map of validator functions for validating columns in the Capacity
+ * CSV files.
+ */
+const capacityValidatorsMap: CapacityValidators = {
+    deliveryDriverId: nonEmptyStringValidator,
+    geoKey: nonEmptyStringValidator,
+    capacity: integerValidator,
+    peakCapacity: integerValidator,
+    activationDateFrom: dateTimeUtcStringValidatorIfPresent,
+    activationDateTo: dateTimeUtcStringValidatorIfPresent,
 };
 
 /**
@@ -176,6 +192,44 @@ export const parseGeokeyColumn: parseColCsvFun = (
   }
   const key = column as keyof GeokeyValidators;
   return geokeyValidatorsMap[key](value);
+};
+
+/**
+ * Parses a column from a Capacity CSV file.
+ *
+ * @param value - The value to be validated and parsed.
+ * @param column - The column name of the value.
+ * @param filePath - The path to the CSV file being parsed.
+ * @returns The parsed and validated value.
+ * @throws Will throw an error if the column is invalid or the value
+ * fails validation.
+ */
+export const parseCapacityColumn: parseColCsvFun = (
+  value: string,
+  column: string,
+  filePath: string
+) => {
+  throwInvalidColumnError(capacityValidatorsMap, column, filePath);
+  const match = filePath.match(capacityFileVersionPattern);
+  if (!match) {
+    throw new Error(`Invalid capacity file name ${filePath}`);
+  }
+
+  const version = match[1] === undefined ? 0 : parseInt(match[1], 10);
+
+  // Capacity_v1
+   if (version == 1 && column === 'activationDateFrom' && value.trim() === '') {
+      return '';
+   }
+   if (version == 1 && column === 'activationDateTo' && value.trim() != '') {
+        throw new Error(`You cannot give a value for Column ${column} in version ${version} for file ${filePath}`);
+   }
+  // For versions later than 1, ensure activationDateFrom and activationDateTo are mandatory
+  if (version > 1 && (column === 'activationDateFrom' || column === 'activationDateTo') && value.trim() === '') {
+    throw new Error(`Column ${column} is mandatory in version ${version} for file ${filePath}`);
+  }  
+  const key = column as keyof CapacityValidators;
+  return capacityValidatorsMap[key](value);
 };
 
 /**

@@ -6,6 +6,7 @@ import {
   deliveryDriverPattern,
   tenderNamePattern,
   lastDirPattern,
+  capacityFileVersionPattern,
 } from '../../utils/regex';
 import { EnvTendersFiles, TenderFiles } from '../../types/tenders-files-types';
 import { Envs, RequiredTenderFiles } from '../../utils/enum';
@@ -29,6 +30,15 @@ const requiredFiles = Object.values(RequiredTenderFiles) as string[];
  */
 const buildGeokeyVersion = (version: number): string =>
   `Geokey_v${version}.csv`;
+
+/**
+ * Constructs the Geokey version file name based on the version number.
+ *
+ * @param {number} version - The version number of the Geokey file.
+ * @returns {string} The constructed Geokey version file name.
+ */
+const buildCapacityVersion = (version: number): string =>
+  `Capacity_v${version}.csv`;
 
 /**
  * Builds an object representing the paths to tender-related CSV files
@@ -56,11 +66,15 @@ const buildTenderFiles = (dir: string, files: string[]): TenderFiles =>
           case geokeyFileVersionPattern.test(csv):
             tenderFiles.geokeysCsvPaths!.push(csvPath);
             break;
+          case capacityFileVersionPattern.test(csv):
+            tenderFiles.capacityCsvPaths!.push(csvPath);
+            break;
         }
         return tenderFiles;
       },
       {
         geokeysCsvPaths: [],
+        capacityCsvPaths: [],
         tenderDirPath: dir,
         tenderId: dir.match(lastDirPattern)![0],
       } as Partial<TenderFiles>
@@ -80,7 +94,16 @@ const buildTenderFiles = (dir: string, files: string[]): TenderFiles =>
 const compareGeokeyVersions = (a: string, b: string) => {
   const matchA = a.match(geokeyFileVersionPattern);
   const matchB = b.match(geokeyFileVersionPattern);
+  return compareVersions(matchA, matchB);
+};
 
+const compareCapacityVersions = (a: string, b: string) => {
+  const matchA = a.match(capacityFileVersionPattern);
+  const matchB = b.match(capacityFileVersionPattern);
+  return compareVersions(matchA, matchB);
+};
+
+const compareVersions = (matchA: RegExpMatchArray | null, matchB: RegExpMatchArray | null) => {
   if (matchA && matchB) {
     const versionA = parseInt(matchA[1]!, 10);
     const versionB = parseInt(matchB[1]!, 10);
@@ -112,6 +135,27 @@ export const checkGeokeyVersions = (files: string[]): void => {
 };
 
 /**
+ * Validates the sequence of Geokey version files in the provided list of files.
+ * Ensures that the versions start from v2 and increment consecutively.
+ *
+ * @param {string[]} files - The list of files to check.
+ */
+export const checkCapacityVersions = (files: string[]): void => {
+  files
+    .filter((file) => capacityFileVersionPattern.test(file))
+    .sort(compareCapacityVersions)
+    .forEach((value, index) => {
+      const versionIndex = index + 1;
+      const buildedCapacity = buildCapacityVersion(versionIndex);
+      if (value !== buildedCapacity) {
+        throw new Error(
+          `Expected Capacity version ${buildedCapacity} found ${value}`
+        );
+      }
+    });
+};
+
+/**
  * Checks the files in the provided directory for the required tender files
  * and the correct sequence of Geokey version files.
  *
@@ -125,7 +169,8 @@ export const checkTenderFiles = (dir: string): TenderFiles => {
   // Check for the presence of not required files
   const notRequiredCsv = files
     .filter((file) => !requiredFiles.includes(file))
-    .filter((file) => !geokeyFileVersionPattern.test(file));
+    .filter((file) => !geokeyFileVersionPattern.test(file))
+    .filter((file) => !capacityFileVersionPattern.test(file));
 
   if (notRequiredCsv.length > 0) {
     throw new Error(`Not required CSV files: ${notRequiredCsv.join(', ')}`);
@@ -141,6 +186,7 @@ export const checkTenderFiles = (dir: string): TenderFiles => {
   });
 
   checkGeokeyVersions(files);
+  checkCapacityVersions(files)
 
   return buildTenderFiles(dir, files);
 };
