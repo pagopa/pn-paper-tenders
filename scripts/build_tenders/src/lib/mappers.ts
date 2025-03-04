@@ -55,7 +55,7 @@ const buildDeliveryDriverProductCapacity = (
   tenderId: string,
   deliveryDriverId: string,
   geokey: string
-): string => `#${tenderId}##${deliveryDriverId}##${geokey}`;
+): string => `${tenderId}##${deliveryDriverId}##${geokey}`;
 
 /**
  * Extracts and maps ranged costs from a CSV record into an array of

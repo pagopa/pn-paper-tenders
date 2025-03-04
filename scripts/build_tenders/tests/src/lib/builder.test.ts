@@ -376,7 +376,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
 
         const mockPaperChannelCapacity: PaperDeliveryDriverCapacities[] = [
             {
-              pk: '#mock-id##1##RM',
+              pk: 'mock-id##1##RM',
               activationDateFrom: '2025-01-01T00:00:00.000Z',
               activationDateTo: undefined,
               tenderId: 'mock-id',
@@ -387,7 +387,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               createdAt: expect.any(String),
             },
             {
-              pk: '#mock-id##1##NA',
+              pk: 'mock-id##1##NA',
               activationDateFrom: '2025-02-01T00:00:00.000Z',
               activationDateTo: undefined,
               tenderId: 'mock-id',
@@ -398,7 +398,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               createdAt: expect.any(String),
             },
             {
-              pk: '#mock-id##1##NA',
+              pk: 'mock-id##1##NA',
               activationDateFrom: '2025-03-01T00:00:00.000Z',
               activationDateTo: '2025-04-01T00:00:00.000Z',
               tenderId: 'mock-id',
@@ -409,7 +409,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               createdAt: expect.any(String),
             },
             {
-              pk: '#mock-id##1##NA',
+              pk: 'mock-id##1##NA',
               activationDateFrom: '2025-03-20T00:00:00.000Z',
               activationDateTo: '1970-01-01T00:00:00.000Z',
               tenderId: 'mock-id',
@@ -423,7 +423,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         const mockMarshalledData = [
         {
               pk: {
-                S: '#mock-id##1##RM',
+                S: 'mock-id##1##RM',
               },
               activationDateFrom: {
                 S: '2025-01-01T00:00:00.000Z',
@@ -449,7 +449,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             },
             {  
               pk: {
-                S: '#mock-id##1##NA',
+                S: 'mock-id##1##NA',
               },
               activationDateFrom: {
                 S: '2025-02-01T00:00:00.000Z',
@@ -475,7 +475,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             },
             {
               pk: {
-                S: '#mock-id##1##NA',
+                S: 'mock-id##1##NA',
               },
               activationDateFrom: {
                 S: '2025-03-01T00:00:00.000Z',
@@ -504,7 +504,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             },
             {
               pk: {
-                S: '#mock-id##1##NA',
+                S: 'mock-id##1##NA',
               },
               activationDateFrom: {
                 S: '2025-03-20T00:00:00.000Z',
@@ -563,7 +563,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
       },
     ];
     const mockPaperChannelCapacity: PaperDeliveryDriverCapacities = {
-      pk: '#mock-id##1##NA',
+      pk: 'mock-id##1##NA',
       activationDateFrom: '2025-03-01T00:00:00.000Z',
       activationDateTo: '2025-04-01T00:00:00.000Z',
       tenderId: 'mock-id',
@@ -575,7 +575,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
     };
     const mockMarshalledData = {
       pk: {
-        S: '#mock-id##1##NA',
+        S: 'mock-id##1##NA',
       },
       activationDateFrom: {
         S: '2025-03-01T00:00:00.000Z',
@@ -892,7 +892,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
 
       const mockMarshalledCapacity = {
         pk: {
-          S: `#${tenderId}##POSTE##NA`,
+          S: `${tenderId}##POSTE##NA`,
         },
         activationDateFrom: {
           S: '2025-03-01T00:00:00.000Z',

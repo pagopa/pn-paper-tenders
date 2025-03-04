@@ -211,7 +211,7 @@ describe('CSV to PaperChannel converters', () => {
 
         // Assert
         expect(result).toEqual({
-          pk: '#tender123##1##NA',
+          pk: 'tender123##1##NA',
           activationDateFrom: "2025-03-01T00:00:00Z",
           activationDateTo: '2025-04-01T00:00:00Z',
           tenderId: 'tender123',
@@ -244,7 +244,7 @@ describe('CSV to PaperChannel converters', () => {
 
                // Assert
                expect(result).toEqual({
-                 pk: '#tender123##1##NA',
+                 pk: 'tender123##1##NA',
                  activationDateFrom: '2025-03-01T00:00:00Z',
                  activationDateTo: undefined,
                  tenderId: 'tender123',
