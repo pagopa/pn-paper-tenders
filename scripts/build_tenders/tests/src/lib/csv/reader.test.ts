@@ -5,6 +5,7 @@ import {
   readTenderCostsCsv,
   readGeokeyCsv,
   readDeliveryDriverCsv,
+  readCapacityCsv,
   parseColCsvFun,
 } from '../../../../src/lib/csv/reader';
 
@@ -147,6 +148,36 @@ describe('CSV Reader Functions', () => {
       ]);
     });
   });
+
+  describe('readCapacityCsv', () => {
+     const capacityFilePath = '/path/to/csv/Capacity_v2.csv';
+      it('should parse Capacity CSV content correctly', () => {
+        // Arrange
+        const mockCapacityData =
+          'deliveryDriverId;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo\n' +
+          '1;NA;1000;2000;2025-03-01T00:00:00.000Z;2025-04-01T00:00:00.000Z';
+        mockedFs.readFileSync.mockReturnValue(mockCapacityData);
+
+        // Act
+        const result = readCapacityCsv(capacityFilePath);
+
+        // Assert
+        expect(mockedFs.readFileSync).toHaveBeenCalledWith(capacityFilePath, {
+          encoding: 'utf-8',
+        });
+        expect(result).toEqual([
+          {
+            deliveryDriverId: '1',
+            geoKey: 'NA',
+            capacity: 1000,
+            peakCapacity: 2000,
+            activationDateFrom: '2025-03-01T00:00:00.000Z',
+            activationDateTo: '2025-04-01T00:00:00.000Z',
+          },
+        ]);
+      });
+    });
+
 
   describe('readDeliveryDriverCsv', () => {
     it('should parse DeliveryDriver CSV content correctly', () => {
