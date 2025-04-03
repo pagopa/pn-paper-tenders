@@ -20,6 +20,7 @@ export enum DynamoTables {
   COST = 'pn-PaperChannelCost',
   GEOKEY = 'pn-PaperChannelGeokey',
   DELIVERY_DRIVER = 'pn-PaperChannelDeliveryDriver',
+  CAPACITY = 'pn-PaperDeliveryDriverCapacities',
 }
 
 export enum Envs {

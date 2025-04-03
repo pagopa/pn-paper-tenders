@@ -54,3 +54,15 @@ export type PaperChannelDeliveryDriver = {
   registeredOffice: string;
   createdAt: string;
 };
+
+export type PaperDeliveryDriverCapacities = {
+    pk: string;
+    activationDateFrom: string;
+    activationDateTo?: string;
+    tenderId: string;
+    deliveryDriverId: string;
+    geoKey: string;
+    capacity: number;
+    peakCapacity: number;
+    createdAt: string;
+};
