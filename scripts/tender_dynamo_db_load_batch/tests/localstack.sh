@@ -70,3 +70,18 @@ aws --profile default --region eu-south-1 --endpoint-url=${AWS_URL_ENDPOINT} \
     --provisioned-throughput \
       ReadCapacityUnits=5,WriteCapacityUnits=5 \
       || true
+
+### Create PaperDeliveryDriverCapacities DynamoDB Tables
+echo "Creating PaperDeliveryDriverCapacities table"
+aws --profile default --region eu-south-1 --endpoint-url=${AWS_URL_ENDPOINT} \
+    dynamodb create-table \
+    --table-name pn-PaperDeliveryDriverCapacities \
+    --attribute-definitions \
+      AttributeName=pk,AttributeType=S \
+      AttributeName=activationDateFrom,AttributeType=S \
+    --key-schema \
+      AttributeName=pk,KeyType=HASH \
+      AttributeName=activationDateFrom,KeyType=RANGE \
+    --provisioned-throughput \
+      ReadCapacityUnits=5,WriteCapacityUnits=5 \
+      || true
