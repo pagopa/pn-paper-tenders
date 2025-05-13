@@ -152,8 +152,8 @@ describe('CSV Reader Functions', () => {
     it('should parse DeliveryDriver CSV content correctly', () => {
       // Arrange
       const mockDriverData =
-        'deliveryDriverId;taxId;businessName;fiscalCode;pec;phoneNumber;registeredOffice\n' +
-        'POSTE;01114601006;Poste;97103880585;poste@pec.it;+39012-123456;';
+        'deliveryDriverId;taxId;businessName;fiscalCode;pec;phoneNumber;registeredOffice;unifiedDeliveryDriver\n' +
+        'POSTE;01114601006;Poste;97103880585;poste@pec.it;+39012-123456;;POSTE';
       mockedFs.readFileSync.mockReturnValue(mockDriverData);
 
       // Act
@@ -172,6 +172,7 @@ describe('CSV Reader Functions', () => {
           pec: 'poste@pec.it',
           phoneNumber: '+39012-123456',
           registeredOffice: '',
+          unifiedDeliveryDriver: 'POSTE',
         },
       ]);
     });

@@ -172,5 +172,6 @@ export const deliveryDriverCSVToPaperChannelDeliveryDriver = (
   pec: record.pec,
   phoneNumber: record.phoneNumber,
   registeredOffice: record.registeredOffice,
+  unifiedDeliveryDriver: record.unifiedDeliveryDriver,
   createdAt: new Date().toISOString(),
 });

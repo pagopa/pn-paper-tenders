@@ -197,6 +197,7 @@ describe('CSV to PaperChannel converters', () => {
         pec: 'pec@example.com',
         phoneNumber: '1234567890',
         registeredOffice: 'RegisteredOffice1',
+        unifiedDeliveryDriver: 'UnifiedDriver1',
       };
 
       // Act
@@ -212,6 +213,7 @@ describe('CSV to PaperChannel converters', () => {
         pec: record.pec,
         phoneNumber: record.phoneNumber,
         registeredOffice: record.registeredOffice,
+        unifiedDeliveryDriver: record.unifiedDeliveryDriver,
         createdAt: expect.any(String),
       });
     });

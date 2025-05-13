@@ -253,6 +253,7 @@ describe('Tender builder', () => {
           pec: 'poste@pec.com',
           phoneNumber: '12345678',
           registeredOffice: '',
+          unifiedDeliveryDriver: 'POSTE',
         },
       ];
       const mockPaperChannelDeliveryDriver: PaperChannelDeliveryDriver = {
@@ -263,6 +264,7 @@ describe('Tender builder', () => {
         pec: 'poste@pec.com',
         phoneNumber: '12345678',
         registeredOffice: '',
+        unifiedDeliveryDriver: 'POSTE',
         createdAt: expect.any(String),
       };
 
@@ -287,6 +289,9 @@ describe('Tender builder', () => {
         },
         registeredOffice: {
           S: '',
+        },
+        unifiedDeliveryDriver: {
+          S: 'POSTE',
         },
         createdAt: {
           S: expect.any(String),
@@ -341,6 +346,7 @@ describe('Tender builder', () => {
           pec: 'poste@pec.com',
           phoneNumber: '12345678',
           registeredOffice: '',
+          unifiedDeliveryDriver: 'POSTE',
         },
       ];
 
@@ -365,6 +371,9 @@ describe('Tender builder', () => {
         },
         registeredOffice: {
           S: '',
+        },
+        unifiedDeliveryDriver: {
+          S: 'POSTE',
         },
         createdAt: {
           S: expect.any(String),

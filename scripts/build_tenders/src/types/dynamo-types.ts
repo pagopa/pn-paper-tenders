@@ -52,5 +52,6 @@ export type PaperChannelDeliveryDriver = {
   pec: string;
   phoneNumber: string;
   registeredOffice: string;
+  unifiedDeliveryDriver: string;
   createdAt: string;
 };

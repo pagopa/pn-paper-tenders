@@ -33,6 +33,7 @@ export type DeliveryDriverValidators = {
   pec: StringValidator;
   phoneNumber: StringValidator;
   registeredOffice: StringValidator;
+  unifiedDeliveryDriver: StringValidator;
 };
 
 export type GeokeyValidators = {
