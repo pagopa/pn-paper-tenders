@@ -3,12 +3,14 @@ import {
   readGeokeyCsv,
   readTenderCostsCsv,
   readTenderCsv,
+  readCapacityCsv
 } from '../../../src/lib/csv/reader';
 import * as mappers from '../../../src/lib/mappers';
 import {
   buildDynamoDbTender,
   buildDynamoDbCosts,
   buildDynamoDbGeokey,
+  buildDynamoDbCapacity,
   buildDynamoDbDeliveryDriver,
   DynamoDbTender,
 } from '../../../src/lib/builder';
@@ -16,12 +18,14 @@ import { TenderFiles } from '../../../src/types/tenders-files-types';
 import {
   DeliveryDriverCSV,
   GeokeyCSV,
+  CapacityCSV,
   TenderCSV,
   TenderCostsCSV,
 } from '../../../src/types/csv-types';
 import {
   PaperChannelDeliveryDriver,
   PaperChannelGeokey,
+  PaperDeliveryDriverCapacities,
   PaperChannelTenderCosts,
 } from '../../../src/types/dynamo-types';
 
@@ -241,6 +245,391 @@ describe('Tender builder', () => {
     });
   });
 
+  describe('buildDynamoDbCapacity', () => {
+    it('should build DynamoDB capacity array with invalid date interval 1', () => {
+      // Arrange
+      const mockCapacityCsv: CapacityCSV[] = [
+        {
+          deliveryDriverId: '1',
+          geoKey: 'NA',
+          capacity: 1000,
+          peakCapacity: 2000,
+          activationDateFrom: '2025-03-01T00:00:00.000Z',
+          activationDateTo: '2025-04-01T00:00:00.000Z',
+        },
+        {
+          deliveryDriverId: '1',
+          geoKey: 'NA',
+          capacity: 1000,
+          peakCapacity: 2000,
+          activationDateFrom: '2025-03-20T00:00:00.000Z',
+          activationDateTo: '2025-04-20T00:00:00.000Z',
+        },
+      ];
+
+
+      (readCapacityCsv as jest.Mock).mockReturnValue(mockCapacityCsv);
+      const spyMapper = jest.spyOn(mappers, 'capacityCSVToPaperDeliveryDriverCapacities');
+
+      // Act
+      const tenderFiles: Partial<TenderFiles> = {
+        capacityCsvPaths: ['mock-path'],
+        tenderId: 'mock-id',
+      };
+
+      expect(() => buildDynamoDbCapacity(
+         tenderFiles as TenderFiles,
+        "2025-01-01T00:00:00.000Z"
+      )).toThrow('Intervals overlap or are nested for geoKey: NA and deliveryDriverId: 1 for record with activationDateFrom: 2025-03-20T00:00:00.000Z and activationDateTo: 2025-04-20T00:00:00.000Z');
+
+      // Assert
+      expect(readCapacityCsv).toHaveBeenCalledWith('mock-path');
+      expect(spyMapper).toHaveBeenCalledWith(
+        mockCapacityCsv[0],
+        'mock-id',
+        "2025-01-01T00:00:00.000Z"
+      );
+  });
+
+  it('should build DynamoDB capacity array with invalid date interval 2', () => {
+        // Arrange
+        const mockCapacityCsv: CapacityCSV[] = [
+          {
+            deliveryDriverId: '1',
+            geoKey: 'NA',
+            capacity: 1000,
+            peakCapacity: 2000,
+            activationDateFrom: '2025-03-01T00:00:00.000Z',
+            activationDateTo: '2025-04-01T00:00:00.000Z',
+          },
+          {
+            deliveryDriverId: '1',
+            geoKey: 'NA',
+            capacity: 1000,
+            peakCapacity: 2000,
+            activationDateFrom: '2025-03-20T00:00:00.000Z',
+            activationDateTo: '2025-03-25T00:00:00.000Z',
+          },
+        ];
+
+
+        (readCapacityCsv as jest.Mock).mockReturnValue(mockCapacityCsv);
+        const spyMapper = jest.spyOn(mappers, 'capacityCSVToPaperDeliveryDriverCapacities');
+
+        // Act
+        const tenderFiles: Partial<TenderFiles> = {
+          capacityCsvPaths: ['mock-path'],
+          tenderId: 'mock-id',
+        };
+
+        expect(() => buildDynamoDbCapacity(
+           tenderFiles as TenderFiles,
+          "2025-01-01T00:00:00.000Z"
+        )).toThrow('Intervals overlap or are nested for geoKey: NA and deliveryDriverId: 1 for record with activationDateFrom: 2025-03-20T00:00:00.000Z and activationDateTo: 2025-03-25T00:00:00.000Z');
+
+        // Assert
+        expect(readCapacityCsv).toHaveBeenCalledWith('mock-path');
+        expect(spyMapper).toHaveBeenCalledWith(
+          mockCapacityCsv[0],
+          'mock-id',
+          "2025-01-01T00:00:00.000Z"
+        );
+    });
+
+it('should build DynamoDB capacity array with valid date interval', () => {
+        // Arrange
+        const mockCapacityCsv: CapacityCSV[] = [
+          {
+            deliveryDriverId: '1',
+            geoKey: 'RM',
+            capacity: 1000,
+            peakCapacity: 2000,
+            activationDateFrom: '',
+            activationDateTo: '',
+          },
+          {
+            deliveryDriverId: '1',
+            geoKey: 'NA',
+            capacity: 1000,
+            peakCapacity: 2000,
+            activationDateFrom: '2025-02-01T00:00:00.000Z',
+            activationDateTo: '',
+          },
+          {
+            deliveryDriverId: '1',
+            geoKey: 'NA',
+            capacity: 1000,
+            peakCapacity: 2000,
+            activationDateFrom: '2025-03-01T00:00:00.000Z',
+            activationDateTo: '2025-04-01T00:00:00.000Z',
+          },
+          {
+            deliveryDriverId: '1',
+            geoKey: 'NA',
+            capacity: 1000,
+            peakCapacity: 2000,
+            activationDateFrom: '2025-03-20T00:00:00.000Z',
+            activationDateTo: '1970-01-01T00:00:00.000Z',
+          },
+        ];
+
+
+        const mockPaperChannelCapacity: PaperDeliveryDriverCapacities[] = [
+            {
+              pk: 'mock-id##1##RM',
+              activationDateFrom: '2025-01-01T00:00:00.000Z',
+              activationDateTo: undefined,
+              tenderId: 'mock-id',
+              deliveryDriverId: '1',
+              geoKey: 'RM',
+              capacity: 1000,
+              peakCapacity: 2000,
+              createdAt: expect.any(String),
+            },
+            {
+              pk: 'mock-id##1##NA',
+              activationDateFrom: '2025-02-01T00:00:00.000Z',
+              activationDateTo: undefined,
+              tenderId: 'mock-id',
+              deliveryDriverId: '1',
+              geoKey: 'NA',
+              capacity: 1000,
+              peakCapacity: 2000,
+              createdAt: expect.any(String),
+            },
+            {
+              pk: 'mock-id##1##NA',
+              activationDateFrom: '2025-03-01T00:00:00.000Z',
+              activationDateTo: '2025-04-01T00:00:00.000Z',
+              tenderId: 'mock-id',
+              deliveryDriverId: '1',
+              geoKey: 'NA',
+              capacity: 1000,
+              peakCapacity: 2000,
+              createdAt: expect.any(String),
+            },
+            {
+              pk: 'mock-id##1##NA',
+              activationDateFrom: '2025-03-20T00:00:00.000Z',
+              activationDateTo: '1970-01-01T00:00:00.000Z',
+              tenderId: 'mock-id',
+              deliveryDriverId: '1',
+              geoKey: 'NA',
+              capacity: 1000,
+              peakCapacity: 2000,
+              createdAt: expect.any(String),
+            }
+        ];
+        const mockMarshalledData = [
+        {
+              pk: {
+                S: 'mock-id##1##RM',
+              },
+              activationDateFrom: {
+                S: '2025-01-01T00:00:00.000Z',
+              },
+              tenderId: {
+                S: 'mock-id',
+              },
+              deliveryDriverId: {
+                S: '1',
+              },
+              geoKey: {
+                S: 'RM',
+              },
+              capacity: {
+                N: '1000',
+              },
+              peakCapacity: {
+                N: '2000'
+              },
+              createdAt: {
+                S: expect.any(String),
+              }
+            },
+            {  
+              pk: {
+                S: 'mock-id##1##NA',
+              },
+              activationDateFrom: {
+                S: '2025-02-01T00:00:00.000Z',
+              },
+              tenderId: {
+                S: 'mock-id',
+              },
+              deliveryDriverId: {
+                S: '1',
+              },
+              geoKey: {
+                S: 'NA',
+              },
+              capacity: {
+                N: '1000',
+              },
+              peakCapacity: {
+                N: '2000'
+              },
+              createdAt: {
+                S: expect.any(String),
+              }
+            },
+            {
+              pk: {
+                S: 'mock-id##1##NA',
+              },
+              activationDateFrom: {
+                S: '2025-03-01T00:00:00.000Z',
+              },
+              activationDateTo: {
+                S: '2025-04-01T00:00:00.000Z',
+              },
+              tenderId: {
+                S: 'mock-id',
+              },
+              deliveryDriverId: {
+                S: '1',
+              },
+              geoKey: {
+                S: 'NA',
+              },
+              capacity: {
+                N: '1000',
+              },
+              peakCapacity: {
+                N: '2000'
+              },
+              createdAt: {
+                S: expect.any(String),
+              }
+            },
+            {
+              pk: {
+                S: 'mock-id##1##NA',
+              },
+              activationDateFrom: {
+                S: '2025-03-20T00:00:00.000Z',
+              },
+              activationDateTo: {
+                S: '1970-01-01T00:00:00.000Z',
+              },
+              tenderId: {
+                S: 'mock-id',
+              },
+              deliveryDriverId: {
+                S: '1',
+              },
+              geoKey: {
+                S: 'NA',
+              },
+              capacity: {
+                N: '1000',
+              },
+              peakCapacity: {
+                N: '2000'
+              },
+              createdAt: {
+                S: expect.any(String),
+              }
+            }
+        ];
+    
+        (readCapacityCsv as jest.Mock).mockReturnValue(mockCapacityCsv);
+          // Act
+          const tenderFiles: Partial<TenderFiles> = {
+            capacityCsvPaths: ['mock-path'],
+            tenderId: 'mock-id',
+          };
+          const result = buildDynamoDbCapacity(
+            tenderFiles as TenderFiles,
+            "2025-01-01T00:00:00.000Z"
+          );
+    
+          // Assert
+          expect(readCapacityCsv).toHaveBeenCalledWith('mock-path');
+          expect(result).toEqual(mockMarshalledData);
+        });
+      
+   
+  it('should build DynamoDB capacity array', () => {
+    // Arrange
+    const mockCapacityCsv: CapacityCSV[] = [
+      {
+        deliveryDriverId: '1',
+        geoKey: 'NA',
+        capacity: 1000,
+        peakCapacity: 2000,
+        activationDateFrom: '2025-03-01T00:00:00.000Z',
+        activationDateTo: '2025-04-01T00:00:00.000Z',
+      },
+    ];
+    const mockPaperChannelCapacity: PaperDeliveryDriverCapacities = {
+      pk: 'mock-id##1##NA',
+      activationDateFrom: '2025-03-01T00:00:00.000Z',
+      activationDateTo: '2025-04-01T00:00:00.000Z',
+      tenderId: 'mock-id',
+      deliveryDriverId: '1',
+      geoKey: 'NA',
+      capacity: 1000,
+      peakCapacity: 2000,
+      createdAt: expect.any(String),
+    };
+    const mockMarshalledData = {
+      pk: {
+        S: 'mock-id##1##NA',
+      },
+      activationDateFrom: {
+        S: '2025-03-01T00:00:00.000Z',
+      },
+      activationDateTo: {
+        S: '2025-04-01T00:00:00.000Z',
+      },
+      tenderId: {
+        S: 'mock-id',
+      },
+      deliveryDriverId: {
+        S: '1',
+      },
+      geoKey: {
+        S: 'NA',
+      },
+      capacity: {
+        N: '1000',
+      },
+      peakCapacity: {
+        N: '2000'
+      },
+      createdAt: {
+        S: expect.any(String),
+      }
+    };
+
+    (readCapacityCsv as jest.Mock).mockReturnValue(mockCapacityCsv);
+    const spyMapper = jest.spyOn(mappers, 'capacityCSVToPaperDeliveryDriverCapacities');
+
+      // Act
+      const tenderFiles: Partial<TenderFiles> = {
+        capacityCsvPaths: ['mock-path'],
+        tenderId: 'mock-id',
+      };
+      const result = buildDynamoDbCapacity(
+        tenderFiles as TenderFiles,
+        "2025-01-01T00:00:00.000Z"
+      );
+
+      // Assert
+      expect(readCapacityCsv).toHaveBeenCalledWith('mock-path');
+      expect(spyMapper).toHaveBeenCalledWith(
+        mockCapacityCsv[0],
+        'mock-id',
+        "2025-01-01T00:00:00.000Z"
+      );
+      expect(spyMapper.mock.results[0]!.value).toEqual(
+        expect.objectContaining(mockPaperChannelCapacity)
+      );
+      expect(result).toEqual(expect.objectContaining([mockMarshalledData]));
+    });
+  });
+
   describe('buildDynamoDbDeliveryDriver', () => {
     it('should build DynamoDB deliveryDriver', () => {
       // Arrange
@@ -333,6 +722,7 @@ describe('Tender builder', () => {
         tenderCostsCsvPath: 'mock-path',
         tenderCsvPath: 'mock-path',
         geokeysCsvPaths: ['mock-path'],
+        capacityCsvPaths: ['mock-path'],
         tenderDirPath: 'mock-path',
         tenderId: tenderId,
       };
@@ -498,6 +888,47 @@ describe('Tender builder', () => {
         },
       };
 
+      const mockCapacityCsv: CapacityCSV[] = [
+        {
+          deliveryDriverId: 'POSTE',
+          geoKey: 'NA',
+          capacity: 1000,
+          peakCapacity: 2000,
+          activationDateFrom: '2025-03-01T00:00:00.000Z',
+          activationDateTo: '2025-04-01T00:00:00.000Z',
+        },
+      ];
+
+      const mockMarshalledCapacity = {
+        pk: {
+          S: `${tenderId}##POSTE##NA`,
+        },
+        activationDateFrom: {
+          S: '2025-03-01T00:00:00.000Z',
+        },
+        activationDateTo: {
+          S: '2025-04-01T00:00:00.000Z',
+        },
+        tenderId: {
+          S: tenderId,
+        },
+        deliveryDriverId: {
+          S: 'POSTE',
+        },
+        geoKey: {
+          S: 'NA',
+        },
+        capacity: {
+          N: '1000',
+        },
+        peakCapacity: {
+          N: '2000',
+        },
+        createdAt: {
+          S: expect.any(String),
+        }
+      }
+
       const mockTenderCsv: TenderCSV[] = [
         {
           activationDate: activationDate,
@@ -553,10 +984,12 @@ describe('Tender builder', () => {
         tenderCosts: [mockMarshalledTenderCosts],
         geokey: [mockMarshalledGeokey],
         deliveryDriver: [mockMarshalledDeliveryDriver],
+        capacity: [mockMarshalledCapacity]
       };
 
       (readTenderCostsCsv as jest.Mock).mockReturnValue(mockTenderCostsCsv);
       (readGeokeyCsv as jest.Mock).mockReturnValue(mockGeokeyCsv);
+      (readCapacityCsv as jest.Mock).mockReturnValue(mockCapacityCsv);
       (readDeliveryDriverCsv as jest.Mock).mockReturnValue(
         mockDeliveryDriverCsv
       );

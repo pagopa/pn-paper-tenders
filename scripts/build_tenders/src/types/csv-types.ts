@@ -41,3 +41,12 @@ export type DeliveryDriverCSV = {
   registeredOffice: string;
   unifiedDeliveryDriver: string;
 };
+
+export type CapacityCSV = {
+    deliveryDriverId: string;
+    geoKey: string;
+    capacity: number;
+    peakCapacity: number;
+    activationDateFrom: string;
+    activationDateTo: string;
+};

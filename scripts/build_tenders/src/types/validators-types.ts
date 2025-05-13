@@ -45,3 +45,12 @@ export type GeokeyValidators = {
   coverFlag: BooleanValidator;
   dismissed: BooleanValidator;
 };
+
+export type CapacityValidators = {
+    deliveryDriverId: StringValidator;
+    geoKey: StringValidator;
+    capacity: NumberValidator;
+    peakCapacity: NumberValidator;
+    activationDateFrom: StringValidator;
+    activationDateTo: StringValidator;
+    };

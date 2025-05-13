@@ -87,6 +87,16 @@ export const dateTimeUtcStringValidator: StringValidator = (
   );
 };
 
+export const dateTimeUtcStringValidatorIfPresent: StringValidator = (
+  value: string
+): string => {
+  if(!value) return value;
+  if (isValidUtcString(value)) return value;
+  throw new Error(
+    `Value ${value} is not a valid DateTime UTC string (Ex. 2024-07-23T10:26:11.676Z)`
+  );
+};
+
 /**
  * Validates if the given string represents a valid integer.
  *

@@ -3,6 +3,7 @@ import {
   GeokeyCSV,
   TenderCSV,
   TenderCostsCSV,
+  CapacityCSV,
 } from '../types/csv-types';
 import {
   PaperChannelDeliveryDriver,
@@ -10,6 +11,7 @@ import {
   PaperChannelTender,
   PaperChannelTenderCosts,
   PaperChannelTenderCostsRange,
+  PaperDeliveryDriverCapacities,
 } from '../types/dynamo-types';
 import { rangeColumnPattern } from '../utils/regex';
 
@@ -40,6 +42,20 @@ const buildTenderProductGeokey = (
   product: string,
   geokey: string
 ): string => `${tenderId}#${product}#${geokey}`;
+
+/**
+ * Constructs a unique key for the delivery driver, product, and capacity.
+ *
+ * @param tenderId - The tender identifier.
+ * @param deliveryDriverId - The delivery driver identifier.
+ * @param geokey - The geokey identifier.
+ * @returns A string formatted as `${deliveryDriverId}#${product}#${capacity}`.
+ */
+const buildDeliveryDriverProductCapacity = (
+  tenderId: string,
+  deliveryDriverId: string,
+  geokey: string
+): string => `${tenderId}##${deliveryDriverId}##${geokey}`;
 
 /**
  * Extracts and maps ranged costs from a CSV record into an array of
@@ -153,6 +169,35 @@ export const geokeyCSVToPaperChannelGeokey = (
   coverFlag: record.coverFlag,
   dismissed: record.dismissed,
   createdAt: new Date().toISOString(),
+});
+
+/**
+ * Converts a `CapacityCSV` record into a `PaperDeliveryDriverCapacities` object.
+ *
+ * @param record - The CSV record containing capacity data.
+ * @param tenderId - The identifier of the tender.
+ * @returns A `PaperDeliveryDriverCapacities` object.
+ */
+export const capacityCSVToPaperDeliveryDriverCapacities = (
+    record: CapacityCSV,
+    tenderId: string,
+    tenderActivationDate: string
+): PaperDeliveryDriverCapacities => ({
+    pk: buildDeliveryDriverProductCapacity(
+        tenderId,
+        record.deliveryDriverId,
+        record.geoKey
+    ),
+    activationDateFrom: record.activationDateFrom == null || record.activationDateFrom === ''
+      ? tenderActivationDate
+      : record.activationDateFrom,
+    activationDateTo: record.activationDateTo === '' ? undefined : record.activationDateTo,
+    tenderId,
+    deliveryDriverId: record.deliveryDriverId,
+    geoKey: record.geoKey,
+    capacity: record.capacity,
+    peakCapacity: record.peakCapacity,
+    createdAt: new Date().toISOString(),
 });
 
 /**
