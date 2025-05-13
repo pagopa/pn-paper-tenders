@@ -39,4 +39,5 @@ export type DeliveryDriverCSV = {
   pec: string;
   phoneNumber: string;
   registeredOffice: string;
+  unifiedDeliveryDriver: string;
 };

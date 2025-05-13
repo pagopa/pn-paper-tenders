@@ -96,6 +96,10 @@ describe('CSV Column Parsers', () => {
       expect(() =>
         parseDeliveryDriverColumn('', 'deliveryDriverId', mockFilePath)
       ).toThrow('Value is empty');
+
+      expect(() =>
+        parseDeliveryDriverColumn('', 'unifiedDeliveryDriver', mockFilePath)
+      ).toThrow('Value is empty');
     });
 
     it('should throw an error for an unknown column', () => {

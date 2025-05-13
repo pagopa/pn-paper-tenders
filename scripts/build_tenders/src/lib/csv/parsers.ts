@@ -76,6 +76,7 @@ const deliveryDriverValidatorsMap: DeliveryDriverValidators = {
   pec: stringValidator,
   phoneNumber: stringValidator,
   registeredOffice: stringValidator,
+  unifiedDeliveryDriver: nonEmptyStringValidator,
 };
 
 /**
