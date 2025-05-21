@@ -39,4 +39,14 @@ export type DeliveryDriverCSV = {
   pec: string;
   phoneNumber: string;
   registeredOffice: string;
+  unifiedDeliveryDriver: string;
+};
+
+export type CapacityCSV = {
+    unifiedDeliveryDriver: string;
+    geoKey: string;
+    capacity: number;
+    peakCapacity: number;
+    activationDateFrom: string;
+    activationDateTo: string;
 };

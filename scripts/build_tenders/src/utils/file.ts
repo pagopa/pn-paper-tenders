@@ -86,15 +86,14 @@ export const writeDynamoDbTenderFile = (
   const tenderFilePath = path.join(baseDir, DynamoTables.TENDER + '.json');
   const costFilePath = path.join(baseDir, DynamoTables.COST + '.json');
   const geokeyFilePath = path.join(baseDir, DynamoTables.GEOKEY + '.json');
-  const deliveryDriverFilePath = path.join(
-    baseDir,
-    DynamoTables.DELIVERY_DRIVER + '.json'
-  );
+  const deliveryDriverFilePath = path.join(baseDir,DynamoTables.DELIVERY_DRIVER + '.json' );
+  const capacityFilePath = path.join( baseDir, DynamoTables.CAPACITY + '.json');
 
   saveJsonlToFile(tenderFilePath, tender.tender);
   saveJsonlToFile(costFilePath, tender.tenderCosts);
   saveJsonlToFile(geokeyFilePath, tender.geokey);
   saveJsonlToFile(deliveryDriverFilePath, tender.deliveryDriver);
+  saveJsonlToFile(capacityFilePath, tender.capacity);
 };
 
 /**
