@@ -72,7 +72,7 @@ const geokeyValidatorsMap: GeokeyValidators = {
  * CSV files.
  */
 const capacityValidatorsMap: CapacityValidators = {
-    deliveryDriverId: nonEmptyStringValidator,
+    unifiedDeliveryDriver: nonEmptyStringValidator,
     geoKey: nonEmptyStringValidator,
     capacity: integerValidator,
     peakCapacity: integerValidator,

@@ -154,7 +154,7 @@ describe('CSV Reader Functions', () => {
       it('should parse Capacity CSV content correctly', () => {
         // Arrange
         const mockCapacityData =
-          'deliveryDriverId;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo\n' +
+          'unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo\n' +
           '1;NA;1000;2000;2025-03-01T00:00:00.000Z;2025-04-01T00:00:00.000Z';
         mockedFs.readFileSync.mockReturnValue(mockCapacityData);
 
@@ -167,7 +167,7 @@ describe('CSV Reader Functions', () => {
         });
         expect(result).toEqual([
           {
-            deliveryDriverId: '1',
+            unifiedDeliveryDriver: '1',
             geoKey: 'NA',
             capacity: 1000,
             peakCapacity: 2000,

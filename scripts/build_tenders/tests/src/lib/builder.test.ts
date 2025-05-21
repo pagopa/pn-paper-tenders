@@ -250,7 +250,7 @@ describe('Tender builder', () => {
       // Arrange
       const mockCapacityCsv: CapacityCSV[] = [
         {
-          deliveryDriverId: '1',
+          unifiedDeliveryDriver: '1',
           geoKey: 'NA',
           capacity: 1000,
           peakCapacity: 2000,
@@ -258,7 +258,7 @@ describe('Tender builder', () => {
           activationDateTo: '2025-04-01T00:00:00.000Z',
         },
         {
-          deliveryDriverId: '1',
+          unifiedDeliveryDriver: '1',
           geoKey: 'NA',
           capacity: 1000,
           peakCapacity: 2000,
@@ -280,7 +280,7 @@ describe('Tender builder', () => {
       expect(() => buildDynamoDbCapacity(
          tenderFiles as TenderFiles,
         "2025-01-01T00:00:00.000Z"
-      )).toThrow('Intervals overlap or are nested for geoKey: NA and deliveryDriverId: 1 for record with activationDateFrom: 2025-03-20T00:00:00.000Z and activationDateTo: 2025-04-20T00:00:00.000Z');
+      )).toThrow('Intervals overlap or are nested for geoKey: NA and unifiedDeliveryDriver: 1 for record with activationDateFrom: 2025-03-20T00:00:00.000Z and activationDateTo: 2025-04-20T00:00:00.000Z');
 
       // Assert
       expect(readCapacityCsv).toHaveBeenCalledWith('mock-path');
@@ -295,7 +295,7 @@ describe('Tender builder', () => {
         // Arrange
         const mockCapacityCsv: CapacityCSV[] = [
           {
-            deliveryDriverId: '1',
+            unifiedDeliveryDriver: '1',
             geoKey: 'NA',
             capacity: 1000,
             peakCapacity: 2000,
@@ -303,7 +303,7 @@ describe('Tender builder', () => {
             activationDateTo: '2025-04-01T00:00:00.000Z',
           },
           {
-            deliveryDriverId: '1',
+            unifiedDeliveryDriver: '1',
             geoKey: 'NA',
             capacity: 1000,
             peakCapacity: 2000,
@@ -325,7 +325,7 @@ describe('Tender builder', () => {
         expect(() => buildDynamoDbCapacity(
            tenderFiles as TenderFiles,
           "2025-01-01T00:00:00.000Z"
-        )).toThrow('Intervals overlap or are nested for geoKey: NA and deliveryDriverId: 1 for record with activationDateFrom: 2025-03-20T00:00:00.000Z and activationDateTo: 2025-03-25T00:00:00.000Z');
+        )).toThrow('Intervals overlap or are nested for geoKey: NA and unifiedDeliveryDriver: 1 for record with activationDateFrom: 2025-03-20T00:00:00.000Z and activationDateTo: 2025-03-25T00:00:00.000Z');
 
         // Assert
         expect(readCapacityCsv).toHaveBeenCalledWith('mock-path');
@@ -340,7 +340,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         // Arrange
         const mockCapacityCsv: CapacityCSV[] = [
           {
-            deliveryDriverId: '1',
+            unifiedDeliveryDriver: '1',
             geoKey: 'RM',
             capacity: 1000,
             peakCapacity: 2000,
@@ -348,7 +348,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             activationDateTo: '',
           },
           {
-            deliveryDriverId: '1',
+            unifiedDeliveryDriver: '1',
             geoKey: 'NA',
             capacity: 1000,
             peakCapacity: 2000,
@@ -356,7 +356,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             activationDateTo: '',
           },
           {
-            deliveryDriverId: '1',
+            unifiedDeliveryDriver: '1',
             geoKey: 'NA',
             capacity: 1000,
             peakCapacity: 2000,
@@ -364,7 +364,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             activationDateTo: '2025-04-01T00:00:00.000Z',
           },
           {
-            deliveryDriverId: '1',
+            unifiedDeliveryDriver: '1',
             geoKey: 'NA',
             capacity: 1000,
             peakCapacity: 2000,
@@ -380,7 +380,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               activationDateFrom: '2025-01-01T00:00:00.000Z',
               activationDateTo: undefined,
               tenderId: 'mock-id',
-              deliveryDriverId: '1',
+              unifiedDeliveryDriver: '1',
               geoKey: 'RM',
               capacity: 1000,
               peakCapacity: 2000,
@@ -391,7 +391,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               activationDateFrom: '2025-02-01T00:00:00.000Z',
               activationDateTo: undefined,
               tenderId: 'mock-id',
-              deliveryDriverId: '1',
+              unifiedDeliveryDriver: '1',
               geoKey: 'NA',
               capacity: 1000,
               peakCapacity: 2000,
@@ -402,7 +402,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               activationDateFrom: '2025-03-01T00:00:00.000Z',
               activationDateTo: '2025-04-01T00:00:00.000Z',
               tenderId: 'mock-id',
-              deliveryDriverId: '1',
+              unifiedDeliveryDriver: '1',
               geoKey: 'NA',
               capacity: 1000,
               peakCapacity: 2000,
@@ -413,7 +413,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               activationDateFrom: '2025-03-20T00:00:00.000Z',
               activationDateTo: '1970-01-01T00:00:00.000Z',
               tenderId: 'mock-id',
-              deliveryDriverId: '1',
+              unifiedDeliveryDriver: '1',
               geoKey: 'NA',
               capacity: 1000,
               peakCapacity: 2000,
@@ -431,7 +431,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               tenderId: {
                 S: 'mock-id',
               },
-              deliveryDriverId: {
+              unifiedDeliveryDriver: {
                 S: '1',
               },
               geoKey: {
@@ -457,7 +457,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               tenderId: {
                 S: 'mock-id',
               },
-              deliveryDriverId: {
+              unifiedDeliveryDriver: {
                 S: '1',
               },
               geoKey: {
@@ -486,7 +486,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               tenderId: {
                 S: 'mock-id',
               },
-              deliveryDriverId: {
+              unifiedDeliveryDriver: {
                 S: '1',
               },
               geoKey: {
@@ -515,7 +515,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               tenderId: {
                 S: 'mock-id',
               },
-              deliveryDriverId: {
+              unifiedDeliveryDriver: {
                 S: '1',
               },
               geoKey: {
@@ -554,7 +554,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
     // Arrange
     const mockCapacityCsv: CapacityCSV[] = [
       {
-        deliveryDriverId: '1',
+        unifiedDeliveryDriver: '1',
         geoKey: 'NA',
         capacity: 1000,
         peakCapacity: 2000,
@@ -567,7 +567,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
       activationDateFrom: '2025-03-01T00:00:00.000Z',
       activationDateTo: '2025-04-01T00:00:00.000Z',
       tenderId: 'mock-id',
-      deliveryDriverId: '1',
+      unifiedDeliveryDriver: '1',
       geoKey: 'NA',
       capacity: 1000,
       peakCapacity: 2000,
@@ -586,7 +586,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
       tenderId: {
         S: 'mock-id',
       },
-      deliveryDriverId: {
+      unifiedDeliveryDriver: {
         S: '1',
       },
       geoKey: {
@@ -890,7 +890,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
 
       const mockCapacityCsv: CapacityCSV[] = [
         {
-          deliveryDriverId: 'POSTE',
+          unifiedDeliveryDriver: 'POSTE',
           geoKey: 'NA',
           capacity: 1000,
           peakCapacity: 2000,
@@ -912,7 +912,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         tenderId: {
           S: tenderId,
         },
-        deliveryDriverId: {
+        unifiedDeliveryDriver: {
           S: 'POSTE',
         },
         geoKey: {

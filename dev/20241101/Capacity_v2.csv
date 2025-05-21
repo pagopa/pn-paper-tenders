@@ -1,4 +1,4 @@
-deliveryDriverId;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo
+unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo
 1;NA;1000;2000;2025-03-21T00:00:00.000Z;2025-05-01T00:00:00.000Z
 1;NA;1000;2000;2025-03-25T00:00:00.000Z;1970-04-01T00:00:00.000Z
 2;RM;1000;2000;2025-03-21T00:00:00.000Z;2025-04-01T00:00:00.000Z

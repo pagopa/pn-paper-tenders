@@ -111,7 +111,7 @@ export const buildDynamoDbCapacity = (
       if(filteredRecord.length > 1) {
         filteredRecord.reduce((prev, current) => {
             if (prev.activationDateTo! >= current.activationDateFrom) {
-              throw new Error(`Intervals overlap or are nested for geoKey: ${prev.geoKey} and deliveryDriverId: ${prev.deliveryDriverId} for record with activationDateFrom: ${current.activationDateFrom} and activationDateTo: ${current.activationDateTo}`);
+              throw new Error(`Intervals overlap or are nested for geoKey: ${prev.geoKey} and unifiedDeliveryDriver: ${prev.unifiedDeliveryDriver} for record with activationDateFrom: ${current.activationDateFrom} and activationDateTo: ${current.activationDateTo}`);
             }
           return current;
         });
@@ -121,7 +121,7 @@ export const buildDynamoDbCapacity = (
 
   const groupCapacityByGeoKeyAndDeliveryDriver = (  capacityRecords: PaperDeliveryDriverCapacities[] = [] ): 
   Record<string, PaperDeliveryDriverCapacities[]> => capacityRecords.reduce((acc, record) => {
-    const key = `${record.geoKey}-${record.deliveryDriverId}`;
+    const key = `${record.geoKey}-${record.unifiedDeliveryDriver}`;
     if (!acc[key]) {
     acc[key] = [];
     }

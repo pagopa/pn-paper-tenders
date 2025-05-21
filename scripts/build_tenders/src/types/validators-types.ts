@@ -47,7 +47,7 @@ export type GeokeyValidators = {
 };
 
 export type CapacityValidators = {
-    deliveryDriverId: StringValidator;
+    unifiedDeliveryDriver: StringValidator;
     geoKey: StringValidator;
     capacity: NumberValidator;
     peakCapacity: NumberValidator;

@@ -47,15 +47,15 @@ const buildTenderProductGeokey = (
  * Constructs a unique key for the delivery driver, product, and capacity.
  *
  * @param tenderId - The tender identifier.
- * @param deliveryDriverId - The delivery driver identifier.
+ * @param unifiedDeliveryDriver - The unified delivery driver identifier.
  * @param geokey - The geokey identifier.
- * @returns A string formatted as `${deliveryDriverId}#${product}#${capacity}`.
+ * @returns A string formatted as `${tenderId}##${unifiedDeliveryDriver}##${geokey}`.
  */
 const buildDeliveryDriverProductCapacity = (
   tenderId: string,
-  deliveryDriverId: string,
+  unifiedDeliveryDriver: string,
   geokey: string
-): string => `${tenderId}##${deliveryDriverId}##${geokey}`;
+): string => `${tenderId}##${unifiedDeliveryDriver}##${geokey}`;
 
 /**
  * Extracts and maps ranged costs from a CSV record into an array of
@@ -185,7 +185,7 @@ export const capacityCSVToPaperDeliveryDriverCapacities = (
 ): PaperDeliveryDriverCapacities => ({
     pk: buildDeliveryDriverProductCapacity(
         tenderId,
-        record.deliveryDriverId,
+        record.unifiedDeliveryDriver,
         record.geoKey
     ),
     activationDateFrom: record.activationDateFrom == null || record.activationDateFrom === ''
@@ -193,7 +193,7 @@ export const capacityCSVToPaperDeliveryDriverCapacities = (
       : record.activationDateFrom,
     activationDateTo: record.activationDateTo === '' ? undefined : record.activationDateTo,
     tenderId,
-    deliveryDriverId: record.deliveryDriverId,
+    unifiedDeliveryDriver: record.unifiedDeliveryDriver,
     geoKey: record.geoKey,
     capacity: record.capacity,
     peakCapacity: record.peakCapacity,

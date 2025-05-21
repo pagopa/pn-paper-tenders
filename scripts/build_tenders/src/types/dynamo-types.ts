@@ -61,7 +61,7 @@ export type PaperDeliveryDriverCapacities = {
     activationDateFrom: string;
     activationDateTo?: string;
     tenderId: string;
-    deliveryDriverId: string;
+    unifiedDeliveryDriver: string;
     geoKey: string;
     capacity: number;
     peakCapacity: number;

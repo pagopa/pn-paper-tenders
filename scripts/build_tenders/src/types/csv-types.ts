@@ -43,7 +43,7 @@ export type DeliveryDriverCSV = {
 };
 
 export type CapacityCSV = {
-    deliveryDriverId: string;
+    unifiedDeliveryDriver: string;
     geoKey: string;
     capacity: number;
     peakCapacity: number;

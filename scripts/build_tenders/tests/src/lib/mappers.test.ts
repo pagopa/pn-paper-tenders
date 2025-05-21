@@ -194,7 +194,7 @@ describe('CSV to PaperChannel converters', () => {
         // Arrange
         const tenderId = 'tender123';
         const record: CapacityCSV = {
-          deliveryDriverId: '1',
+          unifiedDeliveryDriver: '1',
           geoKey: 'NA',
           capacity: 1000,
           peakCapacity: 2000,
@@ -215,7 +215,7 @@ describe('CSV to PaperChannel converters', () => {
           activationDateFrom: "2025-03-01T00:00:00Z",
           activationDateTo: '2025-04-01T00:00:00Z',
           tenderId: 'tender123',
-          deliveryDriverId: '1',
+          unifiedDeliveryDriver: '1',
           geoKey: 'NA',
           capacity: 1000,
           peakCapacity: 2000,
@@ -227,7 +227,7 @@ describe('CSV to PaperChannel converters', () => {
         // Arrange
        const tenderId = 'tender123';
                const record: CapacityCSV = {
-                 deliveryDriverId: '1',
+                 unifiedDeliveryDriver: '1',
                  geoKey: 'NA',
                  capacity: 1000,
                  peakCapacity: 2000,
@@ -248,7 +248,7 @@ describe('CSV to PaperChannel converters', () => {
                  activationDateFrom: '2025-03-01T00:00:00Z',
                  activationDateTo: undefined,
                  tenderId: 'tender123',
-                 deliveryDriverId: '1',
+                 unifiedDeliveryDriver: '1',
                  geoKey: 'NA',
                  capacity: 1000,
                  peakCapacity: 2000,
