@@ -1,4 +1,4 @@
-unifiedDeliveryDrvier;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo
+unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo
 Poste;RM;32000;94000;;
 Poste;00010;2000;2000;;
 Poste;00012;2000;2000;;
