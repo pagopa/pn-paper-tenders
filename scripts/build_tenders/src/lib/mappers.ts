@@ -49,13 +49,13 @@ const buildTenderProductGeokey = (
  * @param tenderId - The tender identifier.
  * @param unifiedDeliveryDriver - The unified delivery driver identifier.
  * @param geokey - The geokey identifier.
- * @returns A string formatted as `${tenderId}##${unifiedDeliveryDriver}##${geokey}`.
+ * @returns A string formatted as `${tenderId}~${unifiedDeliveryDriver}~${geokey}`.
  */
 const buildDeliveryDriverProductCapacity = (
   tenderId: string,
   unifiedDeliveryDriver: string,
   geokey: string
-): string => `${tenderId}##${unifiedDeliveryDriver}##${geokey}`;
+): string => `${tenderId}~${unifiedDeliveryDriver}~${geokey}`;
 
 /**
  * Extracts and maps ranged costs from a CSV record into an array of
