@@ -1,0 +1,6 @@
+unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo
+Poste;NA;1000;2000;2025-03-20T00:00:00.000Z;
+Fulmine;RM;1000;2000;2025-03-20T00:00:00.000Z;
+POST & SERVICE;80124;1000;2000;2025-03-20T00:00:00.000Z;
+Poste;80125;1000;2000;2025-03-20T00:00:00.000Z;
+Fulmine;00118;1000;2000;;
