@@ -13,6 +13,7 @@ const tables = [
   'pn-PaperChannelGeokey',
   'pn-PaperChannelDeliveryDriver',
   'pn-PaperChannelCost',
+  'pn-PaperDeliveryDriverCapacities\n',
 ];
 
 // Validate command-line arguments
