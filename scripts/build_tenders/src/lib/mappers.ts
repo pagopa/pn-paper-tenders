@@ -3,6 +3,7 @@ import {
   GeokeyCSV,
   TenderCSV,
   TenderCostsCSV,
+  CapacityCSV,
 } from '../types/csv-types';
 import {
   PaperChannelDeliveryDriver,
@@ -10,6 +11,7 @@ import {
   PaperChannelTender,
   PaperChannelTenderCosts,
   PaperChannelTenderCostsRange,
+  PaperDeliveryDriverCapacities,
 } from '../types/dynamo-types';
 import { rangeColumnPattern } from '../utils/regex';
 
@@ -40,6 +42,20 @@ const buildTenderProductGeokey = (
   product: string,
   geokey: string
 ): string => `${tenderId}#${product}#${geokey}`;
+
+/**
+ * Constructs a unique key for the delivery driver, product, and capacity.
+ *
+ * @param tenderId - The tender identifier.
+ * @param unifiedDeliveryDriver - The unified delivery driver identifier.
+ * @param geokey - The geokey identifier.
+ * @returns A string formatted as `${tenderId}~${unifiedDeliveryDriver}~${geokey}`.
+ */
+const buildDeliveryDriverProductCapacity = (
+  tenderId: string,
+  unifiedDeliveryDriver: string,
+  geokey: string
+): string => `${tenderId}~${unifiedDeliveryDriver}~${geokey}`;
 
 /**
  * Extracts and maps ranged costs from a CSV record into an array of
@@ -156,6 +172,35 @@ export const geokeyCSVToPaperChannelGeokey = (
 });
 
 /**
+ * Converts a `CapacityCSV` record into a `PaperDeliveryDriverCapacities` object.
+ *
+ * @param record - The CSV record containing capacity data.
+ * @param tenderId - The identifier of the tender.
+ * @returns A `PaperDeliveryDriverCapacities` object.
+ */
+export const capacityCSVToPaperDeliveryDriverCapacities = (
+    record: CapacityCSV,
+    tenderId: string,
+    tenderActivationDate: string
+): PaperDeliveryDriverCapacities => ({
+    pk: buildDeliveryDriverProductCapacity(
+        tenderId,
+        record.unifiedDeliveryDriver,
+        record.geoKey
+    ),
+    activationDateFrom: record.activationDateFrom == null || record.activationDateFrom === ''
+      ? tenderActivationDate
+      : record.activationDateFrom,
+    activationDateTo: record.activationDateTo === '' ? undefined : record.activationDateTo,
+    tenderId,
+    unifiedDeliveryDriver: record.unifiedDeliveryDriver,
+    geoKey: record.geoKey,
+    capacity: record.capacity,
+    peakCapacity: record.peakCapacity,
+    createdAt: new Date().toISOString(),
+});
+
+/**
  * Converts a `DeliveryDriverCSV` record into a `PaperChannelDeliveryDriver`
  * object.
  *
@@ -172,5 +217,6 @@ export const deliveryDriverCSVToPaperChannelDeliveryDriver = (
   pec: record.pec,
   phoneNumber: record.phoneNumber,
   registeredOffice: record.registeredOffice,
+  unifiedDeliveryDriver: record.unifiedDeliveryDriver,
   createdAt: new Date().toISOString(),
 });

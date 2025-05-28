@@ -16,6 +16,7 @@ La struttura dell'artefatto compresso è la seguente:
 - pn-PaperChannelCost.json
 - pn-PaperChannelGeokey.json
 - pn-PaperChannelDeliveryDrivers.json
+- pn-PaperDeliveryDriverCapacities.json
 
 Notiamo che ogni file json, tolta l'estensione, coincide con il nome della tabella nella quale effettuare
 l'inserimento batch.
