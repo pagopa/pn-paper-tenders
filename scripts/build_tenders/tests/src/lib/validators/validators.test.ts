@@ -3,6 +3,7 @@ import {
   nonEmptyStringValidator,
   stringValidator,
   dateTimeUtcStringValidator,
+  dateTimeUtcStringValidatorIfPresent,
   integerValidator,
   floatValidator,
   productValidator,
@@ -60,6 +61,24 @@ describe('Validators', () => {
       );
     });
   });
+
+   describe('dateTimeUtcStringValidatorIfPresent', () => {
+    it('should return empty string if it is empty', () => {
+           const value = '';
+           expect(dateTimeUtcStringValidatorIfPresent(value)).toBe('');
+         });
+      it('should return the string if it is a valid UTC DateTime', () => {
+        const validUtc = '2024-07-23T10:26:11.676Z';
+        expect(dateTimeUtcStringValidator(validUtc)).toBe(validUtc);
+      });
+
+      it('should throw an error for invalid UTC DateTime strings', () => {
+        const invalidUtc = '2024-07-23T10:26:11';
+        expect(() => dateTimeUtcStringValidator(invalidUtc)).toThrow(
+          `Value ${invalidUtc} is not a valid DateTime UTC string (Ex. 2024-07-23T10:26:11.676Z)`
+        );
+      });
+    });
 
   describe('integerValidator', () => {
     it('should return the integer if the string represents a valid integer', () => {

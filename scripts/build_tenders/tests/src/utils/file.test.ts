@@ -154,6 +154,7 @@ describe('File Utilities', () => {
       tenderCosts: [{ key: { S: 'value' } }],
       geokey: [{ key: { S: 'value' } }],
       deliveryDriver: [{ key: { S: 'value' } }],
+      capacity: [{ key: { S: 'value' } }],
     };
     const tenderId = 'tender123';
     const dir = '/some/dir';
