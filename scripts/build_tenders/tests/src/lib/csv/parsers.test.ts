@@ -3,6 +3,7 @@ import {
   parseTenderCostsColumn,
   parseGeokeyColumn,
   parseDeliveryDriverColumn,
+  parseCapacityColumn,
 } from '../../../../src/lib/csv/parsers';
 import { Products } from '../../../../src/utils/enum';
 
@@ -82,6 +83,49 @@ describe('CSV Column Parsers', () => {
     });
   });
 
+  describe('parseCapacityColumn', () => {
+    const capacityV1FilePath = 'Capacity_v1.csv';
+    const capacityV2FilePath = 'Capacity_v1.csv';
+      it('should parse and validate a valid capacity column', () => {
+        expect( parseCapacityColumn('2025-03-01T00:00:00.000Z','activationDateFrom',capacityV1FilePath)).toBe('2025-03-01T00:00:00.000Z');
+        expect(parseCapacityColumn('1000', 'capacity', capacityV1FilePath)).toBe(1000);
+        expect(parseCapacityColumn('2000', 'peakCapacity', capacityV1FilePath)).toBe(2000);
+        expect(parseCapacityColumn('NA', 'geoKey', capacityV1FilePath)).toBe('NA');
+        expect(parseCapacityColumn('', 'activationDateTo', capacityV1FilePath)).toBe('');
+      });
+
+      it('should throw an error for an invalid capacity column', () => {
+        expect(() =>
+          expect(parseCapacityColumn('test', 'capacity', capacityV1FilePath)).toThrow('Value invalid is not a valid number'));
+      });
+
+      it('should throw an error for an invalid peek capacity column', () => {
+        expect(() =>
+          expect(parseCapacityColumn('test', 'peakCapacity', capacityV1FilePath)).toThrow('Value invalid is not a valid number'));
+      });
+
+      it('should throw an error for an invalid activationDateTo in first version', () => {
+        expect(() =>
+          expect(parseCapacityColumn('2025-03-01T00:00:00Z', 'activationDateTo', capacityV1FilePath)).toThrow('You cannot give a value for Column activationDateTo in version 1for file Capacity_v1.csv'));
+      });
+
+      it('should throw an error for an invalid activationDateTo in second version', () => {
+        expect(() =>
+          expect(parseCapacityColumn('', 'activationDateTo', capacityV2FilePath)).toThrow('Column activationDateTo is mandatory in version 2 for file Capacity_v2.csv'));
+      });
+
+      it('should throw an error for an invalid activationDateFrom in second version', () => {
+        expect(() =>
+          expect(parseCapacityColumn('', 'activationDateFrom', capacityV2FilePath)).toThrow('Column activationDateFrom is mandatory in version 2 for file Capacity_v2.csv'));
+      });
+
+      it('should throw an error for an unknown column', () => {
+        expect(() =>
+          parseCapacityColumn('value', 'unknownColumn', capacityV1FilePath)
+        ).toThrow(`Invalid column unknownColumn in file ${capacityV1FilePath}`);
+      });
+    });
+
   describe('parseDeliveryDriverColumn', () => {
     it('should parse and validate a valid delivery driver column', () => {
       expect(
@@ -95,6 +139,10 @@ describe('CSV Column Parsers', () => {
     it('should throw an error for an invalid delivery driver column', () => {
       expect(() =>
         parseDeliveryDriverColumn('', 'deliveryDriverId', mockFilePath)
+      ).toThrow('Value is empty');
+
+      expect(() =>
+        parseDeliveryDriverColumn('', 'unifiedDeliveryDriver', mockFilePath)
       ).toThrow('Value is empty');
     });
 

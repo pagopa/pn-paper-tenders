@@ -33,6 +33,7 @@ export type DeliveryDriverValidators = {
   pec: StringValidator;
   phoneNumber: StringValidator;
   registeredOffice: StringValidator;
+  unifiedDeliveryDriver: StringValidator;
 };
 
 export type GeokeyValidators = {
@@ -44,3 +45,12 @@ export type GeokeyValidators = {
   coverFlag: BooleanValidator;
   dismissed: BooleanValidator;
 };
+
+export type CapacityValidators = {
+    unifiedDeliveryDriver: StringValidator;
+    geoKey: StringValidator;
+    capacity: NumberValidator;
+    peakCapacity: NumberValidator;
+    activationDateFrom: StringValidator;
+    activationDateTo: StringValidator;
+    };

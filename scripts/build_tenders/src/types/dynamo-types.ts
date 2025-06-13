@@ -52,5 +52,18 @@ export type PaperChannelDeliveryDriver = {
   pec: string;
   phoneNumber: string;
   registeredOffice: string;
+  unifiedDeliveryDriver: string;
   createdAt: string;
+};
+
+export type PaperDeliveryDriverCapacities = {
+    pk: string;
+    activationDateFrom: string;
+    activationDateTo?: string;
+    tenderId: string;
+    unifiedDeliveryDriver: string;
+    geoKey: string;
+    capacity: number;
+    peakCapacity: number;
+    createdAt: string;
 };
