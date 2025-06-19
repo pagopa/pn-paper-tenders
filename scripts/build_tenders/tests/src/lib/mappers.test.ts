@@ -4,17 +4,20 @@ import {
   geokeyCSVToPaperChannelGeokey,
   deliveryDriverCSVToPaperChannelDeliveryDriver,
   rangedCostsFromCSV,
+  capacityCSVToPaperDeliveryDriverCapacities,
 } from '../../../src/lib/mappers';
 import {
   TenderCSV,
   TenderCostsCSV,
   GeokeyCSV,
+  CapacityCSV,
   DeliveryDriverCSV,
 } from '../../../src/types/csv-types';
 import {
   PaperChannelTender,
   PaperChannelTenderCosts,
   PaperChannelGeokey,
+  PaperDeliveryDriverCapacities,
   PaperChannelDeliveryDriver,
   PaperChannelTenderCostsRange,
 } from '../../../src/types/dynamo-types';
@@ -186,6 +189,74 @@ describe('CSV to PaperChannel converters', () => {
     });
   });
 
+  describe('capacityCSVToPaperChannelCapacity', () => {
+      it('should convert a CapacityCSV to a PaperChannelCapacity in second csv version', () => {
+        // Arrange
+        const tenderId = 'tender123';
+        const record: CapacityCSV = {
+          unifiedDeliveryDriver: '1',
+          geoKey: 'NA',
+          capacity: 1000,
+          peakCapacity: 2000,
+          activationDateFrom: '2025-03-01T00:00:00Z',
+          activationDateTo: '2025-04-01T00:00:00Z',
+        };
+
+        // Act
+        const result: PaperDeliveryDriverCapacities = capacityCSVToPaperDeliveryDriverCapacities(
+          record,
+          tenderId,
+          Date.now().toString()
+        );
+
+        // Assert
+        expect(result).toEqual({
+          pk: 'tender123~1~NA',
+          activationDateFrom: "2025-03-01T00:00:00Z",
+          activationDateTo: '2025-04-01T00:00:00Z',
+          tenderId: 'tender123',
+          unifiedDeliveryDriver: '1',
+          geoKey: 'NA',
+          capacity: 1000,
+          peakCapacity: 2000,
+          createdAt: expect.any(String),
+        });
+      });
+
+      it('should use undefined for activationDateTo in first version of file', () => {
+        // Arrange
+       const tenderId = 'tender123';
+               const record: CapacityCSV = {
+                 unifiedDeliveryDriver: '1',
+                 geoKey: 'NA',
+                 capacity: 1000,
+                 peakCapacity: 2000,
+                 activationDateFrom: '2025-03-01T00:00:00Z',
+                 activationDateTo: '',
+               };
+
+               // Act
+               const result: PaperDeliveryDriverCapacities = capacityCSVToPaperDeliveryDriverCapacities(
+                 record,
+                 tenderId,
+                 Date.now().toString()
+               );
+
+               // Assert
+               expect(result).toEqual({
+                 pk: 'tender123~1~NA',
+                 activationDateFrom: '2025-03-01T00:00:00Z',
+                 activationDateTo: undefined,
+                 tenderId: 'tender123',
+                 unifiedDeliveryDriver: '1',
+                 geoKey: 'NA',
+                 capacity: 1000,
+                 peakCapacity: 2000,
+                 createdAt: expect.any(String),
+               });
+    });
+  });
+
   describe('deliveryDriverCSVToPaperChannelDeliveryDriver', () => {
     it('should convert a DeliveryDriverCSV to a PaperChannelDeliveryDriver', () => {
       // Arrange
@@ -197,6 +268,7 @@ describe('CSV to PaperChannel converters', () => {
         pec: 'pec@example.com',
         phoneNumber: '1234567890',
         registeredOffice: 'RegisteredOffice1',
+        unifiedDeliveryDriver: 'UnifiedDriver1',
       };
 
       // Act
@@ -212,6 +284,7 @@ describe('CSV to PaperChannel converters', () => {
         pec: record.pec,
         phoneNumber: record.phoneNumber,
         registeredOffice: record.registeredOffice,
+        unifiedDeliveryDriver: record.unifiedDeliveryDriver,
         createdAt: expect.any(String),
       });
     });
