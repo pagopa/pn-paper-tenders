@@ -6,12 +6,14 @@ import {
   parseGeokeyColumn,
   parseTenderColumn,
   parseTenderCostsColumn,
+  parseCapacityColumn,
 } from './parsers';
 import {
   DeliveryDriverCSV,
   GeokeyCSV,
   TenderCSV,
   TenderCostsCSV,
+  CapacityCSV,
 } from '../../types/csv-types';
 
 export type parseColCsvFun = (
@@ -94,4 +96,14 @@ export const readGeokeyCsv = (filePath: string): GeokeyCSV[] => {
  */
 export const readDeliveryDriverCsv = (filePath: string): DeliveryDriverCSV[] => {
   return readCsv(filePath, parseDeliveryDriverColumn) as DeliveryDriverCSV[];
+};
+
+/**
+ * Reads and parses a Capacity CSV file.
+ *
+ * @param filePath - The path to the Capacity CSV file.
+ * @returns An array of parsed `CapacityCSV` objects.
+ */
+export const readCapacityCsv = (filePath: string): CapacityCSV[] => {
+  return readCsv(filePath, parseCapacityColumn) as CapacityCSV[];
 };

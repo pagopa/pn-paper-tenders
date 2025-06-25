@@ -6,6 +6,7 @@ import {
   geokeyFileVersionPattern,
   rangeColumnPattern,
   lastDirPattern,
+  capacityFileVersionPattern,
 } from '../../../src/utils/regex';
 
 describe('Regular Expression Patterns', () => {
@@ -46,6 +47,15 @@ describe('Regular Expression Patterns', () => {
     expect(geokeyFileVersionPattern.test('Geokey.csv')).toBe(false);
     expect(geokeyFileVersionPattern.test('Geokey_v1a.csv')).toBe(false);
   });
+
+    test('capacityFileVersionPattern should match Capacity version files', () => {
+      expect(capacityFileVersionPattern.test('./test/Capacity_v2.csv')).toBe(true);
+      expect(capacityFileVersionPattern.test('Capacity_v2.csv')).toBe(true);
+      expect(capacityFileVersionPattern.test('Capacity_v3.csv')).toBe(true);
+      expect(capacityFileVersionPattern.test('Capacity_v10.csv')).toBe(true);
+      expect(capacityFileVersionPattern.test('Capacity.csv')).toBe(false);
+      expect(capacityFileVersionPattern.test('Capacity_v1a.csv')).toBe(false);
+    });
 
   test('rangeColumnPattern should match range columns', () => {
     expect(rangeColumnPattern.test('range_1_10')).toBe(true);

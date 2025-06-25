@@ -5,6 +5,7 @@ import {
   readTenderCostsCsv,
   readGeokeyCsv,
   readDeliveryDriverCsv,
+  readCapacityCsv,
   parseColCsvFun,
 } from '../../../../src/lib/csv/reader';
 
@@ -148,12 +149,42 @@ describe('CSV Reader Functions', () => {
     });
   });
 
+  describe('readCapacityCsv', () => {
+     const capacityFilePath = '/path/to/csv/Capacity_v2.csv';
+      it('should parse Capacity CSV content correctly', () => {
+        // Arrange
+        const mockCapacityData =
+          'unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo\n' +
+          '1;NA;1000;2000;2025-03-01T00:00:00.000Z;2025-04-01T00:00:00.000Z';
+        mockedFs.readFileSync.mockReturnValue(mockCapacityData);
+
+        // Act
+        const result = readCapacityCsv(capacityFilePath);
+
+        // Assert
+        expect(mockedFs.readFileSync).toHaveBeenCalledWith(capacityFilePath, {
+          encoding: 'utf-8',
+        });
+        expect(result).toEqual([
+          {
+            unifiedDeliveryDriver: '1',
+            geoKey: 'NA',
+            capacity: 1000,
+            peakCapacity: 2000,
+            activationDateFrom: '2025-03-01T00:00:00.000Z',
+            activationDateTo: '2025-04-01T00:00:00.000Z',
+          },
+        ]);
+      });
+    });
+
+
   describe('readDeliveryDriverCsv', () => {
     it('should parse DeliveryDriver CSV content correctly', () => {
       // Arrange
       const mockDriverData =
-        'deliveryDriverId;taxId;businessName;fiscalCode;pec;phoneNumber;registeredOffice\n' +
-        'POSTE;01114601006;Poste;97103880585;poste@pec.it;+39012-123456;';
+        'deliveryDriverId;taxId;businessName;fiscalCode;pec;phoneNumber;registeredOffice;unifiedDeliveryDriver\n' +
+        'POSTE;01114601006;Poste;97103880585;poste@pec.it;+39012-123456;;POSTE';
       mockedFs.readFileSync.mockReturnValue(mockDriverData);
 
       // Act
@@ -172,6 +203,7 @@ describe('CSV Reader Functions', () => {
           pec: 'poste@pec.it',
           phoneNumber: '+39012-123456',
           registeredOffice: '',
+          unifiedDeliveryDriver: 'POSTE',
         },
       ]);
     });

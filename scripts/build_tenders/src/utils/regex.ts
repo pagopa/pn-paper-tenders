@@ -32,6 +32,13 @@ export const deliveryDriverPattern = /.*DeliveryDriver\.csv$/;
 export const geokeyFileVersionPattern = /.*Geokey_v(\d*)\.csv$/;
 
 /**
+ * Regular expression pattern to match valid Capacity version files.
+ * Matches files named "Capacity_v2.csv", "Capacity_v3.csv", etc.
+ * Example: Capacity_v2.csv, Capacity_v3.csv
+ */
+export const capacityFileVersionPattern = /.*Capacity_v(\d*)\.csv$/;
+
+/**
  * Regular expression pattern to match range columns in the format "range_x_y".
  * Captures the numbers x and y in the column name.
  * Example: range_1_10, range_5_15
