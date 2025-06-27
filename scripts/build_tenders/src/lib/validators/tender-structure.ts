@@ -7,6 +7,7 @@ import {
   tenderNamePattern,
   lastDirPattern,
   capacityFileVersionPattern,
+  provincePattern,
 } from '../../utils/regex';
 import { EnvTendersFiles, TenderFiles } from '../../types/tenders-files-types';
 import { Envs, RequiredTenderFiles } from '../../utils/enum';
@@ -69,6 +70,8 @@ const buildTenderFiles = (dir: string, files: string[]): TenderFiles =>
           case capacityFileVersionPattern.test(csv):
             tenderFiles.capacityCsvPaths!.push(csvPath);
             break;
+          case provincePattern.test(csv):
+            tenderFiles.provincesCsvPath = csvPath;
         }
         return tenderFiles;
       },

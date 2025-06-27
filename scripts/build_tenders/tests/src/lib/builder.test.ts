@@ -3,7 +3,8 @@ import {
   readGeokeyCsv,
   readTenderCostsCsv,
   readTenderCsv,
-  readCapacityCsv
+  readCapacityCsv,
+  readProvinceCsv
 } from '../../../src/lib/csv/reader';
 import * as mappers from '../../../src/lib/mappers';
 import {
@@ -13,6 +14,7 @@ import {
   buildDynamoDbCapacity,
   buildDynamoDbDeliveryDriver,
   DynamoDbTender,
+  buildDynamoDbProvince,
 } from '../../../src/lib/builder';
 import { TenderFiles } from '../../../src/types/tenders-files-types';
 import {
@@ -21,12 +23,14 @@ import {
   CapacityCSV,
   TenderCSV,
   TenderCostsCSV,
+  ProvinceCSV,
 } from '../../../src/types/csv-types';
 import {
   PaperChannelDeliveryDriver,
   PaperChannelGeokey,
   PaperDeliveryDriverCapacities,
   PaperChannelTenderCosts,
+  PaperChannelProvince,
 } from '../../../src/types/dynamo-types';
 
 // Mock the CSV reading functions and the mapping functions
@@ -153,6 +157,52 @@ describe('Tender builder', () => {
       expect(spyMapper).toHaveBeenCalledWith(mockTenderCostsCsv[0], 'mock-id');
       expect(spyMapper.mock.results[0]!.value).toEqual(
         expect.objectContaining(mockPaperChannelTenderCosts)
+      );
+      expect(result).toEqual(expect.objectContaining([mockMarshalledData]));
+    });
+  });
+
+  describe('buildDynamoDbProvince', () => {
+    it('should build DynamoDB province array', () => {
+      // Arrange
+      const mockProvinceCsv: ProvinceCSV[] = [
+        {
+          province: 'RM',
+          region: 'Lazio',
+        },
+      ];
+      const mockPaperChannelProvince: PaperChannelProvince = {
+        province: 'RM',
+        region: 'Lazio',
+      };
+
+      const mockMarshalledData = {
+        province: {
+          S: 'RM',
+        },
+        region: {
+          S: 'Lazio',
+        },
+      };
+
+      (readProvinceCsv as jest.Mock).mockReturnValue(mockProvinceCsv);
+      const spyMapper = jest.spyOn(
+        mappers,
+        'provinceCSVToPaperChannelProvince'
+      );
+
+      // Act
+      const tenderFiles: Partial<TenderFiles> = {
+        provincesCsvPath: 'mock-path',
+        tenderId: 'mock-id',
+      };
+      const result = buildDynamoDbProvince(tenderFiles as TenderFiles);
+
+      // Assert
+      expect(readProvinceCsv).toHaveBeenCalledWith('mock-path');
+      expect(spyMapper).toHaveBeenCalledWith(mockProvinceCsv[0]);
+      expect(spyMapper.mock.results[0]!.value).toEqual(
+        expect.objectContaining(mockPaperChannelProvince)
       );
       expect(result).toEqual(expect.objectContaining([mockMarshalledData]));
     });
@@ -723,6 +773,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         tenderCsvPath: 'mock-path',
         geokeysCsvPaths: ['mock-path'],
         capacityCsvPaths: ['mock-path'],
+        provincesCsvPath: 'mock-path',
         tenderDirPath: 'mock-path',
         tenderId: tenderId,
       };
@@ -898,6 +949,15 @@ it('should build DynamoDB capacity array with valid date interval', () => {
           activationDateTo: '2025-04-01T00:00:00.000Z',
         },
       ];
+      
+      const mockMarshalledProvince = {
+        province: {
+          S: 'RM',
+        },
+        region: {
+          S: 'Lazio',
+        },
+      };
 
       const mockMarshalledCapacity = {
         pk: {
@@ -984,7 +1044,8 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         tenderCosts: [mockMarshalledTenderCosts],
         geokey: [mockMarshalledGeokey],
         deliveryDriver: [mockMarshalledDeliveryDriver],
-        capacity: [mockMarshalledCapacity]
+        capacity: [mockMarshalledCapacity],
+        province: [mockMarshalledProvince],
       };
 
       (readTenderCostsCsv as jest.Mock).mockReturnValue(mockTenderCostsCsv);

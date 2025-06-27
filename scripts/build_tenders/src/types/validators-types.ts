@@ -54,3 +54,8 @@ export type CapacityValidators = {
     activationDateFrom: StringValidator;
     activationDateTo: StringValidator;
     };
+
+export type ProvinceValidators = {
+    province: StringValidator;  
+    region: StringValidator;
+};

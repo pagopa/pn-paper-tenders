@@ -67,3 +67,9 @@ export type PaperDeliveryDriverCapacities = {
     peakCapacity: number;
     createdAt: string;
 };
+
+export type PaperChannelProvince = {
+    province: string;
+    region: string;
+};
+
