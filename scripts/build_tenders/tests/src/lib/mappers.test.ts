@@ -220,6 +220,7 @@ describe('CSV to PaperChannel converters', () => {
           capacity: 1000,
           peakCapacity: 2000,
           createdAt: expect.any(String),
+          tenderIdGeoKey: 'tender123~NA',
         });
       });
 
@@ -253,6 +254,7 @@ describe('CSV to PaperChannel converters', () => {
                  capacity: 1000,
                  peakCapacity: 2000,
                  createdAt: expect.any(String),
+                 tenderIdGeoKey: 'tender123~NA',
                });
     });
   });
