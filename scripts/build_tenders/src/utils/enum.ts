@@ -36,6 +36,5 @@ export enum RequiredTenderFiles {
   TENDER = 'Tender.csv',
   TENDER_COSTS = 'TenderCosts.csv',
   GEOKEY = 'Geokey_v1.csv',
-  DELIVERY_DRIVER = 'DeliveryDriver.csv',
-  PROVINCE = 'Province.csv',
+  DELIVERY_DRIVER = 'DeliveryDriver.csv'
 }
