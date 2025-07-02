@@ -4,6 +4,7 @@ import {
   TenderCSV,
   TenderCostsCSV,
   CapacityCSV,
+  ProvinceCSV,
 } from '../types/csv-types';
 import {
   PaperChannelDeliveryDriver,
@@ -12,6 +13,7 @@ import {
   PaperChannelTenderCosts,
   PaperChannelTenderCostsRange,
   PaperDeliveryDriverCapacities,
+  PaperChannelProvince,
 } from '../types/dynamo-types';
 import { rangeColumnPattern } from '../utils/regex';
 
@@ -219,4 +221,19 @@ export const deliveryDriverCSVToPaperChannelDeliveryDriver = (
   registeredOffice: record.registeredOffice,
   unifiedDeliveryDriver: record.unifiedDeliveryDriver,
   createdAt: new Date().toISOString(),
+});
+
+
+/**
+ * Converts a `ProvinceCSV` record into a `PaperChannelProvince` object.
+ *
+ * @param record - The CSV record containing province data.
+ * @param tenderId - The identifier of the tender.
+ * @returns A `PaperChannelProvince` object.
+ */
+export const provinceCSVToPaperChannelProvince  = (
+  record: ProvinceCSV
+): PaperChannelProvince => ({
+  province: record.province,
+  region: record.region,
 });
