@@ -385,6 +385,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               capacity: 1000,
               peakCapacity: 2000,
               createdAt: expect.any(String),
+              tenderIdGeoKey: 'mock-id~RM',
             },
             {
               pk: 'mock-id~1~NA',
@@ -396,6 +397,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               capacity: 1000,
               peakCapacity: 2000,
               createdAt: expect.any(String),
+              tenderIdGeoKey: 'mock-id~NA',
             },
             {
               pk: 'mock-id~1~NA',
@@ -407,6 +409,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               capacity: 1000,
               peakCapacity: 2000,
               createdAt: expect.any(String),
+              tenderIdGeoKey: 'mock-id~NA',
             },
             {
               pk: 'mock-id~1~NA',
@@ -418,6 +421,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               capacity: 1000,
               peakCapacity: 2000,
               createdAt: expect.any(String),
+              tenderIdGeoKey: 'mock-id~NA',
             }
         ];
         const mockMarshalledData = [
@@ -445,6 +449,9 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               },
               createdAt: {
                 S: expect.any(String),
+              },
+              tenderIdGeoKey: {
+                S: 'mock-id~RM',
               }
             },
             {  
@@ -471,6 +478,9 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               },
               createdAt: {
                 S: expect.any(String),
+              },
+              tenderIdGeoKey: {
+                S: 'mock-id~NA',
               }
             },
             {
@@ -500,6 +510,9 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               },
               createdAt: {
                 S: expect.any(String),
+              },
+              tenderIdGeoKey: {
+                S: 'mock-id~NA',
               }
             },
             {
@@ -529,6 +542,9 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               },
               createdAt: {
                 S: expect.any(String),
+              },
+              tenderIdGeoKey: {
+                S: 'mock-id~NA',
               }
             }
         ];
@@ -572,6 +588,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
       capacity: 1000,
       peakCapacity: 2000,
       createdAt: expect.any(String),
+      tenderIdGeoKey: 'mock-id~NA',
     };
     const mockMarshalledData = {
       pk: {
@@ -600,6 +617,9 @@ it('should build DynamoDB capacity array with valid date interval', () => {
       },
       createdAt: {
         S: expect.any(String),
+      },
+      tenderIdGeoKey: {
+        S: 'mock-id~NA',
       }
     };
 
@@ -926,7 +946,10 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         },
         createdAt: {
           S: expect.any(String),
-        }
+        },
+        tenderIdGeoKey: {
+          S: `${tenderId}~NA`,
+        },
       }
 
       const mockTenderCsv: TenderCSV[] = [
