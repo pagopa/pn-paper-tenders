@@ -3,7 +3,8 @@ import {
   readGeokeyCsv,
   readTenderCostsCsv,
   readTenderCsv,
-  readCapacityCsv
+  readCapacityCsv,
+  readProvinceCsv,
 } from './csv/reader';
 import {
   deliveryDriverCSVToPaperChannelDeliveryDriver,
@@ -11,6 +12,7 @@ import {
   tenderCostsCsvToPaperChannelTenderCosts,
   tenderCsvToPaperChannelTender,
   capacityCSVToPaperDeliveryDriverCapacities,
+  provinceCSVToPaperChannelProvince,
 } from './mappers';
 import { PaperChannelTender, PaperDeliveryDriverCapacities } from '../types/dynamo-types';
 import { TenderFiles } from '../types/tenders-files-types';
@@ -23,6 +25,7 @@ export type DynamoDbTender = {
   geokey: Record<string, AttributeValue>[];
   deliveryDriver: Record<string, AttributeValue>[];
   capacity: Record<string, AttributeValue>[];
+  province: Record<string, AttributeValue>[];
 };
 
 /**
@@ -147,6 +150,16 @@ export const buildDynamoDbDeliveryDriver = (
     )
     .map((deliveryDriver) => marshall(deliveryDriver));
 
+
+export const buildDynamoDbProvince = (
+  tenderFiles: TenderFiles
+): Record<string, AttributeValue>[] =>
+  readProvinceCsv(tenderFiles.provincesCsvPath)
+    .map((provinceCsv) =>
+      provinceCSVToPaperChannelProvince(provinceCsv)
+    )
+    .map((province) => marshall(province));
+
 /**
  * Builds a DynamoDbTender object containing marshalled data for
  * the tender, tender costs, geokey, and delivery driver records.
@@ -186,5 +199,6 @@ export const buildDynamoDbTender = (
     geokey: buildDynamoDbGeokey(tenderFiles, tender!.activationDate),
     deliveryDriver: buildDynamoDbDeliveryDriver(tenderFiles),
     capacity: buildDynamoDbCapacity(tenderFiles, tender!.activationDate),
+    province: buildDynamoDbProvince(tenderFiles),
   };
 };

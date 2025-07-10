@@ -50,3 +50,8 @@ export type CapacityCSV = {
     activationDateFrom: string;
     activationDateTo: string;
 };
+
+export type ProvinceCSV = {
+    province: string;
+    region: string;
+};
