@@ -116,7 +116,6 @@ const deleteAllItems = async (tableName) => {
         return (typeof partitionKeyValue === 'string' && partitionKeyValue.startsWith(tenderId));
       });
     }
-    console.log(items);
 
     if (items.length > 0) {
       // Split items into batches of 25 (max batch size for BatchWriteItem)
