@@ -5,30 +5,34 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { fromSSO } from '@aws-sdk/credential-provider-sso';
+import readline from 'readline';
 
 const region = 'eu-south-1';
 
-const tables = [
-  'pn-PaperChannelTender',
-  'pn-PaperChannelGeokey',
-  'pn-PaperChannelDeliveryDriver',
-  'pn-PaperChannelCost',
-  'pn-PaperDeliveryDriverCapacities',
-];
-
 // Validate command-line arguments
 if (process.argv.length < 3) {
-  console.error('\nUsage: node index.js <sso_profile>');
+  console.error('\nUsage: node index.js <sso_profile> [tenderId]');
   console.error('\nExample: node index.js "sso_pn-core-dev"');
+  console.error('         node index.js "sso_pn-core-dev" "20250504"');
   process.exit(1);
 }
 
 const profileName = process.argv[2];
+const tenderId = process.argv[3] || null;
 
 if (profileName.toLowerCase().includes("prod")) {
   console.error('\nProduction DB! 😱');
   process.exit(1);
 }
+
+const tables = [
+  'pn-PaperChannelTender',
+  'pn-PaperChannelGeokey',
+  'pn-PaperChannelCost',
+  'pn-PaperDeliveryDriverCapacities',
+  // If tenderId is not provided, include the delivery driver table
+  ...(!tenderId ? ['pn-PaperChannelDeliveryDriver'] : []),
+];
 
 // Create the DynamoDB client using SSO credentials
 const dynamoClient = new DynamoDBClient({
@@ -36,6 +40,36 @@ const dynamoClient = new DynamoDBClient({
   region,
 });
 const dynamoDocClient = DynamoDBDocumentClient.from(dynamoClient);
+
+
+const tenderCheck = async (profileName, tenderId) => {
+  console.log(`Using SSO profile: ${profileName}`);
+  
+  if (tenderId) {
+    console.log(`Using tenderId: ${tenderId}`);
+    return;
+  }
+
+  console.log('No tenderId provided');
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const answer = await new Promise((resolve) => {
+    rl.question('⚠️  Are you sure you want to delete the entire database? (yes/no): ', resolve);
+  });
+
+  rl.close();
+
+  if (answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y') {
+    console.log('Proceeding with full database deletion...');
+  } else {
+    console.log('Operation cancelled.');
+    process.exit(0);
+  }
+};
 
 // Retrieve the primary keys of a table
 const getPrimaryKeys = async (tableName) => {
@@ -71,7 +105,15 @@ const deleteAllItems = async (tableName) => {
 
     const scanCommand = new ScanCommand(scanParams);
     const scanResult = await dynamoDocClient.send(scanCommand);
-    const items = scanResult.Items || [];
+    let items = scanResult.Items || [];
+
+    // filter based on tenderId if provided
+    if (tenderId) {
+      items = items.filter((item) => {
+        const partitionKeyValue = item[primaryKeys.partitionKey];
+        return (typeof partitionKeyValue === 'string' && partitionKeyValue.startsWith(tenderId));
+      });
+    }
 
     if (items.length > 0) {
       // Split items into batches of 25 (max batch size for BatchWriteItem)
@@ -132,6 +174,7 @@ const countRemainingItems = async (tableName) => {
 };
 
 const main = async () => {
+  await tenderCheck(profileName, tenderId);
   for (const table of tables) {
     await deleteAllItems(table);
     await countRemainingItems(table);
