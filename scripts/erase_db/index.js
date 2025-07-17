@@ -34,8 +34,6 @@ const tables = [
   ...(!tenderId ? ['pn-PaperChannelDeliveryDriver'] : []),
 ];
 
-console.log(tables); 
-
 // Create the DynamoDB client using SSO credentials
 const dynamoClient = new DynamoDBClient({
   credentials: fromSSO({ profile: profileName }),
