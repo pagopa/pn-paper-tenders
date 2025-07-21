@@ -214,6 +214,7 @@ export const capacityCSVToPaperDeliveryDriverCapacities = (
       tenderId,
       record.geoKey,
     ),
+    products: record.products === '' ? undefined : record.products.split(',').map((product) => product.trim())
 });
 
 /**

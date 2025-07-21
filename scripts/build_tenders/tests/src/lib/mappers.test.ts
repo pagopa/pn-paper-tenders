@@ -200,6 +200,7 @@ describe('CSV to PaperChannel converters', () => {
           peakCapacity: 2000,
           activationDateFrom: '2025-03-01T00:00:00Z',
           activationDateTo: '2025-04-01T00:00:00Z',
+          products: 'AR,RS'
         };
 
         // Act
@@ -221,6 +222,7 @@ describe('CSV to PaperChannel converters', () => {
           peakCapacity: 2000,
           createdAt: expect.any(String),
           tenderIdGeoKey: 'tender123~NA',
+          products: ['AR','RS']
         });
       });
 
@@ -234,6 +236,7 @@ describe('CSV to PaperChannel converters', () => {
                  peakCapacity: 2000,
                  activationDateFrom: '2025-03-01T00:00:00Z',
                  activationDateTo: '',
+                 products: 'AR,RS'
                };
 
                // Act
@@ -255,6 +258,7 @@ describe('CSV to PaperChannel converters', () => {
                  peakCapacity: 2000,
                  createdAt: expect.any(String),
                  tenderIdGeoKey: 'tender123~NA',
+                 products: ['AR','RS']
                });
     });
   });
