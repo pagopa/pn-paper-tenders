@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 2 ]; then
-    echo "Uso: $0 <profile1> <profile2>"
+    echo "Use: $0 <profile1> <profile2>"
     exit 1
 fi
 
@@ -49,8 +49,8 @@ diff_tables() {
         echo "Confrontando la tabella $TABLE tra i profili $PROFILE1 e $PROFILE2..."
         if [ -f "$FILE1" ] && [ -f "$FILE2" ]; then
             # Removes createdAt attributes from objects in Items
-            jq '.Items | map(del(.createdAt)) | sort_by(.)' "$FILE1" > "$OUTPUT_DIR/file1_cleaned.json"
-            jq '.Items | map(del(.createdAt)) | sort_by(.)' "$FILE2" > "$OUTPUT_DIR/file2_cleaned.json"
+            jq '.Items | map(del(.createdAt, .activationDate)) | sort_by(.)' "$FILE1" > "$OUTPUT_DIR/file1_cleaned.json"
+            jq '.Items | map(del(.createdAt, .activationDate)) | sort_by(.)' "$FILE1" > "$OUTPUT_DIR/file1_cleaned.json"
 
             # Diff cleaned files
             diff "$OUTPUT_DIR/file1_cleaned.json" "$OUTPUT_DIR/file2_cleaned.json" > "$DIFF_FILE"
