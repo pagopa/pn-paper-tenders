@@ -7,6 +7,7 @@ import {
   tenderNamePattern,
   lastDirPattern,
   capacityFileVersionPattern,
+  provincePattern,
 } from '../../utils/regex';
 import { EnvTendersFiles, TenderFiles } from '../../types/tenders-files-types';
 import { Envs, RequiredTenderFiles } from '../../utils/enum';
@@ -69,6 +70,8 @@ const buildTenderFiles = (dir: string, files: string[]): TenderFiles =>
           case capacityFileVersionPattern.test(csv):
             tenderFiles.capacityCsvPaths!.push(csvPath);
             break;
+          case provincePattern.test(csv):
+            tenderFiles.provincesCsvPath = csvPath;
         }
         return tenderFiles;
       },
@@ -170,7 +173,8 @@ export const checkTenderFiles = (dir: string): TenderFiles => {
   const notRequiredCsv = files
     .filter((file) => !requiredFiles.includes(file))
     .filter((file) => !geokeyFileVersionPattern.test(file))
-    .filter((file) => !capacityFileVersionPattern.test(file));
+    .filter((file) => !capacityFileVersionPattern.test(file))
+    .filter((file) => !provincePattern.test(file));
 
   if (notRequiredCsv.length > 0) {
     throw new Error(`Not required CSV files: ${notRequiredCsv.join(', ')}`);
