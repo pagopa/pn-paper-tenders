@@ -21,7 +21,7 @@ export enum DynamoTables {
   GEOKEY = 'pn-PaperChannelGeokey',
   DELIVERY_DRIVER = 'pn-PaperChannelDeliveryDriver',
   CAPACITY = 'pn-PaperDeliveryDriverCapacities',
-  PROVINCE = 'pn-Provinces',
+  PROVINCE = 'pn-PaperChannelProvince',
 }
 
 export enum Envs {

@@ -236,4 +236,5 @@ export const provinceCSVToPaperChannelProvince  = (
 ): PaperChannelProvince => ({
   province: record.province,
   region: record.region,
+  percentageDistribution: record.percentageDistribution == null ? 100 : record.percentageDistribution,
 });

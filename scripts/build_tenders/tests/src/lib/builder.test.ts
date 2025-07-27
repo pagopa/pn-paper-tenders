@@ -174,6 +174,7 @@ describe('Tender builder', () => {
       const mockPaperChannelProvince: PaperChannelProvince = {
         province: 'RM',
         region: 'Lazio',
+        percentageDistribution: 100,
       };
 
       const mockMarshalledData = {
@@ -183,6 +184,9 @@ describe('Tender builder', () => {
         region: {
           S: 'Lazio',
         },
+        percentageDistribution: {
+          N: "100"
+        }
       };
 
       (readProvinceCsv as jest.Mock).mockReturnValue(mockProvinceCsv);
@@ -957,6 +961,9 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         region: {
           S: 'Lazio',
         },
+        percentageDistribution: {
+          N: '100'
+        }
       };
 
       const mockMarshalledCapacity = {
