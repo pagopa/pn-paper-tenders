@@ -2,7 +2,6 @@ export type Validator = (value: string) => boolean | string | number;
 export type NumberValidator = (value: string) => number;
 export type StringValidator = (value: string) => string;
 export type BooleanValidator = (value: string) => boolean;
-export type IntegerValidator = (value: string) => number;
 
 export type TenderValidators = {
   activationDate: StringValidator;
@@ -60,5 +59,5 @@ export type CapacityValidators = {
 export type ProvinceValidators = {
     province: StringValidator;  
     region: StringValidator;
-    percentageDistribution: IntegerValidator;
+    percentageDistribution: StringValidator;
 };

@@ -89,7 +89,7 @@ const capacityValidatorsMap: CapacityValidators = {
 const provinceValidatorsMap: ProvinceValidators = {
     province: nonEmptyStringValidator,
     region: nonEmptyStringValidator,
-    percentageDistribution: integerValidator,
+    percentageDistribution: stringValidator,
 };
 
 /**
