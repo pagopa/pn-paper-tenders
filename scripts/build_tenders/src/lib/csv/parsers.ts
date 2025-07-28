@@ -79,6 +79,7 @@ const capacityValidatorsMap: CapacityValidators = {
     peakCapacity: integerValidator,
     activationDateFrom: dateTimeUtcStringValidatorIfPresent,
     activationDateTo: dateTimeUtcStringValidatorIfPresent,
+    products: stringValidator,
 };
 
 /**
@@ -88,6 +89,7 @@ const capacityValidatorsMap: CapacityValidators = {
 const provinceValidatorsMap: ProvinceValidators = {
     province: nonEmptyStringValidator,
     region: nonEmptyStringValidator,
+    percentageDistribution: integerValidator,
 };
 
 /**

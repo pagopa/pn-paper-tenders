@@ -155,8 +155,8 @@ describe('CSV Reader Functions', () => {
       it('should parse Capacity CSV content correctly', () => {
         // Arrange
         const mockCapacityData =
-          'unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo\n' +
-          '1;NA;1000;2000;2025-03-01T00:00:00.000Z;2025-04-01T00:00:00.000Z';
+          'unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo;products\n' +
+          '1;NA;1000;2000;2025-03-01T00:00:00.000Z;2025-04-01T00:00:00.000Z;AR,890';
         mockedFs.readFileSync.mockReturnValue(mockCapacityData);
 
         // Act
@@ -174,6 +174,7 @@ describe('CSV Reader Functions', () => {
             peakCapacity: 2000,
             activationDateFrom: '2025-03-01T00:00:00.000Z',
             activationDateTo: '2025-04-01T00:00:00.000Z',
+            products: 'AR,890',
           },
         ]);
       });
@@ -184,8 +185,8 @@ describe('CSV Reader Functions', () => {
       it('should parse Province  CSV content correctly', () => {
         // Arrange
         const mockProvinceData =
-          'province;region\n' +
-          'NA;Campania';
+          'province;region;percentageDistribution\n' +
+          'NA;Campania;80';
         mockedFs.readFileSync.mockReturnValue(mockProvinceData);
 
         // Act
@@ -198,7 +199,8 @@ describe('CSV Reader Functions', () => {
         expect(result).toEqual([
           {
             province: 'NA',
-            region: 'Campania'
+            region: 'Campania',
+            percentageDistribution: 80
           },
         ]);
       });
