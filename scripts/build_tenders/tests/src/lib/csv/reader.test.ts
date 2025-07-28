@@ -7,6 +7,7 @@ import {
   readDeliveryDriverCsv,
   readCapacityCsv,
   parseColCsvFun,
+  readProvinceCsv,
 } from '../../../../src/lib/csv/reader';
 
 jest.mock('fs');
@@ -177,6 +178,32 @@ describe('CSV Reader Functions', () => {
         ]);
       });
     });
+
+   describe('readProvinceCsv', () => {
+     const provincesFilePath = '/path/to/csv/Province.csv';
+      it('should parse Province  CSV content correctly', () => {
+        // Arrange
+        const mockProvinceData =
+          'province;region\n' +
+          'NA;Campania';
+        mockedFs.readFileSync.mockReturnValue(mockProvinceData);
+
+        // Act
+        const result = readProvinceCsv(provincesFilePath);
+
+        // Assert
+        expect(mockedFs.readFileSync).toHaveBeenCalledWith(provincesFilePath, {
+          encoding: 'utf-8',
+        });
+        expect(result).toEqual([
+          {
+            province: 'NA',
+            region: 'Campania'
+          },
+        ]);
+      });
+    });
+
 
 
   describe('readDeliveryDriverCsv', () => {

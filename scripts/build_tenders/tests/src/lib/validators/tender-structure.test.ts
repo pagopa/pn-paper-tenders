@@ -22,6 +22,7 @@ describe('Tender file validation', () => {
         'DeliveryDriver.csv',
         'Capacity_v1.csv',
         'Capacity_v2.csv',
+        'Province.csv',
         'Geokey_v2.csv',
       ]);
 

@@ -38,6 +38,14 @@ export const geokeyFileVersionPattern = /.*Geokey_v(\d*)\.csv$/;
  */
 export const capacityFileVersionPattern = /.*Capacity_v(\d*)\.csv$/;
 
+
+/**
+ * Regular expression pattern to match province files.
+ * Matches files named "Province.csv".
+ * Example: Province.csv
+ */
+export const provincePattern = /.*Province\.csv$/;
+
 /**
  * Regular expression pattern to match range columns in the format "range_x_y".
  * Captures the numbers x and y in the column name.

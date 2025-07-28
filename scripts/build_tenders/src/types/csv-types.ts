@@ -51,3 +51,9 @@ export type CapacityCSV = {
     activationDateTo: string;
     products: string;
 };
+
+export type ProvinceCSV = {
+    province: string;
+    region: string;
+    percentageDistribution?: number;
+};

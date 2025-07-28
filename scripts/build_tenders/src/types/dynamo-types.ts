@@ -67,5 +67,12 @@ export type PaperDeliveryDriverCapacities = {
     peakCapacity: number;
     createdAt: string;
     tenderIdGeoKey: string;
-    products: string[] | undefined;
+    products?: string[];
 };
+
+export type PaperChannelProvince = {
+    province: string;
+    region: string;
+    percentageDistribution: number;
+};
+

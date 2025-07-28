@@ -5,6 +5,7 @@ import {
   deliveryDriverCSVToPaperChannelDeliveryDriver,
   rangedCostsFromCSV,
   capacityCSVToPaperDeliveryDriverCapacities,
+  provinceCSVToPaperChannelProvince,
 } from '../../../src/lib/mappers';
 import {
   TenderCSV,
@@ -12,6 +13,7 @@ import {
   GeokeyCSV,
   CapacityCSV,
   DeliveryDriverCSV,
+  ProvinceCSV,
 } from '../../../src/types/csv-types';
 import {
   PaperChannelTender,
@@ -20,6 +22,7 @@ import {
   PaperDeliveryDriverCapacities,
   PaperChannelDeliveryDriver,
   PaperChannelTenderCostsRange,
+  PaperChannelProvince,
 } from '../../../src/types/dynamo-types';
 
 describe('CSV to PaperChannel converters', () => {
@@ -261,6 +264,29 @@ describe('CSV to PaperChannel converters', () => {
                  products: ['AR','RS']
                });
     });
+  });
+
+  describe('provinceCSVToPaperChannelProvince', () => {
+      it('should convert a ProvinceCSV to a PaperChannelProvince', () => {
+        // Arrange
+        const record: ProvinceCSV = {
+          province: 'NA',
+          region: 'Campania',
+          percentageDistribution: undefined,
+        };
+
+        // Act
+        const result: PaperChannelProvince = provinceCSVToPaperChannelProvince(
+          record
+        );
+
+        // Assert
+        expect(result).toEqual({
+          province: 'NA',
+          region: "Campania",
+          percentageDistribution: 100
+        });
+      });
   });
 
   describe('deliveryDriverCSVToPaperChannelDeliveryDriver', () => {
