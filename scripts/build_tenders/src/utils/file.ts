@@ -95,7 +95,12 @@ export const writeDynamoDbTenderFile = (
   saveJsonlToFile(geokeyFilePath, tender.geokey);
   saveJsonlToFile(deliveryDriverFilePath, tender.deliveryDriver);
   saveJsonlToFile(capacityFilePath, tender.capacity);
-  saveJsonlToFile(provincesFilePath, tender.province);
+
+  // il file Province.csv non deve essere fornito per forza in ogni gara
+  if (tender.province) {
+    saveJsonlToFile(provincesFilePath, tender.province);
+  }
+
 };
 
 /**

@@ -25,7 +25,7 @@ export type DynamoDbTender = {
   geokey: Record<string, AttributeValue>[];
   deliveryDriver: Record<string, AttributeValue>[];
   capacity: Record<string, AttributeValue>[];
-  province: Record<string, AttributeValue>[];
+  province?: Record<string, AttributeValue>[];
 };
 
 /**
@@ -173,6 +173,7 @@ export const buildDynamoDbTender = (
   tenderFiles: TenderFiles
 ): DynamoDbTender => {
   let tender: PaperChannelTender | undefined;
+  let provinceCsv;
 
   console.table(`- tender ${tenderFiles.tenderDirPath}`);
   // Build DynamoDb tender
@@ -199,6 +200,8 @@ export const buildDynamoDbTender = (
     geokey: buildDynamoDbGeokey(tenderFiles, tender!.activationDate),
     deliveryDriver: buildDynamoDbDeliveryDriver(tenderFiles),
     capacity: buildDynamoDbCapacity(tenderFiles, tender!.activationDate),
-    province: buildDynamoDbProvince(tenderFiles),
+    ...(tenderFiles.provincesCsvPath && {
+      province: buildDynamoDbProvince(tenderFiles),
+    }),
   };
 };
