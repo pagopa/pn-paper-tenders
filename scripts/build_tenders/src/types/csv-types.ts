@@ -49,6 +49,7 @@ export type CapacityCSV = {
     peakCapacity: number;
     activationDateFrom: string;
     activationDateTo: string;
+    products: string;
 };
 
 export type ProvinceCSV = {

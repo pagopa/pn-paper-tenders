@@ -60,6 +60,18 @@ const buildDeliveryDriverProductCapacity = (
 ): string => `${tenderId}~${unifiedDeliveryDriver}~${geokey}`;
 
 /**
+ * Constructs a tenderId GeoKey key for given tenderId and geokey.
+ *
+ * @param tenderId - The tender identifier.
+ * @param geokey - The geokey identifier.
+ * @returns A string formatted as `${tenderId}~${geokey}`.
+ */
+const buildTenderIdGeokey = (
+  tenderId: string,
+  geokey: string
+): string => `${tenderId}~${geokey}`;
+
+/**
  * Extracts and maps ranged costs from a CSV record into an array of
  * `PaperChannelTenderCostsRange` objects.
  *
@@ -200,6 +212,11 @@ export const capacityCSVToPaperDeliveryDriverCapacities = (
     capacity: record.capacity,
     peakCapacity: record.peakCapacity,
     createdAt: new Date().toISOString(),
+    tenderIdGeoKey: buildTenderIdGeokey(
+      tenderId,
+      record.geoKey,
+    ),
+    products: record.products === '' ? undefined : record.products.split(',').map((product) => product.trim())
 });
 
 /**

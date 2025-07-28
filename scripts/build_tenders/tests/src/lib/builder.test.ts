@@ -310,6 +310,7 @@ describe('Tender builder', () => {
           peakCapacity: 2000,
           activationDateFrom: '2025-03-01T00:00:00.000Z',
           activationDateTo: '2025-04-01T00:00:00.000Z',
+          products: 'AR,RS'
         },
         {
           unifiedDeliveryDriver: '1',
@@ -318,6 +319,7 @@ describe('Tender builder', () => {
           peakCapacity: 2000,
           activationDateFrom: '2025-03-20T00:00:00.000Z',
           activationDateTo: '2025-04-20T00:00:00.000Z',
+          products: 'AR,RS'
         },
       ];
 
@@ -355,6 +357,7 @@ describe('Tender builder', () => {
             peakCapacity: 2000,
             activationDateFrom: '2025-03-01T00:00:00.000Z',
             activationDateTo: '2025-04-01T00:00:00.000Z',
+            products: 'AR,RM',
           },
           {
             unifiedDeliveryDriver: '1',
@@ -363,6 +366,7 @@ describe('Tender builder', () => {
             peakCapacity: 2000,
             activationDateFrom: '2025-03-20T00:00:00.000Z',
             activationDateTo: '2025-03-25T00:00:00.000Z',
+            products: 'AR,RM',
           },
         ];
 
@@ -400,6 +404,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             peakCapacity: 2000,
             activationDateFrom: '',
             activationDateTo: '',
+            products: 'AR,RS',
           },
           {
             unifiedDeliveryDriver: '1',
@@ -408,6 +413,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             peakCapacity: 2000,
             activationDateFrom: '2025-02-01T00:00:00.000Z',
             activationDateTo: '',
+            products: 'AR,RS',
           },
           {
             unifiedDeliveryDriver: '1',
@@ -416,64 +422,19 @@ it('should build DynamoDB capacity array with valid date interval', () => {
             peakCapacity: 2000,
             activationDateFrom: '2025-03-01T00:00:00.000Z',
             activationDateTo: '2025-04-01T00:00:00.000Z',
+            products: 'AR,RS',
           },
           {
             unifiedDeliveryDriver: '1',
-            geoKey: 'NA',
+            geoKey: '00178',
             capacity: 1000,
             peakCapacity: 2000,
             activationDateFrom: '2025-03-20T00:00:00.000Z',
             activationDateTo: '1970-01-01T00:00:00.000Z',
+            products: '',
           },
         ];
 
-
-        const mockPaperChannelCapacity: PaperDeliveryDriverCapacities[] = [
-            {
-              pk: 'mock-id~1~RM',
-              activationDateFrom: '2025-01-01T00:00:00.000Z',
-              activationDateTo: undefined,
-              tenderId: 'mock-id',
-              unifiedDeliveryDriver: '1',
-              geoKey: 'RM',
-              capacity: 1000,
-              peakCapacity: 2000,
-              createdAt: expect.any(String),
-            },
-            {
-              pk: 'mock-id~1~NA',
-              activationDateFrom: '2025-02-01T00:00:00.000Z',
-              activationDateTo: undefined,
-              tenderId: 'mock-id',
-              unifiedDeliveryDriver: '1',
-              geoKey: 'NA',
-              capacity: 1000,
-              peakCapacity: 2000,
-              createdAt: expect.any(String),
-            },
-            {
-              pk: 'mock-id~1~NA',
-              activationDateFrom: '2025-03-01T00:00:00.000Z',
-              activationDateTo: '2025-04-01T00:00:00.000Z',
-              tenderId: 'mock-id',
-              unifiedDeliveryDriver: '1',
-              geoKey: 'NA',
-              capacity: 1000,
-              peakCapacity: 2000,
-              createdAt: expect.any(String),
-            },
-            {
-              pk: 'mock-id~1~NA',
-              activationDateFrom: '2025-03-20T00:00:00.000Z',
-              activationDateTo: '1970-01-01T00:00:00.000Z',
-              tenderId: 'mock-id',
-              unifiedDeliveryDriver: '1',
-              geoKey: 'NA',
-              capacity: 1000,
-              peakCapacity: 2000,
-              createdAt: expect.any(String),
-            }
-        ];
         const mockMarshalledData = [
         {
               pk: {
@@ -499,6 +460,15 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               },
               createdAt: {
                 S: expect.any(String),
+              },
+              tenderIdGeoKey: {
+                S: 'mock-id~RM',
+              },
+              products: {
+                L: [
+                  { S: "AR" },
+                  { S: "RS" }
+                ]
               }
             },
             {  
@@ -525,6 +495,15 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               },
               createdAt: {
                 S: expect.any(String),
+              },
+              tenderIdGeoKey: {
+                S: 'mock-id~NA',
+              },
+              products: {
+                L: [
+                  { S: "AR" },
+                  { S: "RS" }
+                ]
               }
             },
             {
@@ -554,11 +533,20 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               },
               createdAt: {
                 S: expect.any(String),
+              },
+              tenderIdGeoKey: {
+                S: 'mock-id~NA',
+              },
+              products: {
+                L: [
+                  { S: "AR" },
+                  { S: "RS" }
+                ]
               }
             },
             {
               pk: {
-                S: 'mock-id~1~NA',
+                S: 'mock-id~1~00178',
               },
               activationDateFrom: {
                 S: '2025-03-20T00:00:00.000Z',
@@ -573,7 +561,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
                 S: '1',
               },
               geoKey: {
-                S: 'NA',
+                S: '00178',
               },
               capacity: {
                 N: '1000',
@@ -583,6 +571,9 @@ it('should build DynamoDB capacity array with valid date interval', () => {
               },
               createdAt: {
                 S: expect.any(String),
+              },
+              tenderIdGeoKey: {
+                S: 'mock-id~00178',
               }
             }
         ];
@@ -614,6 +605,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         peakCapacity: 2000,
         activationDateFrom: '2025-03-01T00:00:00.000Z',
         activationDateTo: '2025-04-01T00:00:00.000Z',
+        products: 'AR,RS',
       },
     ];
     const mockPaperChannelCapacity: PaperDeliveryDriverCapacities = {
@@ -626,6 +618,8 @@ it('should build DynamoDB capacity array with valid date interval', () => {
       capacity: 1000,
       peakCapacity: 2000,
       createdAt: expect.any(String),
+      tenderIdGeoKey: 'mock-id~NA',
+      products: ['AR','RS'],
     };
     const mockMarshalledData = {
       pk: {
@@ -654,6 +648,15 @@ it('should build DynamoDB capacity array with valid date interval', () => {
       },
       createdAt: {
         S: expect.any(String),
+      },
+      tenderIdGeoKey: {
+        S: 'mock-id~NA',
+      },
+      products: {
+        L: [
+          { S: "AR" },
+          { S: "RS" }
+        ]
       }
     };
 
@@ -951,6 +954,7 @@ it('should build DynamoDB capacity array with valid date interval', () => {
           peakCapacity: 2000,
           activationDateFrom: '2025-03-01T00:00:00.000Z',
           activationDateTo: '2025-04-01T00:00:00.000Z',
+          products: 'AR,RS',
         },
       ];
       
@@ -993,6 +997,15 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         },
         createdAt: {
           S: expect.any(String),
+        },
+        tenderIdGeoKey: {
+          S: `${tenderId}~NA`,
+        },
+        products: {
+            L: [
+           { S: "AR" },
+           { S: "RS" }
+         ]
         }
       }
 
