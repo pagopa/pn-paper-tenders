@@ -73,6 +73,6 @@ export type PaperDeliveryDriverCapacities = {
 export type PaperChannelProvince = {
     province: string;
     region: string;
-    percentageDistribution: number;
+    percentageDistribution?: number;
 };
 

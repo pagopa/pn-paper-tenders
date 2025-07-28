@@ -173,7 +173,6 @@ export const buildDynamoDbTender = (
   tenderFiles: TenderFiles
 ): DynamoDbTender => {
   let tender: PaperChannelTender | undefined;
-  let provinceCsv;
 
   console.table(`- tender ${tenderFiles.tenderDirPath}`);
   // Build DynamoDb tender
