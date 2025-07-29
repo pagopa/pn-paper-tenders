@@ -5,6 +5,7 @@ import {
   deliveryDriverCSVToPaperChannelDeliveryDriver,
   rangedCostsFromCSV,
   capacityCSVToPaperDeliveryDriverCapacities,
+  provinceCSVToPaperChannelProvince,
 } from '../../../src/lib/mappers';
 import {
   TenderCSV,
@@ -12,6 +13,7 @@ import {
   GeokeyCSV,
   CapacityCSV,
   DeliveryDriverCSV,
+  ProvinceCSV,
 } from '../../../src/types/csv-types';
 import {
   PaperChannelTender,
@@ -20,6 +22,7 @@ import {
   PaperDeliveryDriverCapacities,
   PaperChannelDeliveryDriver,
   PaperChannelTenderCostsRange,
+  PaperChannelProvince,
 } from '../../../src/types/dynamo-types';
 
 describe('CSV to PaperChannel converters', () => {
@@ -200,6 +203,7 @@ describe('CSV to PaperChannel converters', () => {
           peakCapacity: 2000,
           activationDateFrom: '2025-03-01T00:00:00Z',
           activationDateTo: '2025-04-01T00:00:00Z',
+          products: 'AR,RS'
         };
 
         // Act
@@ -220,6 +224,8 @@ describe('CSV to PaperChannel converters', () => {
           capacity: 1000,
           peakCapacity: 2000,
           createdAt: expect.any(String),
+          tenderIdGeoKey: 'tender123~NA',
+          products: ['AR','RS']
         });
       });
 
@@ -233,6 +239,7 @@ describe('CSV to PaperChannel converters', () => {
                  peakCapacity: 2000,
                  activationDateFrom: '2025-03-01T00:00:00Z',
                  activationDateTo: '',
+                 products: 'AR,RS'
                };
 
                // Act
@@ -253,8 +260,32 @@ describe('CSV to PaperChannel converters', () => {
                  capacity: 1000,
                  peakCapacity: 2000,
                  createdAt: expect.any(String),
+                 tenderIdGeoKey: 'tender123~NA',
+                 products: ['AR','RS']
                });
     });
+  });
+
+  describe('provinceCSVToPaperChannelProvince', () => {
+      it('should convert a ProvinceCSV to a PaperChannelProvince', () => {
+        // Arrange
+        const record: ProvinceCSV = {
+          province: 'NA',
+          region: 'Campania',
+          percentageDistribution: '',
+        };
+
+        // Act
+        const result: PaperChannelProvince = provinceCSVToPaperChannelProvince(
+          record
+        );
+
+        // Assert
+        expect(result).toEqual({
+          province: 'NA',
+          region: "Campania"
+        });
+      });
   });
 
   describe('deliveryDriverCSVToPaperChannelDeliveryDriver', () => {

@@ -7,6 +7,7 @@ import {
   rangeColumnPattern,
   lastDirPattern,
   capacityFileVersionPattern,
+  provincePattern,
 } from '../../../src/utils/regex';
 
 describe('Regular Expression Patterns', () => {
@@ -56,6 +57,13 @@ describe('Regular Expression Patterns', () => {
       expect(capacityFileVersionPattern.test('Capacity.csv')).toBe(false);
       expect(capacityFileVersionPattern.test('Capacity_v1a.csv')).toBe(false);
     });
+
+   test('provincePattern should match files ending with Province.csv', () => {
+    expect(provincePattern.test('./Province.csv')).toBe(true);
+    expect(provincePattern.test('./test/Province.csv')).toBe(true);
+    expect(provincePattern.test('./Provinces.csv')).toBe(false);
+    expect(provincePattern.test('./test/DeliveryDriver.csv')).toBe(false);
+  });
 
   test('rangeColumnPattern should match range columns', () => {
     expect(rangeColumnPattern.test('range_1_10')).toBe(true);

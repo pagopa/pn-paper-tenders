@@ -53,4 +53,11 @@ export type CapacityValidators = {
     peakCapacity: NumberValidator;
     activationDateFrom: StringValidator;
     activationDateTo: StringValidator;
+    products: StringValidator;
     };
+
+export type ProvinceValidators = {
+    province: StringValidator;  
+    region: StringValidator;
+    percentageDistribution: StringValidator;
+};

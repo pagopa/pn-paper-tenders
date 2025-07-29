@@ -21,6 +21,7 @@ export enum DynamoTables {
   GEOKEY = 'pn-PaperChannelGeokey',
   DELIVERY_DRIVER = 'pn-PaperChannelDeliveryDriver',
   CAPACITY = 'pn-PaperDeliveryDriverCapacities',
+  PROVINCE = 'pn-PaperChannelProvince',
 }
 
 export enum Envs {
@@ -35,5 +36,5 @@ export enum RequiredTenderFiles {
   TENDER = 'Tender.csv',
   TENDER_COSTS = 'TenderCosts.csv',
   GEOKEY = 'Geokey_v1.csv',
-  DELIVERY_DRIVER = 'DeliveryDriver.csv',
+  DELIVERY_DRIVER = 'DeliveryDriver.csv'
 }

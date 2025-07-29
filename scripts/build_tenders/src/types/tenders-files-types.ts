@@ -6,6 +6,7 @@ export type TenderFiles = {
   geokeysCsvPaths: string[];
   tenderCostsCsvPath: string;
   capacityCsvPaths: string[];
+  provincesCsvPath: string;
 }
 
 export type EnvTendersFiles = {
