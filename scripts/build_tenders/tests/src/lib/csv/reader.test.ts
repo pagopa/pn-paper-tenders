@@ -200,7 +200,7 @@ describe('CSV Reader Functions', () => {
           {
             province: 'NA',
             region: 'Campania',
-            percentageDistribution: 80
+            percentageDistribution: '80'
           },
         ]);
       });

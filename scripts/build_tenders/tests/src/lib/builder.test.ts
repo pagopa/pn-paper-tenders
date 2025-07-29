@@ -169,12 +169,13 @@ describe('Tender builder', () => {
         {
           province: 'RM',
           region: 'Lazio',
+          percentageDistribution: '',
         },
       ];
       const mockPaperChannelProvince: PaperChannelProvince = {
         province: 'RM',
         region: 'Lazio',
-        percentageDistribution: 100,
+        percentageDistribution: undefined,
       };
 
       const mockMarshalledData = {
@@ -183,9 +184,6 @@ describe('Tender builder', () => {
         },
         region: {
           S: 'Lazio',
-        },
-        percentageDistribution: {
-          N: "100"
         }
       };
 
@@ -964,9 +962,6 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         },
         region: {
           S: 'Lazio',
-        },
-        percentageDistribution: {
-          N: '100'
         }
       };
 

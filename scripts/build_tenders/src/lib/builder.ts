@@ -158,7 +158,7 @@ export const buildDynamoDbProvince = (
     .map((provinceCsv) =>
       provinceCSVToPaperChannelProvince(provinceCsv)
     )
-    .map((province) => marshall(province));
+    .map((province) => marshall(province, {removeUndefinedValues:true}));
 
 /**
  * Builds a DynamoDbTender object containing marshalled data for

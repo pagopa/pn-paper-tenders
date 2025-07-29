@@ -55,5 +55,5 @@ export type CapacityCSV = {
 export type ProvinceCSV = {
     province: string;
     region: string;
-    percentageDistribution?: number;
+    percentageDistribution?: string;
 };

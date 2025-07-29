@@ -272,7 +272,7 @@ describe('CSV to PaperChannel converters', () => {
         const record: ProvinceCSV = {
           province: 'NA',
           region: 'Campania',
-          percentageDistribution: undefined,
+          percentageDistribution: '',
         };
 
         // Act
@@ -283,8 +283,7 @@ describe('CSV to PaperChannel converters', () => {
         // Assert
         expect(result).toEqual({
           province: 'NA',
-          region: "Campania",
-          percentageDistribution: 100
+          region: "Campania"
         });
       });
   });

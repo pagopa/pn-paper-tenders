@@ -13,7 +13,7 @@ import {
   zipDir,
   saveJsonlToFile,
 } from '../../../src/utils/file'; // Assicurati che il percorso sia corretto
-
+import {AttributeValue} from "@aws-sdk/client-dynamodb";
 jest.mock('fs');
 jest.mock('adm-zip');
 
@@ -147,6 +147,12 @@ describe('File Utilities', () => {
     );
   });
 
+  function hasProvince(
+      t: DynamoDbTender
+  ): t is DynamoDbTender & { province: Record<string, AttributeValue>[] } {
+    return Array.isArray(t.province);
+  }
+
   test('saveTender should save all tender related files', () => {
     // Arrange
     const tender: DynamoDbTender = {
@@ -189,6 +195,11 @@ describe('File Utilities', () => {
       JSON.stringify(tender.capacity[0]),
       'utf8'
     );
+
+    if (!hasProvince(tender)) {
+      fail('Mi aspettavo province presente in questo scenario di test');
+    }
+
     expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
       path.join(dir, tenderId, DynamoTables.PROVINCE + '.json'),
       JSON.stringify(tender.province[0]),
