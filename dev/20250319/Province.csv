@@ -1,4 +1,5 @@
-﻿provincia;codice_istat_provincia;sigla_provincia;capolouogo_regione;codice_istat_regione;regione;residenti_provincia;residenti_regione;percentuale_provincia_regione;percentuale_regione_nazione
+provincia;codice_istat_provincia;sigla_provincia;capolouogo_regione;codice_istat_regione;regione;residenti_provincia;residenti_regione;percentuale_provincia_regione;percentuale_regione_nazione
+L'Aquila;67;AQ;Sì;13;Abruzzo;286681;1268430;22.60%;2.15%
 Teramo;69;TE;No;13;Abruzzo;299796;NA;23.64%;NA
 Pescara;68;PE;No;13;Abruzzo;311826;NA;24.58%;NA
 Chieti;66;CH;No;13;Abruzzo;370127;NA;29.18%;NA
