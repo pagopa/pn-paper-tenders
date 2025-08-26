@@ -57,7 +57,14 @@ export type CapacityValidators = {
     };
 
 export type ProvinceValidators = {
-    province: StringValidator;  
-    region: StringValidator;
-    percentageDistribution: StringValidator;
+    provincia: StringValidator;
+    codice_istat_provincia: StringValidator;
+    sigla_provincia: StringValidator
+    capolouogo_regione: StringValidator
+    codice_istat_regione: StringValidator
+    regione: StringValidator;
+    residenti_provincia: StringValidator;
+    residenti_regione: StringValidator;
+    percentuale_provincia_regione: StringValidator;
+    percentuale_regione_nazione: StringValidator;
 };

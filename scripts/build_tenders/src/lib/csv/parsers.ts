@@ -87,9 +87,16 @@ const capacityValidatorsMap: CapacityValidators = {
  * CSV files.
  */
 const provinceValidatorsMap: ProvinceValidators = {
-    province: nonEmptyStringValidator,
-    region: nonEmptyStringValidator,
-    percentageDistribution: stringValidator,
+    provincia: stringValidator,
+    codice_istat_provincia: stringValidator,
+    sigla_provincia: nonEmptyStringValidator,
+    capolouogo_regione: stringValidator,
+    codice_istat_regione: stringValidator,
+    regione: nonEmptyStringValidator,
+    residenti_provincia: stringValidator,
+    residenti_regione: stringValidator,
+    percentuale_provincia_regione: stringValidator,
+    percentuale_regione_nazione: stringValidator,
 };
 
 /**

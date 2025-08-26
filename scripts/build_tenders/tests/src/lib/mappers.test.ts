@@ -270,9 +270,16 @@ describe('CSV to PaperChannel converters', () => {
       it('should convert a ProvinceCSV to a PaperChannelProvince', () => {
         // Arrange
         const record: ProvinceCSV = {
-          province: 'NA',
-          region: 'Campania',
-          percentageDistribution: '',
+          provincia:"",
+          codice_istat_provincia: "",
+          sigla_provincia: "NA",
+          capolouogo_regione: "",
+          codice_istat_regione: "",
+          regione: "Campania",
+          residenti_provincia: "",
+          residenti_regione: "",
+          percentuale_provincia_regione: "22.60%",
+          percentuale_regione_nazione: "",
         };
 
         // Act
@@ -283,7 +290,38 @@ describe('CSV to PaperChannel converters', () => {
         // Assert
         expect(result).toEqual({
           province: 'NA',
-          region: "Campania"
+          region: "Campania",
+          percentageDistribution: 22.6,
+        });
+      });
+  }); 
+
+  describe('provinceCSVToPaperChannelProvince', () => {
+      it('should convert a ProvinceCSV to a PaperChannelProvince with undefined percentageDistribution', () => {
+        // Arrange
+        const record: ProvinceCSV = {
+          provincia:"",
+          codice_istat_provincia: "",
+          sigla_provincia: "NA",
+          capolouogo_regione: "",
+          codice_istat_regione: "",
+          regione: "Campania",
+          residenti_provincia: "",
+          residenti_regione: "",
+          percentuale_provincia_regione: "",
+          percentuale_regione_nazione: "",
+        };
+
+        // Act
+        const result: PaperChannelProvince = provinceCSVToPaperChannelProvince(
+          record
+        );
+
+        // Assert
+        expect(result).toEqual({
+          province: 'NA',
+          region: "Campania",
+          percentageDistribution: undefined,
         });
       });
   });

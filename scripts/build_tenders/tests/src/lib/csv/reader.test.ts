@@ -185,8 +185,8 @@ describe('CSV Reader Functions', () => {
       it('should parse Province  CSV content correctly', () => {
         // Arrange
         const mockProvinceData =
-          'province;region;percentageDistribution\n' +
-          'NA;Campania;80';
+          'provincia;codice_istat_provincia;sigla_provincia;capolouogo_regione;codice_istat_regione;regione;residenti_provincia;residenti_regione;percentuale_provincia_regione;percentuale_regione_nazione\n' +
+          'Roma;67;RM;Sì;13;Lazio;286681;1268430;22.60%;2.15%';
         mockedFs.readFileSync.mockReturnValue(mockProvinceData);
 
         // Act
@@ -198,9 +198,16 @@ describe('CSV Reader Functions', () => {
         });
         expect(result).toEqual([
           {
-            province: 'NA',
-            region: 'Campania',
-            percentageDistribution: '80'
+            provincia: "Roma",
+            codice_istat_provincia: "67",
+            sigla_provincia: "RM",
+            capolouogo_regione: "Sì",
+            codice_istat_regione: "13",
+            regione: "Lazio",
+            residenti_provincia: "286681",
+            residenti_regione: "1268430",
+            percentuale_provincia_regione: "22.60%",
+            percentuale_regione_nazione: "2.15%",
           },
         ]);
       });

@@ -89,21 +89,21 @@ describe('CSV Column Parsers', () => {
       expect(
         parseProvinceColumn(
           'RM',
-          'province',
+          'sigla_provincia',
           mockFilePath
         )
       ).toBe('RM');
-      expect(parseProvinceColumn('Lazio', 'region', mockFilePath)).toBe('Lazio');
+      expect(parseProvinceColumn('Lazio', 'regione', mockFilePath)).toBe('Lazio');
     });
 
     it('should throw an error for an invalid province column', () => {
       expect(() =>
-        parseProvinceColumn('', 'province', mockFilePath)
+        parseProvinceColumn('', 'sigla_provincia', mockFilePath)
       ).toThrow('Value is empty');
     });
     it('should throw an error for an invalid region column', () => {
       expect(() =>
-        parseProvinceColumn('', 'region', mockFilePath)
+        parseProvinceColumn('', 'regione', mockFilePath)
       ).toThrow('Value is empty');
     });
 

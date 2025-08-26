@@ -53,7 +53,14 @@ export type CapacityCSV = {
 };
 
 export type ProvinceCSV = {
-    province: string;
-    region: string;
-    percentageDistribution?: string;
+  provincia: string;
+  codice_istat_provincia: string;
+  sigla_provincia: string
+  capolouogo_regione: string
+  codice_istat_regione: string
+  regione: string;
+  residenti_provincia: string;
+  residenti_regione: string;
+  percentuale_provincia_regione: string;
+  percentuale_regione_nazione: string;
 };

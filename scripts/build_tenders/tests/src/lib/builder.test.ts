@@ -167,15 +167,22 @@ describe('Tender builder', () => {
       // Arrange
       const mockProvinceCsv: ProvinceCSV[] = [
         {
-          province: 'RM',
-          region: 'Lazio',
-          percentageDistribution: '',
+          provincia: "",
+          codice_istat_provincia: "",
+          sigla_provincia: "RM",
+          capolouogo_regione: "",
+          codice_istat_regione: "",
+          regione: "Lazio",
+          residenti_provincia: "",
+          residenti_regione: "",
+          percentuale_provincia_regione: "23.5%",
+          percentuale_regione_nazione: "",
         },
       ];
       const mockPaperChannelProvince: PaperChannelProvince = {
         province: 'RM',
         region: 'Lazio',
-        percentageDistribution: undefined,
+        percentageDistribution: 23.5,
       };
 
       const mockMarshalledData = {
@@ -184,6 +191,9 @@ describe('Tender builder', () => {
         },
         region: {
           S: 'Lazio',
+        },
+        percentageDistribution: {
+          N: '23.5'
         }
       };
 
@@ -962,6 +972,9 @@ it('should build DynamoDB capacity array with valid date interval', () => {
         },
         region: {
           S: 'Lazio',
+        },
+        percentageDistribution: {
+          N: '23.5'
         }
       };
 

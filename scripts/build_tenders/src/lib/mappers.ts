@@ -248,10 +248,12 @@ export const deliveryDriverCSVToPaperChannelDeliveryDriver = (
  * @param tenderId - The identifier of the tender.
  * @returns A `PaperChannelProvince` object.
  */
-export const provinceCSVToPaperChannelProvince  = (
+export const provinceCSVToPaperChannelProvince = (
   record: ProvinceCSV
 ): PaperChannelProvince => ({
-  province: record.province,
-  region: record.region,
-  percentageDistribution: record.percentageDistribution ==='' ? undefined : Number(record.percentageDistribution),
+  province: record.sigla_provincia,
+  region: record.regione,
+  percentageDistribution: record.percentuale_provincia_regione === ''
+    ? undefined
+    : Number(record.percentuale_provincia_regione.replace('%', '').trim()),
 });
