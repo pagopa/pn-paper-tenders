@@ -6898,3 +6898,5 @@ infinityDriverP8;CAP1_P8;32000;32000;;;
 splitDriver1CAP1_P9;P9;11;11;;;890,AR,RS
 splitDriver1CAP1_P9;CAP1_P9;7;7;;;
 splitDriver1CAP1_P9;CAP2_P9;4;4;;;
+zeroDriverP10;P10;0;0;;;890,AR,RS
+zeroDriverP10;CAP1_P10;0;0;;;
