@@ -7,6 +7,7 @@ import {
   readDeliveryDriverCsv,
   readCapacityCsv,
   parseColCsvFun,
+  readProvinceCsv,
 } from '../../../../src/lib/csv/reader';
 
 jest.mock('fs');
@@ -154,8 +155,8 @@ describe('CSV Reader Functions', () => {
       it('should parse Capacity CSV content correctly', () => {
         // Arrange
         const mockCapacityData =
-          'unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo\n' +
-          '1;NA;1000;2000;2025-03-01T00:00:00.000Z;2025-04-01T00:00:00.000Z';
+          'unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo;products\n' +
+          '1;NA;1000;2000;2025-03-01T00:00:00.000Z;2025-04-01T00:00:00.000Z;AR,890';
         mockedFs.readFileSync.mockReturnValue(mockCapacityData);
 
         // Act
@@ -173,10 +174,45 @@ describe('CSV Reader Functions', () => {
             peakCapacity: 2000,
             activationDateFrom: '2025-03-01T00:00:00.000Z',
             activationDateTo: '2025-04-01T00:00:00.000Z',
+            products: 'AR,890',
           },
         ]);
       });
     });
+
+   describe('readProvinceCsv', () => {
+     const provincesFilePath = '/path/to/csv/Province.csv';
+      it('should parse Province  CSV content correctly', () => {
+        // Arrange
+        const mockProvinceData =
+          'provincia;codice_istat_provincia;sigla_provincia;capolouogo_regione;codice_istat_regione;regione;residenti_provincia;residenti_regione;percentuale_provincia_regione;percentuale_regione_nazione\n' +
+          'Roma;67;RM;Sì;13;Lazio;286681;1268430;22.60%;2.15%';
+        mockedFs.readFileSync.mockReturnValue(mockProvinceData);
+
+        // Act
+        const result = readProvinceCsv(provincesFilePath);
+
+        // Assert
+        expect(mockedFs.readFileSync).toHaveBeenCalledWith(provincesFilePath, {
+          encoding: 'utf-8',
+        });
+        expect(result).toEqual([
+          {
+            provincia: "Roma",
+            codice_istat_provincia: "67",
+            sigla_provincia: "RM",
+            capolouogo_regione: "Sì",
+            codice_istat_regione: "13",
+            regione: "Lazio",
+            residenti_provincia: "286681",
+            residenti_regione: "1268430",
+            percentuale_provincia_regione: "22.60%",
+            percentuale_regione_nazione: "2.15%",
+          },
+        ]);
+      });
+    });
+
 
 
   describe('readDeliveryDriverCsv', () => {

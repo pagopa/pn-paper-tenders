@@ -7,6 +7,7 @@ import {
   parseTenderColumn,
   parseTenderCostsColumn,
   parseCapacityColumn,
+  parseProvinceColumn,
 } from './parsers';
 import {
   DeliveryDriverCSV,
@@ -14,6 +15,7 @@ import {
   TenderCSV,
   TenderCostsCSV,
   CapacityCSV,
+  ProvinceCSV,
 } from '../../types/csv-types';
 
 export type parseColCsvFun = (
@@ -106,4 +108,14 @@ export const readDeliveryDriverCsv = (filePath: string): DeliveryDriverCSV[] => 
  */
 export const readCapacityCsv = (filePath: string): CapacityCSV[] => {
   return readCsv(filePath, parseCapacityColumn) as CapacityCSV[];
+};
+
+/**
+ * Reads and parses a Province CSV file.
+ *
+ * @param filePath - The path to the Province CSV file.
+ * @returns An array of parsed `ProvinceCSV` objects.
+ */
+export const readProvinceCsv = (filePath: string): ProvinceCSV[] => {
+  return readCsv(filePath, parseProvinceColumn) as ProvinceCSV[];
 };

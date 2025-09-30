@@ -4,6 +4,7 @@ import {
   parseGeokeyColumn,
   parseDeliveryDriverColumn,
   parseCapacityColumn,
+  parseProvinceColumn,
 } from '../../../../src/lib/csv/parsers';
 import { Products } from '../../../../src/utils/enum';
 
@@ -82,6 +83,37 @@ describe('CSV Column Parsers', () => {
       ).toThrow(`Invalid column unknownColumn in file ${mockFilePath}`);
     });
   });
+
+   describe('parseProvinceColumn', () => {
+    it('should parse and validate a valid province column', () => {
+      expect(
+        parseProvinceColumn(
+          'RM',
+          'sigla_provincia',
+          mockFilePath
+        )
+      ).toBe('RM');
+      expect(parseProvinceColumn('Lazio', 'regione', mockFilePath)).toBe('Lazio');
+    });
+
+    it('should throw an error for an invalid province column', () => {
+      expect(() =>
+        parseProvinceColumn('', 'sigla_provincia', mockFilePath)
+      ).toThrow('Value is empty');
+    });
+    it('should throw an error for an invalid region column', () => {
+      expect(() =>
+        parseProvinceColumn('', 'regione', mockFilePath)
+      ).toThrow('Value is empty');
+    });
+
+    it('should throw an error for an unknown column', () => {
+      expect(() =>
+        parseProvinceColumn('value', 'unknownColumn', mockFilePath)
+      ).toThrow(`Invalid column unknownColumn in file ${mockFilePath}`);
+    });
+  });
+
 
   describe('parseCapacityColumn', () => {
     const capacityV1FilePath = 'Capacity_v1.csv';

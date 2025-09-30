@@ -4,6 +4,7 @@ import {
   TenderCSV,
   TenderCostsCSV,
   CapacityCSV,
+  ProvinceCSV,
 } from '../types/csv-types';
 import {
   PaperChannelDeliveryDriver,
@@ -12,6 +13,7 @@ import {
   PaperChannelTenderCosts,
   PaperChannelTenderCostsRange,
   PaperDeliveryDriverCapacities,
+  PaperChannelProvince,
 } from '../types/dynamo-types';
 import { rangeColumnPattern } from '../utils/regex';
 
@@ -56,6 +58,18 @@ const buildDeliveryDriverProductCapacity = (
   unifiedDeliveryDriver: string,
   geokey: string
 ): string => `${tenderId}~${unifiedDeliveryDriver}~${geokey}`;
+
+/**
+ * Constructs a tenderId GeoKey key for given tenderId and geokey.
+ *
+ * @param tenderId - The tender identifier.
+ * @param geokey - The geokey identifier.
+ * @returns A string formatted as `${tenderId}~${geokey}`.
+ */
+const buildTenderIdGeokey = (
+  tenderId: string,
+  geokey: string
+): string => `${tenderId}~${geokey}`;
 
 /**
  * Extracts and maps ranged costs from a CSV record into an array of
@@ -198,6 +212,11 @@ export const capacityCSVToPaperDeliveryDriverCapacities = (
     capacity: record.capacity,
     peakCapacity: record.peakCapacity,
     createdAt: new Date().toISOString(),
+    tenderIdGeoKey: buildTenderIdGeokey(
+      tenderId,
+      record.geoKey,
+    ),
+    products: record.products === '' ? undefined : record.products.split(',').map((product) => product.trim())
 });
 
 /**
@@ -219,4 +238,22 @@ export const deliveryDriverCSVToPaperChannelDeliveryDriver = (
   registeredOffice: record.registeredOffice,
   unifiedDeliveryDriver: record.unifiedDeliveryDriver,
   createdAt: new Date().toISOString(),
+});
+
+
+/**
+ * Converts a `ProvinceCSV` record into a `PaperChannelProvince` object.
+ *
+ * @param record - The CSV record containing province data.
+ * @param tenderId - The identifier of the tender.
+ * @returns A `PaperChannelProvince` object.
+ */
+export const provinceCSVToPaperChannelProvince = (
+  record: ProvinceCSV
+): PaperChannelProvince => ({
+  province: record.sigla_provincia,
+  region: record.regione,
+  percentageDistribution: record.percentuale_provincia_regione === ''
+    ? undefined
+    : Number(record.percentuale_provincia_regione.replace('%', '').trim()),
 });

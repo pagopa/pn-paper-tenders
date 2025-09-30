@@ -4,6 +4,7 @@ import {
   TenderCostsValidators,
   TenderValidators,
   CapacityValidators,
+  ProvinceValidators,
 } from '../../types/validators-types';
 import {
   geokeyFileVersionPattern,
@@ -78,6 +79,24 @@ const capacityValidatorsMap: CapacityValidators = {
     peakCapacity: integerValidator,
     activationDateFrom: dateTimeUtcStringValidatorIfPresent,
     activationDateTo: dateTimeUtcStringValidatorIfPresent,
+    products: stringValidator,
+};
+
+/**
+ * A map of validator functions for validating columns in the Provinces
+ * CSV files.
+ */
+const provinceValidatorsMap: ProvinceValidators = {
+    provincia: stringValidator,
+    codice_istat_provincia: stringValidator,
+    sigla_provincia: nonEmptyStringValidator,
+    capolouogo_regione: stringValidator,
+    codice_istat_regione: stringValidator,
+    regione: nonEmptyStringValidator,
+    residenti_provincia: stringValidator,
+    residenti_regione: stringValidator,
+    percentuale_provincia_regione: stringValidator,
+    percentuale_regione_nazione: stringValidator,
 };
 
 /**
@@ -231,6 +250,26 @@ export const parseCapacityColumn: parseColCsvFun = (
   }  
   const key = column as keyof CapacityValidators;
   return capacityValidatorsMap[key](value);
+};
+
+/**
+ * Parses a column from a Capacity CSV file.
+ *
+ * @param value - The value to be validated and parsed.
+ * @param column - The column name of the value.
+ * @param filePath - The path to the CSV file being parsed.
+ * @returns The parsed and validated value.
+ * @throws Will throw an error if the column is invalid or the value
+ * fails validation.
+ */
+export const parseProvinceColumn: parseColCsvFun = (
+  value: string,
+  column: string,
+  filePath: string
+) => {
+  throwInvalidColumnError(provinceValidatorsMap, column, filePath);
+  const key = column as keyof ProvinceValidators;
+  return provinceValidatorsMap[key](value);
 };
 
 /**
