@@ -159,3 +159,31 @@ export const zoneValidator: StringValidator = (value: string): string => {
   }
   throw new Error(`Value ${value} not a valid zone (${Object.values(Zone)})`);
 };
+
+/**
+ * Validates if the given string is a valid Italian postal code (CAP) or
+ * a province code.
+ * A valid CAP must contain exactly 5 digits.
+ * A valid province code must contain exactly 2 letters.
+ *
+ * @param {string} value - The string to validate.
+ * @returns {string} The valid CAP or province code string.
+ * @throws {Error} If the value is neither a valid CAP nor a valid province code.
+ */
+export const geoKeyValidator: StringValidator = (value: string): string => {
+  const trimmedValue = value.trim();
+
+  // Check if it's a valid province code (2 letters)
+  if (/^[A-Za-z]{2}$/.test(trimmedValue)) {
+      return trimmedValue.toUpperCase();
+  }
+
+  // Check if it's a valid CAP (5 digits)
+  if (/^\d{5}$/.test(trimmedValue)) {
+      return trimmedValue;
+  }
+
+  throw new Error(
+    `Value ${value} is not a valid CAP (5 digits) or province code (2 letters)`
+  );
+};
