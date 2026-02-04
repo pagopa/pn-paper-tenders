@@ -89,32 +89,27 @@ describe('CSV Column Parsers', () => {
       expect(parseGeokeyColumn(' 00118 ', 'geokey', mockFilePath)).toBe('00118');
       expect(() =>
         parseGeokeyColumn('1234', 'geokey', mockFilePath)
-      ).toThrow('Value 1234 is not a valid CAP (5 digits) or province code (2 letters)');
+      ).toThrow('Value 1234 is not a valid CAP (5 digits) or province code');
       expect(() =>
         parseGeokeyColumn('123456', 'geokey', mockFilePath)
-      ).toThrow('Value 123456 is not a valid CAP (5 digits) or province code (2 letters)');
+      ).toThrow('Value 123456 is not a valid CAP (5 digits) or province code');
     });
 
     it('should parse and validate a valid province code in geokey column', () => {
       expect(parseGeokeyColumn('RM', 'geokey', mockFilePath)).toBe('RM');
-      expect(parseGeokeyColumn('rm', 'geokey', mockFilePath)).toBe('RM');
+      expect(parseGeokeyColumn('GRÈCE', 'geokey', mockFilePath)).toBe('GRÈCE');
+      expect(parseGeokeyColumn('rm', 'geokey', mockFilePath)).toBe('rm');
       expect(parseGeokeyColumn(' RM ', 'geokey', mockFilePath)).toBe('RM');
-      expect(() =>
-        parseGeokeyColumn('R', 'geokey', mockFilePath)
-      ).toThrow('Value R is not a valid CAP (5 digits) or province code (2 letters)');
-      expect(() =>
-        parseGeokeyColumn('ROM', 'geokey', mockFilePath)
-      ).toThrow('Value ROM is not a valid CAP (5 digits) or province code (2 letters)');
     });
 
     it('should throw an error for empty or alphanumeric mixed values in geokey column', () => {
       expect(() =>
         parseGeokeyColumn('', 'geokey', mockFilePath)
-      ).toThrow('Value  is not a valid CAP (5 digits) or province code (2 letters)');
+      ).toThrow('Value  is not a valid CAP (5 digits) or province code');
 
       expect(() =>
         parseGeokeyColumn('1R234', 'geokey', mockFilePath)
-      ).toThrow('Value 1R234 is not a valid CAP (5 digits) or province code (2 letters)');
+      ).toThrow('Value 1R234 is not a valid CAP (5 digits) or province code');
     });
   });
 
@@ -197,34 +192,27 @@ describe('CSV Column Parsers', () => {
         expect(parseCapacityColumn(' 00118 ', 'geoKey', capacityV1FilePath)).toBe('00118');
         expect(() =>
           parseCapacityColumn('1234', 'geoKey', capacityV1FilePath)
-        ).toThrow('Value 1234 is not a valid CAP (5 digits) or province code (2 letters)');
+        ).toThrow('Value 1234 is not a valid CAP (5 digits) or province code');
 
         expect(() =>
           parseCapacityColumn('123456', 'geoKey', capacityV1FilePath)
-        ).toThrow('Value 123456 is not a valid CAP (5 digits) or province code (2 letters)');
+        ).toThrow('Value 123456 is not a valid CAP (5 digits) or province code');
       });
 
       it('should parse and validate a valid province in geoKey column', () => {
         expect(parseCapacityColumn(' RM ', 'geoKey', capacityV1FilePath)).toBe('RM');
-        expect(parseCapacityColumn('rm', 'geoKey', capacityV1FilePath)).toBe('RM');
-
-        expect(() =>
-          parseCapacityColumn('R', 'geoKey', capacityV1FilePath)
-        ).toThrow('Value R is not a valid CAP (5 digits) or province code (2 letters)');
-
-        expect(() =>
-          parseCapacityColumn('ROM', 'geoKey', capacityV1FilePath)
-        ).toThrow('Value ROM is not a valid CAP (5 digits) or province code (2 letters)');
+        expect(parseCapacityColumn('rm', 'geoKey', capacityV1FilePath)).toBe('rm');
+        expect(parseCapacityColumn('GRÈCE', 'geoKey', capacityV1FilePath)).toBe('GRÈCE');
       });
 
       it('should throw an error for empty or alphanumeric mixed values in geoKey column', () => {
         expect(() =>
           parseCapacityColumn('', 'geoKey', capacityV1FilePath)
-        ).toThrow('Value  is not a valid CAP (5 digits) or province code (2 letters)');
+        ).toThrow('Value  is not a valid CAP (5 digits) or province code');
 
         expect(() =>
           parseCapacityColumn('1R234', 'geoKey', capacityV1FilePath)
-        ).toThrow('Value 1R234 is not a valid CAP (5 digits) or province code (2 letters)');
+        ).toThrow('Value 1R234 is not a valid CAP (5 digits) or province code');
       });
     });
 
