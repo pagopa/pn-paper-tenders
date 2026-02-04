@@ -164,26 +164,17 @@ export const zoneValidator: StringValidator = (value: string): string => {
  * Validates if the given string is a valid Italian postal code (CAP) or
  * a province code.
  * A valid CAP must contain exactly 5 digits.
- * A valid province code must contain only letters.
+ * Any other province code is accepted.
  *
  * @param {string} value - The string to validate.
  * @returns {string} The valid CAP or province code string.
- * @throws {Error} If the value is neither a valid CAP nor a valid province code.
  */
 export const geoKeyValidator: StringValidator = (value: string): string => {
   const trimmedValue = value.trim();
 
-  // Check if it's a valid province code (only letters, any length)
-  if (/^[\p{L}]+$/u.test(trimmedValue)) {
-    return trimmedValue;
+  if (/^\d+$/.test(trimmedValue) && !/^\d{5}$/.test(trimmedValue)) {
+    throw new Error(`Value ${value} must contain exactly 5 digits`);
   }
 
-  // Check if it's a valid CAP (5 digits)
-  if (/^\d{5}$/.test(trimmedValue)) {
-      return trimmedValue;
-  }
-
-  throw new Error(
-    `Value ${value} is not a valid CAP (5 digits) or province code`
-  );
+  return /^\d{5}$/.test(trimmedValue) ? trimmedValue : value;
 };
