@@ -1,4 +1,4 @@
-﻿unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo;products
+unifiedDeliveryDriver;geoKey;capacity;peakCapacity;activationDateFrom;activationDateTo;products
 Poste;RI;2597;2500;2026-02-16T00:00:00.000Z;2026-02-22T23:59:59.999Z;890,AR,RS
 Poste;NU;4034;4000;2026-02-16T00:00:00.000Z;2026-02-22T23:59:59.999Z;890,AR,RS
 Poste;TO;45102;41000;2026-02-16T00:00:00.000Z;2026-02-22T23:59:59.999Z;890,AR,RS
