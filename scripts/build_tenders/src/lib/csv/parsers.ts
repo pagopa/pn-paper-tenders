@@ -21,6 +21,7 @@ import {
   productValidator,
   stringValidator,
   zoneValidator,
+  geoKeyValidator,
 } from '../validators/validators';
 import { parseColCsvFun } from './reader';
 
@@ -60,7 +61,7 @@ const tenderCostsValidatorsMap: TenderCostsValidators = {
  */
 const geokeyValidatorsMap: GeokeyValidators = {
   activationDate: dateTimeUtcStringValidator,
-  geokey: nonEmptyStringValidator,
+  geokey: geoKeyValidator,
   product: productValidator,
   lot: nonEmptyStringValidator,
   zone: zoneValidator,
@@ -74,7 +75,7 @@ const geokeyValidatorsMap: GeokeyValidators = {
  */
 const capacityValidatorsMap: CapacityValidators = {
     unifiedDeliveryDriver: nonEmptyStringValidator,
-    geoKey: nonEmptyStringValidator,
+    geoKey: geoKeyValidator,
     capacity: integerValidator,
     peakCapacity: integerValidator,
     activationDateFrom: dateTimeUtcStringValidatorIfPresent,
