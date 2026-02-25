@@ -82,6 +82,25 @@ describe('CSV Column Parsers', () => {
         parseGeokeyColumn('value', 'unknownColumn', mockFilePath)
       ).toThrow(`Invalid column unknownColumn in file ${mockFilePath}`);
     });
+
+    it('should parse and validate a valid CAP in geokey column', () => {
+      expect(parseGeokeyColumn('00118', 'geokey', mockFilePath)).toBe('00118');
+      expect(parseGeokeyColumn('20121', 'geokey', mockFilePath)).toBe('20121');
+      expect(parseGeokeyColumn(' 00118 ', 'geokey', mockFilePath)).toBe('00118');
+      expect(parseGeokeyColumn('89T67', 'geokey', mockFilePath)).toBe('89T67');
+      expect(() =>
+        parseGeokeyColumn('1234', 'geokey', mockFilePath)
+      ).toThrow('Value 1234 must contain exactly 5 digits');
+      expect(() =>
+        parseGeokeyColumn('123456', 'geokey', mockFilePath)
+      ).toThrow('Value 123456 must contain exactly 5 digits');
+    });
+
+    it('should parse and validate a valid province code in geokey column', () => {
+      expect(parseGeokeyColumn('RM', 'geokey', mockFilePath)).toBe('RM');
+      expect(parseGeokeyColumn('GRÈCE', 'geokey', mockFilePath)).toBe('GRÈCE');
+      expect(parseGeokeyColumn('rm', 'geokey', mockFilePath)).toBe('rm');
+    });
   });
 
    describe('parseProvinceColumn', () => {
@@ -155,6 +174,25 @@ describe('CSV Column Parsers', () => {
         expect(() =>
           parseCapacityColumn('value', 'unknownColumn', capacityV1FilePath)
         ).toThrow(`Invalid column unknownColumn in file ${capacityV1FilePath}`);
+      });
+
+      it('should parse and validate a valid CAP in geoKey column', () => {
+        expect(parseCapacityColumn('00118', 'geoKey', capacityV1FilePath)).toBe('00118');
+        expect(parseCapacityColumn('20121', 'geoKey', capacityV1FilePath)).toBe('20121');
+        expect(parseCapacityColumn(' 00118 ', 'geoKey', capacityV1FilePath)).toBe('00118');
+        expect(parseCapacityColumn('89T67', 'geoKey', capacityV1FilePath)).toBe('89T67');
+        expect(() =>
+          parseCapacityColumn('1234', 'geoKey', capacityV1FilePath)
+        ).toThrow('Value 1234 must contain exactly 5 digits');
+
+        expect(() =>
+          parseCapacityColumn('123456', 'geoKey', capacityV1FilePath)
+        ).toThrow('Value 123456 must contain exactly 5 digits');
+      });
+
+      it('should parse and validate a valid province in geoKey column', () => {
+        expect(parseCapacityColumn('rm', 'geoKey', capacityV1FilePath)).toBe('rm');
+        expect(parseCapacityColumn('GRÈCE', 'geoKey', capacityV1FilePath)).toBe('GRÈCE');
       });
     });
 
