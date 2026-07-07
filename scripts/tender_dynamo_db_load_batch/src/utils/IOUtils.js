@@ -1,5 +1,6 @@
-const decompress = require('decompress');
+const AdmZip = require('adm-zip');
 const fs = require('fs');
+const path = require('path');
 
 const errors = {
   EMPTY_SOURCE: 'Source parameter cannot be empty, null or undefined',
@@ -20,17 +21,36 @@ async function unzip(source, target, filter) {
   if (!source) throw new Error(errors.EMPTY_SOURCE);
   if (!target) throw new Error(errors.EMPTY_TARGET);
 
-  const opts = {};
-  if (filter) opts.filter = filter;
+  try {
+    const zip = new AdmZip(source);
+    const resolvedTarget = path.resolve(target);
+    const extractedPaths = [];
 
-  return decompress(source, target, opts)
-    .then((files) => {
-      console.log(`Decompressed ${files.length} files in ${target} folder`);
-      return files.map((file) => file.path);
-    })
-    .catch((err) =>
-      console.error(`Error while decompressing ${source}: ${err}`)
-    );
+    for (const entry of zip.getEntries()) {
+      if (entry.isDirectory) continue;
+
+      const file = { path: entry.entryName };
+      if (filter && !filter(file)) continue;
+
+      // Zip-Slip guard: ensure the entry stays within the target folder
+      const destPath = path.resolve(target, entry.entryName);
+      if (
+        destPath !== resolvedTarget &&
+        !destPath.startsWith(resolvedTarget + path.sep)
+      ) {
+        console.warn(`Skipping unsafe path outside target: ${entry.entryName}`);
+        continue;
+      }
+
+      zip.extractEntryTo(entry, target, true, true);
+      extractedPaths.push(entry.entryName);
+    }
+
+    console.log(`Decompressed ${extractedPaths.length} files in ${target} folder`);
+    return extractedPaths;
+  } catch (err) {
+    console.error(`Error while decompressing ${source}: ${err}`);
+  }
 }
 
 function readSync(source) {
