@@ -17,7 +17,7 @@ Caserta;63;CE;No;15;Campania;909493;NA;16.33%;NA
 Salerno;65;SA;No;15;Campania;1053302;NA;18.91%;NA
 Bologna;37;BO;Si;8;Emilia-Romagna;1024290;4452109;23.01%;7.55%
 Ferrara;38;FE;No;8;Emilia-Romagna;340482;NA;7.65%;NA
-Forlì-Cesena;40;FC;No;8;Emilia-Romagna;394337;NA;8.86%;NA
+Forl√¨-Cesena;40;FC;No;8;Emilia-Romagna;394337;NA;8.86%;NA
 Modena;36;MO;No;8;Emilia-Romagna;711502;NA;15.98%;NA
 Parma;34;PR;No;8;Emilia-Romagna;457509;NA;10.28%;NA
 Piacenza;33;PC;No;8;Emilia-Romagna;287745;NA;6.46%;NA
@@ -97,11 +97,11 @@ Pisa;50;PI;No;9;Toscana;419588;NA;11.54%;NA
 Pistoia;47;PT;No;9;Toscana;290867;NA;8.0%;NA
 Prato;100;PO;No;9;Toscana;261152;NA;7.18%;NA
 Siena;52;SI;No;9;Toscana;259502;NA;7.13%;NA
-Trento;22;TN;Si;4;Trentino-Alto Adige/Südtirol;548684;1090818;50.3%;1.85%
-Bolzano;21;BZ;No;4;Trentino-Alto Adige/Südtirol;542134;NA;49.7%;NA
+Trento;22;TN;Si;4;Trentino-Alto Adige/S√ºdtirol;548684;1090818;50.3%;1.85%
+Bolzano;21;BZ;No;4;Trentino-Alto Adige/S√ºdtirol;542134;NA;49.7%;NA
 Perugia;54;PG;Si;10;Umbria;635988;850627;74.77%;1.44%
 Terni;55;TR;No;10;Umbria;214639;NA;25.23%;NA
-Aosta;7;AO;Si;2;Valle d'Aosta/Vallée d'Aoste;122554;122554;100%;0.21%
+Aosta;7;AO;Si;2;Valle d'Aosta/Vall√©e d'Aoste;122554;122554;100%;0.21%
 Venezia;27;VE;Si;5;Veneto;834077;4858060;17.17%;8.24%
 Belluno;25;BL;No;5;Veneto;197265;NA;4.06%;NA
 Padova;28;PD;No;5;Veneto;934540;NA;19.24%;NA
