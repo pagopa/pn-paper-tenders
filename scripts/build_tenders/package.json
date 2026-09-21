@@ -31,7 +31,7 @@
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "@aws-sdk/util-dynamodb": "^3.637.0",
-    "adm-zip": "^0.5.15",
+    "adm-zip": "^0.6.0",
     "command-line-args": "^6.0.0",
     "command-line-usage": "^7.0.3",
     "csv-parse": "^5.5.6"
