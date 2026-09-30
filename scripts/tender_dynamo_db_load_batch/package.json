@@ -14,7 +14,7 @@
     "@aws-sdk/credential-provider-ini": "^3.454.0",
     "@aws-sdk/credential-provider-sso": "^3.454.0",
     "@aws-sdk/util-dynamodb": "^3.454.0",
-    "adm-zip": "^0.5.16"
+    "adm-zip": "^0.6.0"
   },
   "devDependencies": {
     "jest": "^29.7.0"
