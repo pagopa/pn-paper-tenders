@@ -1,0 +1,111 @@
+provincia;codice_istat_provincia;sigla_provincia;capolouogo_regione;codice_istat_regione;regione;residenti_provincia;residenti_regione;percentuale_provincia_regione;percentuale_regione_nazione
+L'Aquila;67;AQ;Si;13;Abruzzo;286765;1267222;22.63%;2.15%
+Chieti;66;CH;No;13;Abruzzo;369059;NA;29.12%;NA
+Pescara;68;PE;No;13;Abruzzo;311563;NA;24.59%;NA
+Teramo;69;TE;No;13;Abruzzo;299835;NA;23.66%;NA
+Potenza;77;PZ;Si;17;Basilicata;337527;525281;64.26%;0.89%
+Matera;76;MT;No;17;Basilicata;187754;NA;35.74%;NA
+Catanzaro;78;CZ;Si;18;Calabria;338160;1827505;18.5%;3.1%
+Cosenza;79;CS;No;18;Calabria;667134;NA;36.51%;NA
+Crotone;80;KR;No;18;Calabria;161765;NA;8.85%;NA
+Reggio Calabria;81;RC;No;18;Calabria;510590;NA;27.94%;NA
+Vibo Valentia;101;VV;No;18;Calabria;149922;NA;8.2%;NA
+Napoli;64;NA;Si;15;Campania;2954847;5568703;53.06%;9.45%
+Avellino;61;AV;No;15;Campania;393093;NA;7.06%;NA
+Benevento;62;BN;No;15;Campania;257968;NA;4.63%;NA
+Caserta;63;CE;No;15;Campania;909493;NA;16.33%;NA
+Salerno;65;SA;No;15;Campania;1053302;NA;18.91%;NA
+Bologna;37;BO;Si;8;Emilia-Romagna;1024290;4452109;23.01%;7.55%
+Ferrara;38;FE;No;8;Emilia-Romagna;340482;NA;7.65%;NA
+Forlì-Cesena;40;FC;No;8;Emilia-Romagna;394337;NA;8.86%;NA
+Modena;36;MO;No;8;Emilia-Romagna;711502;NA;15.98%;NA
+Parma;34;PR;No;8;Emilia-Romagna;457509;NA;10.28%;NA
+Piacenza;33;PC;No;8;Emilia-Romagna;287745;NA;6.46%;NA
+Ravenna;39;RA;No;8;Emilia-Romagna;387743;NA;8.71%;NA
+Reggio nell'Emilia;35;RE;No;8;Emilia-Romagna;532157;NA;11.95%;NA
+Rimini;99;RN;No;8;Emilia-Romagna;341244;NA;7.66%;NA
+Trieste;32;TS;Si;6;Friuli-Venezia Giulia;227840;1193496;19.09%;2.02%
+Gorizia;31;GO;No;6;Friuli-Venezia Giulia;138717;NA;11.62%;NA
+Pordenone;93;PN;No;6;Friuli-Venezia Giulia;311114;NA;26.07%;NA
+Udine;30;UD;No;6;Friuli-Venezia Giulia;515825;NA;43.22%;NA
+Roma;58;RM;Si;12;Lazio;4224901;5709444;73.99%;9.69%
+Frosinone;60;FR;No;12;Lazio;460266;NA;8.06%;NA
+Latina;59;LT;No;12;Lazio;567130;NA;9.93%;NA
+Rieti;57;RI;No;12;Lazio;149335;NA;2.62%;NA
+Viterbo;56;VT;No;12;Lazio;307812;NA;5.39%;NA
+Genova;10;GE;Si;7;Liguria;820691;1511988;54.28%;2.57%
+Imperia;8;IM;No;7;Liguria;209848;NA;13.88%;NA
+La Spezia;11;SP;No;7;Liguria;214539;NA;14.19%;NA
+Savona;9;SV;No;7;Liguria;266910;NA;17.65%;NA
+Milano;15;MI;Si;3;Lombardia;3253111;9994464;32.55%;16.96%
+Bergamo;16;BG;No;3;Lombardia;1119233;NA;11.2%;NA
+Brescia;17;BS;No;3;Lombardia;1271759;NA;12.72%;NA
+Como;13;CO;No;3;Lombardia;598562;NA;5.99%;NA
+Cremona;19;CR;No;3;Lombardia;355134;NA;3.55%;NA
+Lecco;97;LC;No;3;Lombardia;334211;NA;3.34%;NA
+Lodi;98;LO;No;3;Lombardia;231481;NA;2.32%;NA
+Mantova;20;MN;No;3;Lombardia;408715;NA;4.09%;NA
+Monza e della Brianza;108;MB;No;3;Lombardia;883396;NA;8.84%;NA
+Pavia;18;PV;No;3;Lombardia;546023;NA;5.46%;NA
+Sondrio;14;SO;No;3;Lombardia;179268;NA;1.79%;NA
+Varese;12;VA;No;3;Lombardia;884801;NA;8.85%;NA
+Ancona;42;AN;Si;11;Marche;461613;1479832;31.19%;2.51%
+Ascoli Piceno;44;AP;No;11;Marche;200202;NA;13.53%;NA
+Fermo;109;FM;No;11;Marche;166772;NA;11.27%;NA
+Macerata;43;MC;No;11;Marche;301689;NA;20.39%;NA
+Pesaro e Urbino;41;PU;No;11;Marche;349556;NA;23.62%;NA
+Campobasso;70;CB;Si;14;Molise;207723;285940;72.65%;0.49%
+Isernia;94;IS;No;14;Molise;78217;NA;27.35%;NA
+Torino;1;TO;Si;1;Piemonte;2204779;4250993;51.86%;7.21%
+Alessandria;6;AL;No;1;Piemonte;408063;NA;9.6%;NA
+Asti;5;AT;No;1;Piemonte;207059;NA;4.87%;NA
+Biella;96;BI;No;1;Piemonte;168223;NA;3.96%;NA
+Cuneo;4;CN;No;1;Piemonte;582109;NA;13.69%;NA
+Novara;3;NO;No;1;Piemonte;365930;NA;8.61%;NA
+Verbano-Cusio-Ossola;103;VB;No;1;Piemonte;152677;NA;3.59%;NA
+Vercelli;2;VC;No;1;Piemonte;166166;NA;3.91%;NA
+Bari;72;BA;Si;16;Puglia;1218073;3865277;31.51%;6.56%
+Barletta-Andria-Trani;110;BT;No;16;Puglia;375933;NA;9.73%;NA
+Brindisi;74;BR;No;16;Puglia;373631;NA;9.67%;NA
+Foggia;71;FG;No;16;Puglia;587785;NA;15.21%;NA
+Lecce;75;LE;No;16;Puglia;761927;NA;19.71%;NA
+Taranto;73;TA;No;16;Puglia;547928;NA;14.18%;NA
+Cagliari;318;CA;Si;20;Sardegna;534219;1554490;34.37%;2.64%
+Gallura Nord-Est Sardegna;113;OT;No;20;Sardegna;159460;NA;10.26%;NA
+Medio Campidano;117;VS;No;20;Sardegna;89155;NA;5.74%;NA
+Nuoro;114;NU;No;20;Sardegna;142241;NA;9.15%;NA
+Ogliastra;116;OG;No;20;Sardegna;53722;NA;3.46%;NA
+Oristano;115;OR;No;20;Sardegna;146785;NA;9.44%;NA
+Sassari;312;SS;No;20;Sardegna;311128;NA;20.01%;NA
+Sulcis Iglesiente;119;SU;No;20;Sardegna;117780;NA;7.58%;NA
+Palermo;82;PA;Si;19;Sicilia;1195307;4875648;24.52%;8.27%
+Agrigento;84;AG;No;19;Sicilia;407041;NA;8.35%;NA
+Caltanissetta;85;CL;No;19;Sicilia;243501;NA;4.99%;NA
+Catania;87;CT;No;19;Sicilia;1067550;NA;21.89%;NA
+Enna;86;EN;No;19;Sicilia;151525;NA;3.11%;NA
+Messina;83;ME;No;19;Sicilia;594074;NA;12.18%;NA
+Ragusa;88;RG;No;19;Sicilia;323144;NA;6.63%;NA
+Siracusa;89;SR;No;19;Sicilia;382450;NA;7.84%;NA
+Trapani;81;TP;No;19;Sicilia;410602;NA;8.42%;NA
+Firenze;48;FI;Si;9;Toscana;988494;3637119;27.18%;6.17%
+Arezzo;51;AR;No;9;Toscana;333269;NA;9.16%;NA
+Grosseto;53;GR;No;9;Toscana;214863;NA;5.91%;NA
+Livorno;49;LI;No;9;Toscana;324893;NA;8.93%;NA
+Lucca;46;LU;No;9;Toscana;379957;NA;10.45%;NA
+Massa-Carrara;45;MS;No;9;Toscana;186637;NA;5.13%;NA
+Pisa;50;PI;No;9;Toscana;419588;NA;11.54%;NA
+Pistoia;47;PT;No;9;Toscana;290867;NA;8.0%;NA
+Prato;100;PO;No;9;Toscana;261152;NA;7.18%;NA
+Siena;52;SI;No;9;Toscana;259502;NA;7.13%;NA
+Trento;22;TN;Si;4;Trentino-Alto Adige/Südtirol;548684;1090818;50.3%;1.85%
+Bolzano;21;BZ;No;4;Trentino-Alto Adige/Südtirol;542134;NA;49.7%;NA
+Perugia;54;PG;Si;10;Umbria;635988;850627;74.77%;1.44%
+Terni;55;TR;No;10;Umbria;214639;NA;25.23%;NA
+Aosta;7;AO;Si;2;Valle d'Aosta/Vallée d'Aoste;122554;122554;100%;0.21%
+Venezia;27;VE;Si;5;Veneto;834077;4858060;17.17%;8.24%
+Belluno;25;BL;No;5;Veneto;197265;NA;4.06%;NA
+Padova;28;PD;No;5;Veneto;934540;NA;19.24%;NA
+Rovigo;29;RO;No;5;Veneto;227183;NA;4.68%;NA
+Treviso;26;TV;No;5;Veneto;878341;NA;18.08%;NA
+Verona;23;VR;No;5;Veneto;930842;NA;19.16%;NA
+Vicenza;24;VI;No;5;Veneto;855212;NA;17.6%;NA
