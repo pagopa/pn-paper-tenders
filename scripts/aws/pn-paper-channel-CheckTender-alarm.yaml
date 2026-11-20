@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Allarme pn-paper-channel-CheckTender (costo calcolato con tenderId errato)
+
+Parameters:
+  tenderActivationEpoch:
+    Type: Number
+    Default: 1789942500
+    Description: Epoch (secondi, UTC) da cui la gara tenderId è attiva; prima di questo istante l'allarme non valuta
+
+  tenderId:
+    Type: String
+    Default: '20260921'
+    Description: Id della gara attesa nel calcolo dei costi
+
+  AlarmSNSTopicName:
+    Type: String
+    Default: pn-AllAlarmSnsTopic
+    Description: Nome del topic SNS a cui inviare le notifiche di allarme
+
+  LogGroupName:
+    Type: String
+    Default: /aws/ecs/pn-paper-channel
+    Description: Log group di pn-paper-channel su cui applicare i metric filter
+
+Resources:
+  # Conta tutti i calcoli di costo
+  TenderCostTotalMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      FilterName: TenderCostTotal
+      LogGroupName: !Ref LogGroupName
+      FilterPattern: '{ $.logger_name = "it.pagopa.pn.paperchannel.utils.PaperCalculatorUtils" && $.message = "Calculating cost Simplified COMPLETE mode*" }'
+      MetricTransformations:
+        - MetricName: TenderCostTotal
+          MetricNamespace: pn-paper-channel
+          MetricValue: '1'
+          DefaultValue: 0
+          Unit: Count
+
+  # Conta i calcoli di costo fatti con il tenderId atteso
+  TenderCostExpectedMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      FilterName: TenderCostExpected
+      LogGroupName: !Ref LogGroupName
+      FilterPattern: !Sub '{ $.logger_name = "it.pagopa.pn.paperchannel.utils.PaperCalculatorUtils" && $.message = "Calculating cost Simplified COMPLETE mode*" && $.message = %costDTO=PnPaperChannelCostDTO.tenderId=${tenderId},% }'
+      MetricTransformations:
+        - MetricName: TenderCostExpected
+          MetricNamespace: pn-paper-channel
+          MetricValue: '1'
+          DefaultValue: 0
+          Unit: Count
+
+  CheckTenderAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: pn-paper-channel-CheckTender
+      AlarmDescription: !Sub 'CloudWatch alarm for when paper-channel calculates costs with a tenderId other than ${tenderId}'
+      ActionsEnabled: true
+      AlarmActions:
+        - !Sub 'arn:${AWS::Partition}:sns:${AWS::Region}:${AWS::AccountId}:${AlarmSNSTopicName}'
+      OKActions:
+        - !Sub 'arn:${AWS::Partition}:sns:${AWS::Region}:${AWS::AccountId}:${AlarmSNSTopicName}'
+      InsufficientDataActions: []
+      EvaluationPeriods: 1
+      DatapointsToAlarm: 1
+      Threshold: 0
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      Tags:
+        - Key: Microservice
+          Value: pn-paper-channel
+      Metrics:
+        - Id: e1
+          Label: Calcola costo con tenderId errato
+          Expression: !Sub 'IF(EPOCH(total) >= ${tenderActivationEpoch}, total - expected, 0)'
+          ReturnData: true
+        - Id: total
+          Label: TenderCostTotal
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: pn-paper-channel
+              MetricName: TenderCostTotal
+            Period: 300
+            Stat: Sum
+        - Id: expected
+          Label: TenderCostExpected
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: pn-paper-channel
+              MetricName: TenderCostExpected
+            Period: 300
+            Stat: Sum
